@@ -1,0 +1,43 @@
+---
+
+- name: Create kubelet systemd dropin directory
+  file: path="{{ systemd_dropin_dir }}/kubelet.service.d" state=directory
+
+- name: Copy kubelet dropin file into directory
+  template:
+    src: "10-kubelet.conf.j2"
+    dest: "{{ systemd_dropin_dir }}/kubelet.service.d/10-kubelet.conf"
+
+- name: Copy kubelet systemd service file
+  template:
+    src: "kubelet.service.j2"
+    dest: "{{ systemd_service_dir }}/kubelet.service"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Disable vm swappiness
+  shell: "swapoff -a && sysctl -w vm.swappiness=0"
+
+- name: copy new SystemD file for swapoff.service
+  copy:
+    src: swapoff.service
+    dest: /etc/systemd/system/swapoff.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install and enbale SystemD swapoff.service
+  systemd:
+    name: swapoff
+    daemon_reload: yes
+    enabled: yes
+    state: started
+
+- name: Enable and restart kubelet engine
+  systemd:
+    name: kubelet
+    daemon_reload: yes
+    state: restarted
+    enabled: yes
+  register: service_started

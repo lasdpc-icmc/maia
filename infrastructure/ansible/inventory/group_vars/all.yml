@@ -1,0 +1,24 @@
+---
+
+kube_version: 1.20.5
+
+# Container runtime,
+# Supported: docker, nvidia-docker, containerd, crio
+# CRIO support with only Ubuntu distro yet.
+container_runtime: docker
+
+# Container network,
+# Supported: calico, flannel.
+cni_enable: true
+container_network: calico
+
+# Kubernetes HA extra variables.
+vip_interface: ""
+vip_address: 172.16.35.9
+
+# Kubernetes extra addons
+enable_ingress: false
+enable_dashboard: false
+enable_logging: false
+enable_monitoring: false
+enable_metric_server: false
