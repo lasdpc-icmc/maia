@@ -1,0 +1,39 @@
+- hosts: master
+  become: yes
+  tasks:
+
+    - name: deploy kubelet file on docker env
+      shell: |
+        cat << EOF > /etc/docker/daemon.json
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"]
+          }
+        EOF
+
+    - name: restart docker
+      shell: systemctl restart docker
+
+    - name: initialize the cluster
+      shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster_initialized.txt
+      args:
+        chdir: $HOME
+        creates: cluster_initialized.txt
+
+    - name: create .kube directory
+      become: yes
+      become_user: deploy
+      file:
+        path: $HOME/.kube
+        state: directory
+        mode: 0755
+
+    - name: set kubeconfig env VAR
+      shell: export KUBECONFIG=/etc/kubernetes/admin.conf
+
+    - name: install Pod network
+      become: yes
+      become_user: deploy
+      shell: kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" >> pod_network_setup.txt
+      args:
+        chdir: $HOME
+        creates: pod_network_setup.txt

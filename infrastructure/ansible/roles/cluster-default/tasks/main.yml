@@ -1,7 +1,0 @@
----
-
-- name: Configure cluster default vars
-  debug:
-    msg: "Check roles/k8s-default/defaults/main.yml"
-  tags:
-    - always

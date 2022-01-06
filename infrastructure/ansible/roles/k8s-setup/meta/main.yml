@@ -1,5 +1,0 @@
----
-
-dependencies:
-  - { role: download/package, pkg: "{{ package.cni }}" }
-  - { role: download/package, pkg: "{{ package.kubelet }}" }

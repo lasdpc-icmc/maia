@@ -1,0 +1,19 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: create the 'deploy' user
+      user: name=deploy append=yes state=present createhome=yes shell=/bin/bash
+
+    - name: allow 'deploy' to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'deploy ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: set up authorized keys for the deploy user
+      authorized_key: user=deploy key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
+
+    - name: update apt
+      shell: sudo apt-get update       
