@@ -20,7 +20,7 @@ worker02      Ready    <none>                 10d   v1.23.1
 ```
 
 
-# Access Granafa and Prometheus
+## Access Granafa and Prometheus
 
 To access the monitoring stack services you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
 
@@ -37,25 +37,25 @@ kubectl --kubeconfig setup/config port-forward service/prometheus-k8s 9090:9090 
 
 Open your browser in localhost:3000
 
-![stats](setup/grafana.png)\
+![stats](setup/grafana.png)
 
 username: admin <p>
 password: usp2022 <p>
 
 
-# Cluster Information
+## Cluster Information
 
-Kubernetes v1.23.1 + Weave Net addon
+**Kubernetes v1.23.1 + Weave Net addon**
 
-kubeadm = v1.23.1
-kubectl = v1.23.1
-kubelet = v1.23.1
+kubeadm = v1.23.1<p>
+kubectl = v1.23.1<p>
+kubelet = v1.23.1<p>
 
-Monitoring Stack:
+**Monitoring Stack**
 
-* kube-prometheus = release-0.10
+kube-prometheus = release-0.10
 
 
-***References***
+## References
 
 https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install
