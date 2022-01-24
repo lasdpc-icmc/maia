@@ -84,13 +84,13 @@ istioctl install --set profile=demo -y
 Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later:
 
 ```bash
-kubectl label namespace default istio-injection=enabled
+kubectl --kubeconfig setup/config label namespace default istio-injection=enabled
 ```
 
 Install istio observability tools:
 
 ```bash
-kubectl apply -f samples/addons
+kubectl --kubeconfig setup/config apply -f samples/addons
 ```
 
 To access the istio observability stack you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
