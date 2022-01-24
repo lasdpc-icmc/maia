@@ -100,6 +100,9 @@ Kiali:
 ```bash
 kubectl --kubeconfig setup/config port-forward service/kiali 20001:20001 -n istio-system   
 ```
+
+Open your browser in localhost:20001
+
 ![stats](setup/kiali.png)
 
 ## References
