@@ -50,12 +50,59 @@ password: usp2022 <p>
 kubeadm = v1.23.1<p>
 kubectl = v1.23.1<p>
 kubelet = v1.23.1<p>
+Istio = 1.12.2
 
 **Monitoring Stack**
 
 kube-prometheus = release-0.10
 
+**Istio**
+
+Go to the Istio release page to download the installation file for your OS, or download and extract the latest release automatically (Linux or macOS):
+
+```bash
+curl -L https://istio.io/downloadIstio | sh -
+```
+
+Download the last version:
+
+```bash
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.12.2 TARGET_ARCH=x86_64 sh -
+```
+
+Move to the Istio package directory. For example, if the package is istio-1.12.2:
+
+```bash
+export PATH=$PWD/bin:$PATH
+```
+
+For this installation, we use the demo configuration profile. It’s selected to have a good set of defaults for testing, but there are other profiles for production or performance testing.
+
+```bash
+istioctl install --set profile=demo -y
+```
+Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later:
+
+```bash
+$ kubectl label namespace default istio-injection=enabled
+```
+
+Install istio observability tools:
+
+```bash
+kubectl apply -f samples/addons
+```
+
+To access the istio observability stack you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
+
+Kiali:
+
+```bash
+kubectl --kubeconfig setup/config port-forward service/kiali 20001:20001 -n istio-system   
+```
+![stats](setup/kiali.png)
 
 ## References
 
-https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install
+[1] https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install <p>
+[2] https://istio.io/latest/docs/setup/getting-started/ <p>
