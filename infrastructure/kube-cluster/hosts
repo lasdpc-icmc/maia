@@ -4,7 +4,9 @@ master ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21111 ansible_user
 [workers]
 worker1 ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21112 ansible_user=root
 worker2 ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21113 ansible_user=root
-worker3 ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21114 ansible_user=root
+worker3 ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21116 ansible_user=root
+worker4 ansible_host=andromeda.lasdpc.icmc.usp.br ansible_port=21117 ansible_user=root
+
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
