@@ -109,3 +109,17 @@ Open your browser in localhost:20001
 
 [1] https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install <p>
 [2] https://istio.io/latest/docs/setup/getting-started/ <p>
+
+
+## VMs Inventory
+
+*Kubernetes*: <p>
+VM-1 andromeda.lasdpc.icmc.usp.br port 21111 <p>
+VM-2 andromeda.lasdpc.icmc.usp.br port 21112 <p>
+VM-3 andromeda.lasdpc.icmc.usp.br port 21113 <p>
+VM-4 andromeda.lasdpc.icmc.usp.br port 21114 <p>
+VM-5 andromeda.lasdpc.icmc.usp.br port 21115 <p>
+VM-6 andromeda.lasdpc.icmc.usp.br port 21116 <p>
+
+*Gatling*: <p>
+VM-7 andromeda.lasdpc.icmc.usp.br port 21116
