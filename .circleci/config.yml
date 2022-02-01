@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  gitleaks: upenn-libraries/gitleaks@1.0.0
 
 defaults:
   - &docker
@@ -31,19 +29,19 @@ jobs:
             chmod +x .circleci/common.sh && .circleci/common.sh
             chmod +x .circleci/run_test.sh && .circleci/run_test.sh
 
-  check_exposed_secrets:
-    executor: gitleaks/docker
-    working_directory: /home/gitleaks/project
-    steps:
-      - checkout
-      - run:
-          command: |
-            gitleaks detect --no-git -v
+  # check_exposed_secrets:
+  #   executor: gitleaks/docker
+  #   working_directory: /home/gitleaks/project
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         command: |
+  #           gitleaks detect --no-git -v
 
-      - run:
-          name: Exposed secrets warning
-          command: echo "$(<.circleci/exposed-secrets-warning.txt)" && exit 1;
-          when: on_fail
+  #     - run:
+  #         name: Exposed secrets warning
+  #         command: echo "$(<.circleci/exposed-secrets-warning.txt)" && exit 1;
+  #         when: on_fail
 
   build:
     <<: *docker
@@ -91,7 +89,7 @@ workflows:
 
   deployment:
     jobs:
-      - check_exposed_secrets:
+      - code_test:
           <<: *tag_only        
       - build:
           <<: *tag_only        
