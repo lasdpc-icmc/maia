@@ -92,6 +92,8 @@ workflows:
       - code_test:
           <<: *tag_only        
       - build:
+          requires:
+            - code_test      
           <<: *tag_only        
       - approve_deploy:
           type: approval
