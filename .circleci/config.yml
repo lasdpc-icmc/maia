@@ -1,0 +1,124 @@
+version: 2.1
+orbs:
+  gitleaks: upenn-libraries/gitleaks@1.0.0
+
+defaults:
+  - &docker
+    docker:
+      - image: cimg/base:stable
+
+  - &generic
+    machine:
+      image: ubuntu-2004:202010-01
+
+  - &tag /.*\/(prod-|stg-|qa-)\d{8}.\d{2}$/
+
+  - &tag_only
+    filters:
+      branches:
+        ignore: /.*/
+      tags:
+        only: *tag
+
+jobs:
+  code_test:
+    <<: *generic
+    steps:
+      - checkout
+      - run:
+          name: Execute Tests
+          command: |
+            chmod +x .circleci/common.sh && .circleci/common.sh
+            chmod +x .circleci/run_test.sh && .circleci/run_test.sh
+
+  check_exposed_secrets:
+    executor: gitleaks/docker
+    working_directory: /home/gitleaks/project
+    steps:
+      - checkout
+      - run:
+          command: |
+            gitleaks detect --no-git -v
+
+      - run:
+          name: Exposed secrets warning
+          command: echo "$(<.circleci/exposed-secrets-warning.txt)" && exit 1;
+          when: on_fail
+
+  build:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: true
+      - run:
+          name: Build Artifacts
+          command: |
+            chmod +x .circleci/build.sh && .circleci/build.sh
+
+  deploy:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Deploy Application
+          command: |
+            chmod +x .circleci/deploy.sh && .circleci/deploy.sh
+
+  load_test:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Gatling Load Test
+          command: |
+              chmod +x .circleci/gatling.sh && .circleci/gatling.sh
+          
+  rollback:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            chmod +x .circleci/rollback.sh && .circleci/rollback.sh
+
+workflows:
+  version: 2
+
+  deployment:
+    jobs:
+      - check_exposed_secrets:
+          <<: *tag_only        
+      - build:
+          <<: *tag_only        
+      - approve_deploy:
+          type: approval
+          requires:
+            - build
+          <<: *tag_only          
+      - deploy:
+          requires:
+            - approve_deploy
+          <<: *tag_only        
+      - approve_load_test:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only           
+      - load_test:
+          requires:
+            - approve_load_test
+          <<: *tag_only                  
+      - approve_rollback:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only          
+      - rollback:
+          requires:
+            - approve_rollback
+          <<: *tag_only
