@@ -3,8 +3,7 @@ set -xe
 
 source ./.circleci/common.sh;
 env_vars
-install_helm3
-gke_credentials
+k8s_dependencies
 
 # Install dependencies
 
@@ -17,7 +16,8 @@ sudo apt-get install -y apt-transport-https ca-certificates gnupg jq kubectl goo
 
 # Set current cluster
 
+echo $TOKEN_CLUSTER | base64 --decode --ignore-garbage > /tmp/config
 
 # Rollback to the last RS version
-helm_run rollback$APP 0 -n $APP 
-kubectl rollout status deployment $APP  -n $APP  || kubectl_run rollout status statefulset $APP  -n $APP 
+kubectl_run rollout undo deployment $APP -n $APP
+kubectl rollout status deployment $APP  -n $APP  || kubectl_run rollout status statefulset $APP  -n $APP

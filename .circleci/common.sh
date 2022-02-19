@@ -37,7 +37,7 @@ get_pod() {
 }
 
 kubectl_run() {
-  kubectl "$@"
+  kubectl --kubeconfig=/tmp/config
 
   if [ $? -eq 1 ]; then
     echo "kubectl cmd failed"
