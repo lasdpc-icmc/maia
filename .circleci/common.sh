@@ -5,11 +5,6 @@ env_vars() {
   echo "export APP=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $1}')" >> $BASH_ENV
   echo "export ENV=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}' | awk -F "(-)" '{print $1}')" >> $BASH_ENV
   echo "export TAG=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}')" >> $BASH_ENV
-  if [[ "$CIRCLE_BRANCH" == "staging" ]]; then
-    echo "export ENV=stg" >> $BASH_ENV
-  elif [[ "$CIRCLE_BRANCH" == "master" ]]; then
-    echo "export ENV=prod" >> $BASH_ENV
-  fi
   source $BASH_ENV
 }
 
@@ -70,28 +65,11 @@ git_config () {
   git config --global user.name "CircleCI USP"
 }
 
-gke_dependencies () {
+k8s_dependencies () {
 sudo echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
 sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 sudo apt-get update
 sudo apt-get install -y apt-transport-https ca-certificates gnupg jq kubectl google-cloud-sdk
-}
-
-function properties_get {
-  property=$1
-  microValue=$(grep -i  '^'$property'=' project/build.properties | cut -d'=' -f2)
-  root=$(grep -i  '^'$property'=' ../build.properties | cut -d'=' -f2)
-
-  if [[ $microValue == "global" ]] ;
-    then echo $root ;
-    else echo $microValue ;
-  fi
-}
-
-function properties_update {
-  property=$1
-  value=$2
-  sed -i "/^$property=/ s/=.*/=$value/" project/build.properties
 }
