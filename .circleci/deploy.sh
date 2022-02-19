@@ -15,4 +15,3 @@ echo $TOKEN_CLUSTER | base64 --decode --ignore-garbage > /tmp/config
 KUBE_CONFIG=$(cat apps/$APP/kubernetes/values.yaml | sed "s|CIRCLE_TAG_REPLACE|$TAG|g")
 echo "$KUBE_CONFIG" | kubectl_run apply -f -
 kubectl_run rollout status deployment/$APP -n $APP
-get_pod
