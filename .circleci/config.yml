@@ -9,7 +9,7 @@ defaults:
     machine:
       image: ubuntu-2004:202010-01
 
-  - &tag /.*\/(usp)\d{8}.\d{2}$/
+  - &tag /.*\/()\d{8}.\d{2}$/
 
   - &tag_only
     filters:
@@ -90,35 +90,35 @@ workflows:
   deployment:
     jobs:
       - code_test:
-          <<: *tag_only        
+          <<: *tag        
       - build:
           requires:
             - code_test      
-          <<: *tag_only        
+          <<: *tag        
       - approve_deploy:
           type: approval
           requires:
             - build
-          <<: *tag_only          
+          <<: *tag          
       - deploy:
           requires:
             - approve_deploy
-          <<: *tag_only        
+          <<: *tag        
       - approve_load_test:
           type: approval
           requires:
             - deploy
-          <<: *tag_only           
+          <<: *tag           
       - load_test:
           requires:
             - approve_load_test
-          <<: *tag_only                  
+          <<: *tag                  
       - approve_rollback:
           type: approval
           requires:
             - deploy
-          <<: *tag_only          
+          <<: *tag          
       - rollback:
           requires:
             - approve_rollback
-          <<: *tag_only
+          <<: *tag
