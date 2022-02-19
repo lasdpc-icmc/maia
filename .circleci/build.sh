@@ -16,5 +16,5 @@ env_vars
 docker build -t diegopedroso/$APP:$TAG -f apps/$APP/Dockerfile apps/$APP
 
 # Push Docker Image
-
+docker_run login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 docker push diegopedroso/$APP:$TAG
