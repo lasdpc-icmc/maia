@@ -37,7 +37,12 @@ get_pod() {
 }
 
 kubectl_run() {
-  kubectl --kubeconfig=/tmp/config
+  kubectl --kubeconfig=/tmp/config "$@"
+
+  if [ $? -eq 1 ]; then
+    echo "kubectl cmd failed"
+    exit 1;
+  fi
 }
 
 install_helm3 () {
