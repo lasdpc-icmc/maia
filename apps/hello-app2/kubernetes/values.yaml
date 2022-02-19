@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name:  hello-app2
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-app2
+  namespace: hello-app2
+  labels:
+    app: hello-app2
+spec:
+  selector:
+    app: hello-app2
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-app2
+  namespace: hello-app2
+  labels:
+    app: hello-app2
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: hello-app2
+  template:
+    metadata:
+      labels:
+        app: hello-app2
+    spec:
+      containers:
+      - name: hello-app2
+        image: diegopedroso/hello-app2:CIRCLE_TAG_REPLACE
+        ports:
+        - containerPort: 8080
