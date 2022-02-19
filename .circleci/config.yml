@@ -9,7 +9,7 @@ defaults:
     machine:
       image: ubuntu-2004:202010-01
 
-  - &tag /.*\/(prod-|stg-|qa-)\d{8}.\d{2}$/
+  - &tag /.*\/\d{8}.\d{2}$/
 
   - &tag_only
     filters:
