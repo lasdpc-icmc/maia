@@ -1,6 +1,7 @@
 #!/bin/bash
 set -xe
 source ./.circleci/common.sh;
+env_vars
 
 # Load common functions and Install dependencies
 k8s_dependencies
