@@ -15,4 +15,4 @@ echo $TOKEN_CLUSTER | base64 --decode --ignore-garbage > /tmp/config
 # Rollback to the last RS version
 
 kubectl_run rollout undo deployment $APP -n $APP
-kubectl rollout status deployment $APP -n $APP || kubectl_run rollout status statefulset $APP -n $APP
+kubectl_run rollout status deployment $APP -n $APP || kubectl_run rollout status statefulset $APP -n $APP
