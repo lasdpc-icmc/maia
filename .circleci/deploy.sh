@@ -14,4 +14,4 @@ echo $TOKEN_CLUSTER | base64 --decode --ignore-garbage > /tmp/config
 
 sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/values.yaml
 kubectl_run apply -f apps/$APP/kubernetes/values.yaml
-kubectl_run rollout status deployment/$APP -n $APP
+# kubectl_run rollout status deployment/$APP -n $APP
