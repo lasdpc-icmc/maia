@@ -22,6 +22,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
@@ -44,10 +45,11 @@ func main() {
 // hello responds to the request with a plain-text "Hello, world" message.
 func hello(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Serving request: %s", r.URL.Path)
-	host, _ := os.Hostname()
-	fmt.Fprintf(w, "Hello, I'm USP app V1\n")
-	fmt.Fprintf(w, "Version: 1.0.0\n")
-	fmt.Fprintf(w, "Hostname: %s\n", host)
+	go func() {
+		w.WriteHeader(200)
+		fmt.Fprintf(w, "hello! I will process your request")
+		time.Sleep(time.Minute * 5)
+	}()
 }
 
 // [END all]
