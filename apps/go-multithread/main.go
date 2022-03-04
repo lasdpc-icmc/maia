@@ -23,11 +23,13 @@ import (
 	"net/http"
 	"os"
 	"time"
+    "math/rand"
 )
 
 func main() {
 	// use PORT environment variable, or default to 8080
-	port := "8080"
+	rand.Seed(time.Now().UnixNano())
+    port := "8080"
 	if fromEnv := os.Getenv("PORT"); fromEnv != "" {
 		port = fromEnv
 	}
@@ -45,10 +47,16 @@ func main() {
 // hello responds to the request with a plain-text "Hello, world" message.
 func hello(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Serving request: %s", r.URL.Path)
-	go func() {
-		w.WriteHeader(200)
-		fmt.Fprintf(w, "hello! I will process your request\n")
-		time.Sleep(time.Minute * 5)
+    fmt.Fprintf(w, "hello! I will process your request\n")
+
+    go func() {
+        log.Printf("starting request")
+        arr := make([]int, 1024*16)
+        for i:=0; i<1024*16; i++ {
+            arr[i] = rand.Intn(100)
+        }
+        time.Sleep(time.Minute*5)
+        log.Printf("this is the result: %d", arr[rand.Intn(1024*16)])
 	}()
 }
 
