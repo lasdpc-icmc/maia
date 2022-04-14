@@ -37,3 +37,8 @@ module "aws_eks" {
   }]
   tags = local.common_tags
 }
+
+resource "aws_key_pair" "prod" {
+  key_name   = var.env
+  public_key = var.key
+}
