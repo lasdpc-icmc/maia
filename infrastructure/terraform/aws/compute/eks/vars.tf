@@ -46,3 +46,6 @@ variable "root_volume_type" {
 variable "cluster_version" {
   type = string
 }
+variable "key" {
+  type = string
+}
