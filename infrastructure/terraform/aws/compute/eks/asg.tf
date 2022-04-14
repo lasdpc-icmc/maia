@@ -20,12 +20,12 @@ resource "aws_launch_configuration" "default" {
 }
 
 resource "aws_autoscaling_group" "default" {
-  availability_zones   = data.terraform_remote_state.network.outputs.priv_az
   name_prefix          = "on-demand-${var.env}-${var.resource_name}-"
   min_size             = var.min_size_on_demand
   max_size             = var.max_size_on_demand
   desired_capacity     = var.desired_capacity_on_demand
   launch_configuration = aws_launch_configuration.default.name
+  vpc_zone_identifier  = data.terraform_remote_state.network.outputs.int_sn_id
 
   lifecycle {
     create_before_destroy = true
