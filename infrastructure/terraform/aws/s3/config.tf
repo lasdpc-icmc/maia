@@ -16,9 +16,7 @@ terraform {
   required_version = ">= 0.12.24"
   backend "s3" {
     bucket  = "terraform-metrics-application"
-    key     = "aws/iam/terraform.tfstate"
+    key     = "aws/s3/terraform.tfstate"
     region  = "us-east-1"
   }
 }
-
-data "aws_availability_zones" "available" {}
