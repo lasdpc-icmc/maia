@@ -1,22 +1,18 @@
-# How to access the Cluster
+# Metrics Application on AWS EKS
 
-Copy the file setup/config and set env vars. All tokens are available in the master node (~/.kube/config)
 
-Point the kubectl to the new environment:
 
-```bash
-kubectl --kubeconfig setup/config
-```
+## How to access the EKS Cluster
 
 Example:
 
 ```bash
-kubectl --kubeconfig setup/config get nodes
+kubectl get nodes
 
-NAME          STATUS   ROLES                  AGE   VERSION
-master-node   Ready    control-plane,master   10d   v1.23.1
-worker01      Ready    <none>                 10d   v1.23.1
-worker02      Ready    <none>                 10d   v1.23.1    
+NAME                             STATUS   ROLES    AGE    VERSION
+ip-172-20-105-85.ec2.internal    Ready    <none>   161m   v1.19.15-eks-9c63c4
+ip-172-20-112-145.ec2.internal   Ready    <none>   162m   v1.19.15-eks-9c63c4
+ 
 ```
 
 
@@ -27,12 +23,12 @@ To access the monitoring stack services you need to forward the traffic using ku
 Grafana:
 
 ```bash
-kubectl --kubeconfig setup/config port-forward service/grafana 3000:3000 -n monitoring   
+kubectl port-forward service/grafana 3000:3000 -n monitoring   
 ```
 Prometheus:
 
 ```bash
-kubectl --kubeconfig setup/config port-forward service/prometheus-k8s 9090:9090 -n monitoring   
+kubectl port-forward service/prometheus-k8s 9090:9090 -n monitoring   
 ```
 
 Open your browser in localhost:3000
@@ -42,19 +38,19 @@ Open your browser in localhost:3000
 username: admin <p>
 password: usp2022 <p>
 
+## Deploy applications using CircleCI
+
 
 ## Cluster Information
 
-**Kubernetes v1.23.1 + Weave Net addon**
+**Kubernetes v1.19 + Weave Net addon**
 
-kubeadm = v1.23.1<p>
-kubectl = v1.23.1<p>
-kubelet = v1.23.1<p>
-Istio = 1.12.2
+EKS = v1.19<p>
+Istio = 
 
 **Monitoring Stack**
 
-kube-prometheus = release-0.10
+kube-prometheus =
 
 **Istio**
 
@@ -90,7 +86,7 @@ kubectl --kubeconfig setup/config label namespace default istio-injection=enable
 Install istio observability tools:
 
 ```bash
-kubectl --kubeconfig setup/config apply -f samples/addons
+kubectl apply -f samples/addons
 ```
 
 To access the istio observability stack you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
@@ -98,7 +94,7 @@ To access the istio observability stack you need to forward the traffic using ku
 Kiali:
 
 ```bash
-kubectl --kubeconfig setup/config port-forward service/kiali 20001:20001 -n istio-system   
+kubectl port-forward service/kiali 20001:20001 -n istio-system   
 ```
 
 Open your browser in localhost:20001
@@ -111,15 +107,3 @@ Open your browser in localhost:20001
 [2] https://istio.io/latest/docs/setup/getting-started/ <p>
 
 
-## VMs Inventory
-
-*Kubernetes*: <p>
-VM-1 andromeda.lasdpc.icmc.usp.br port 21111 <p>
-VM-2 andromeda.lasdpc.icmc.usp.br port 21112 <p>
-VM-3 andromeda.lasdpc.icmc.usp.br port 21113 <p>
-VM-4 andromeda.lasdpc.icmc.usp.br port 21114 <p>
-VM-5 andromeda.lasdpc.icmc.usp.br port 21115 <p>
-VM-6 andromeda.lasdpc.icmc.usp.br port 21116 <p>
-
-*Gatling*: <p>
-VM-7 andromeda.lasdpc.icmc.usp.br port 21116
