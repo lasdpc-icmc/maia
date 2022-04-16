@@ -46,7 +46,7 @@ password: usp2022 <p>
 **Kubernetes v1.19 + Weave Net addon**
 
 EKS = v1.19<p>
-Istio = 
+Istio = 1.10
 
 **Monitoring Stack**
 
@@ -63,10 +63,10 @@ curl -L https://istio.io/downloadIstio | sh -
 Download the last version:
 
 ```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.12.2 TARGET_ARCH=x86_64 sh -
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.10.0 TARGET_ARCH=x86_64 sh -
 ```
 
-Move to the Istio package directory. For example, if the package is istio-1.12.2:
+Move to the Istio package directory. For example, if the package is istio-1.10.0:
 
 ```bash
 export PATH=$PWD/bin:$PATH
@@ -80,7 +80,7 @@ istioctl install --set profile=demo -y
 Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later:
 
 ```bash
-kubectl --kubeconfig setup/config label namespace default istio-injection=enabled
+kubectl label namespace default istio-injection=enabled
 ```
 
 Install istio observability tools:
@@ -105,5 +105,3 @@ Open your browser in localhost:20001
 
 [1] https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install <p>
 [2] https://istio.io/latest/docs/setup/getting-started/ <p>
-
-
