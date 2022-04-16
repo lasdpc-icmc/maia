@@ -2,32 +2,18 @@ apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
   labels:
-    app.kubernetes.io/component: prometheus
-    app.kubernetes.io/instance: k8s
-    app.kubernetes.io/name: prometheus
-    app.kubernetes.io/part-of: kube-prometheus
-    app.kubernetes.io/version: 2.32.1
+    prometheus: k8s
   name: k8s
   namespace: monitoring
 spec:
   alerting:
     alertmanagers:
-    - apiVersion: v2
-      name: alertmanager-main
+    - name: alertmanager-main
       namespace: monitoring
       port: web
-  enableFeatures: []
-  externalLabels: {}
-  image: quay.io/prometheus/prometheus:v2.32.1
+  image: quay.io/prometheus/prometheus:v2.22.1
   nodeSelector:
     kubernetes.io/os: linux
-  podMetadata:
-    labels:
-      app.kubernetes.io/component: prometheus
-      app.kubernetes.io/instance: k8s
-      app.kubernetes.io/name: prometheus
-      app.kubernetes.io/part-of: kube-prometheus
-      app.kubernetes.io/version: 2.32.1
   podMonitorNamespaceSelector: {}
   podMonitorSelector: {}
   probeNamespaceSelector: {}
@@ -36,8 +22,10 @@ spec:
   resources:
     requests:
       memory: 400Mi
-  ruleNamespaceSelector: {}
-  ruleSelector: {}
+  ruleSelector:
+    matchLabels:
+      prometheus: k8s
+      role: alert-rules
   securityContext:
     fsGroup: 2000
     runAsNonRoot: true
@@ -45,4 +33,4 @@ spec:
   serviceAccountName: prometheus-k8s
   serviceMonitorNamespaceSelector: {}
   serviceMonitorSelector: {}
-  version: 2.32.1
+  version: v2.22.1
