@@ -8,24 +8,27 @@ env_vars() {
   source $BASH_ENV
 }
 
-gke_credentials() {
+aws_run() {
+  aws "$@"
+
+  if [ $? -eq 1 ]; then
+    echo "AWS cmd failed"
+    exit 1;
+  fi
+}
+
+aws_credentials() {
   env_vars
   if [[ "$ENV" == "prod" ]]; then
-    echo "export GCLOUD_SERVICE_KEY=$GCLOUD_SERVICE_KEY_PROD" >> $BASH_ENV
-    echo "export GOOGLE_CLUSTER_NAME=$GOOGLE_CLUSTER_NAME_PROD" >> $BASH_ENV
-    echo "export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID_PROD" >> $BASH_ENV
-    echo "export GOOGLE_COMPUTE_ZONE=$GOOGLE_COMPUTE_ZONE_PROD" >> $BASH_ENV
-    echo "export GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN_PROD" >> $BASH_ENV
-    echo "export SLACK_WEBHOOK=$SLACK_WEBHOOK_PROD" >> $BASH_ENV
-
+    echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_PROD" >> $BASH_ENV
+    echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_PROD" >> $BASH_ENV
+    echo "export EKS_CLUSTER_NAME=$PROD_CLUSTER_NAME" >> $BASH_ENV
+    echo "export EKS_REGION=$PROD_EKS_REGION" >> $BASH_ENV
   elif [[ "$ENV" == "stg" ]]; then
-    echo "export GCLOUD_SERVICE_KEY=$GCLOUD_SERVICE_KEY_STG" >> $BASH_ENV
-    echo "export GOOGLE_CLUSTER_NAME=$GOOGLE_CLUSTER_NAME_STG" >> $BASH_ENV
-    echo "export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID_STG" >> $BASH_ENV
-    echo "export GOOGLE_COMPUTE_ZONE=$GOOGLE_COMPUTE_ZONE_STG" >> $BASH_ENV
-    echo "export GITHUB_PERSONAL_ACCESS_TOKEN=$GITHUB_PERSONAL_ACCESS_TOKEN_STG" >> $BASH_ENV
-    echo "export SLACK_WEBHOOK=$SLACK_WEBHOOK_STG" >> $BASH_ENV
-
+    echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_STG" >> $BASH_ENV
+    echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY_STG" >> $BASH_ENV
+    echo "export EKS_CLUSTER_NAME=$STG_CLUSTER_NAME" >> $BASH_ENV
+    echo "export EKS_REGION=$STG_EKS_REGION" >> $BASH_ENV
   fi
   source $BASH_ENV
 }
@@ -37,7 +40,7 @@ get_pod() {
 }
 
 kubectl_run() {
-  kubectl --kubeconfig=/tmp/config "$@"
+  kubectl "$@"
 
   if [ $? -eq 1 ]; then
     echo "kubectl cmd failed"
@@ -65,11 +68,13 @@ git_config () {
   git config --global user.name "CircleCI USP"
 }
 
-k8s_dependencies () {
-sudo echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-sudo curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-sudo apt-get update
-sudo apt-get install -y apt-transport-https ca-certificates gnupg jq kubectl google-cloud-sdk
+install_awscli_kubectl() {
+  sudo apt-get update
+  sudo apt-get install awscli
+  curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+  chmod +x ./aws-iam-authenticator
+  sudo mv ./aws-iam-authenticator /usr/local/bin
+  curl -o kubectl https://storage.googleapis.com/kubernetes-release/release/v1.15.11/bin/linux/amd64/kubectl
+  chmod +x "kubectl" && sudo mv "kubectl" /usr/local/bin/
+  curl -L  https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 }
