@@ -23,4 +23,4 @@ cd $GATLING_HOME/results/ && tar -cvf $APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BU
 
 # Push results
 
-aws_run s3 cp $GATLING_HOME/results/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.tar.gz s3://gatling-metrics-application-results/$APP
+aws_run s3 cp $GATLING_HOME/results/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.tar.gz s3://gatling-metrics-application-results/$APP/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.tar.gz
