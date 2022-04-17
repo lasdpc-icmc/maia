@@ -3,9 +3,11 @@ set -xe
 source ./.circleci/common.sh;
 
 # Load common functions and Install dependencies
+
 env_vars
 
 # Deploy
+
 install_awscli_kubectl
 aws_credentials
 aws_run eks --region $EKS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME

@@ -2,9 +2,6 @@
 set -xe
 source ./.circleci/common.sh;
 env_vars
-
-# Configure VM
-
 export GATLING_HOME="/home/circleci/project/gatling-charts-highcharts-bundle-2.3.1"
 
 # Install Gatling
@@ -16,8 +13,8 @@ cp /home/circleci/project/apps/$APP/loadtest/* $GATLING_HOME/user-files/simulati
 $GATLING_HOME/bin/gatling.sh -s computerdatabase.BasicSimulation
 
 cd $GATLING_HOME/results/
-tar -cvf $APP.tar.gz *
-/
+tar -cvf $APP-$(date +%Y-%m-%d).tar.gz *
 
-# Push results 
+# Push results
 
+aws_run s3 sync $APP-$(date +%Y-%m-%d).tar.gz s3://gatling-metrics-application-results/$APP-$(date +%Y-%m-%d).tar.gz                                                                                                   82.155.232.198 IP ▓▒░
