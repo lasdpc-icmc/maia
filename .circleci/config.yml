@@ -8,6 +8,10 @@ defaults:
   - &generic
     machine:
       image: ubuntu-2004:202010-01
+  
+  - &gatling
+    docker:
+      - image: circleci/openjdk:7-jdk
 
   - &tag /.*\/\d{8}.\d{2}$/
 
@@ -66,7 +70,7 @@ jobs:
             chmod +x .circleci/deploy.sh && .circleci/deploy.sh
 
   load_test:
-    <<: *docker
+    <<: *gatling
     steps:
       - checkout
       - setup_remote_docker
