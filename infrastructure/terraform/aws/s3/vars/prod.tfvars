@@ -1,4 +1,5 @@
 app_name      = "terraform-metrics-application"
+app_gatling   = "gatling-metrics-application-results"
 env           = "prod"
 resource_name = "application-metrics"
 region        = "us-east-1"
