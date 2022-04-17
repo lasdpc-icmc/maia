@@ -1,11 +1,27 @@
-# Projeto de Iniciação Cientifica - Análise conceitual e comparativa de métricas de aplicação em microsserviços
+# Automatic root cause analysis of incidents in multi-cloud environments using Bayesian networks
 
-As constantes evoluções e integrações de tecnologias de sistemas complexos têm criado riscos relacionados a performance e confiabilidade, e podem comprometer a atribuição assumida por uma empresa ou prestador de serviços de tecnologia da informação perante um cliente.
 
-Cada linguagem de programação tem sua particularidade e utiliza recursos conforme a expressividade de linguagem permitem. Como linguagens de programação são utilizadas para os mais diversos propósitos, convém que as métricas provenientes das execuções sigam o mesmo padrão, existem milhares de métricas passíveis de coleta em diversas stacks de desenvolvimento.
+1. Conceptual and comparative application metrics analysis in native cloud microservices
+2. Dynamic streaming log analysis using Deep Learning
 
-Uma métrica pode ser definida como um dado, ou uma agregação de dados que tem como finalidade trazer alguma informação relacionada ao estado de algum componente . Um conjunto de métricas pode ajudar a compor indicadores de desempenho como SLA (Service Level Agreement), SLI (Service Level Indicator) e SLO (Service Level Objective). A melhor maneira de monitorar o estado de um componente é coletar uma (ou mais) métricas referentes aos indicadores de desempenho, por exemplo: o consumo de memória RAM de uma instância virtual é uma métrica que pode ser coletada e utilizada com diagnóstico de saturação do recurso que está sendo monitorado.
- 
- Ocorre que, o numero excessivo de métricas de runtime disponibilizadas por agentes coletores podem ser um problema na hora de escolher e agrupar quais destes indicadores são realmente importantes para que se possa visualizar, interpretar ou até mesmo predizer o comportamento de um microsserviço.
+***Overview***
+-------------------
 
-Na literatura não existem definições formais e descritivas de quais métricas, no contexto de cloud, devem ser levadas em consideração para realização de algum diagnóstico. O motivo para isso é simples, as diferentes soluções e arquiteturas presente em provedores de cloud têm comportamentos e contextos diferentes, o que torna complexa a tarefa de criar métricas genéricas que sejam incorporadas a qualquer ambiente.
+Cloud computing offers significant benefits in terms of scalability and performance. The cloud scalability gives developers the ability to fastly deploy large amounts of computing and storage resources. Given the volatility of cloud computing systems, monitoring and analyzing the behavior of these environments is a challenge, as the parameters and guidelines that guide these environments are constantly changing. The constant evolutions and integrations of complex system technologies exponentially increase the amount of records logs generated as we move towards cloud architectures oriented to microservices, making it even more difficult to manipulate, store and extract relevant information from these sources of data. Most existing monitoring solutions do not provide explicit data and most of the time it is up to the developer to identify patterns in dashboards, define and adjust alert rules, and search logs across multiple layers to find the root cause. The patterns that lead to these events change significantly, making it difficult to use predefined thresholds to detect anomalies. In this way, machine learning techniques can learn to capture these patterns for any system quickly and these relationships can be scaled far beyond the human capacity to keep up with the growing complexity of high performance systems, helping to reduce mitigation time and system repair time. This work proposes an incident detection system using unsupervised machine learning to automatically find the root cause of incidents. It is expected that this system will be able to perform probabilistic inferences using bayesian networks with a generic approach enough that the concepts discussed can be incorporated into various applications in order to offer tangible and automatic guidance for incident detection.
+
+## Repositories
+
+This project is divided across a few GitHub repositories:
+
+- [infrastructure](https://github.com/diegopedroso/metric-application-microservices/tree/main/infrastructure). Repo with infrastructure provisioning as a code on AWS, also all Terraform code and Kubernetes manifests to monitoring components.
+
+- [circleci](https://github.com/diegopedroso/metric-application-microservices/tree/main/.circleci). Repo with the CI/CD codes of the platform that performs the deployments.
+
+- [apps](https://github.com/diegopedroso/metric-application-microservices/tree/main/apps). Repo with all applications that run within the Kubernetes cluster, as well as k8s manifests, load tests, and all application-level configurations.
+
+
+About
+-------------------
+Sarita Mazzini Bruschi - <sarita@icmc.usp.br> <p>
+Júlio Cezar Estrella - <jcezar@icmc.usp.br> <p>
+Diego Frazatto Pedroso - <diegopedroso@usp.br> <p>
