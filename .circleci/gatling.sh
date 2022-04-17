@@ -2,7 +2,11 @@
 set -xe
 source ./.circleci/common.sh;
 env_vars
+
+# Install Dependencies
 export GATLING_HOME="/home/circleci/project/gatling-charts-highcharts-bundle-2.3.1"
+install_awscli_kubectl
+aws_credentials
 
 # Install Gatling
 
