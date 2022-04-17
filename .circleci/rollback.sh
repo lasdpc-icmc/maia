@@ -1,16 +1,17 @@
 #!/bin/bash
 set -xe
-
 source ./.circleci/common.sh;
 
 # Install dependencies
 
-k8s_dependencies
 env_vars
 
 # Set current cluster
 
-echo $TOKEN_CLUSTER | base64 --decode --ignore-garbage > /tmp/config
+install_awscli_kubectl
+aws_credentials
+aws_run eks --region $EKS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
+chmod 600 ~/.kube/config
 
 # Rollback to the last RS version
 
