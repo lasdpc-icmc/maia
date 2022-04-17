@@ -8,10 +8,16 @@ resource "aws_iam_access_key" "usp-eks-deploy" {
 
 data "aws_iam_policy_document" "usp-eks-deploy" {
   statement {
-    sid       = "1"
+    sid       = "VisualEditor1"
     actions   = ["eks:*"]
     resources = [module.aws_eks.cluster_arn]
   }
+  statement {
+    sid       = "VisualEditor0"
+    actions   = ["s3:*"]
+    resources = ["*"]
+  }
+
 }
 
 resource "aws_iam_user_policy" "usp-eks-deploy" {
