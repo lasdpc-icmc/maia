@@ -11,7 +11,7 @@ defaults:
   
   - &gatling
     docker:
-      - image: circleci/openjdk:7-jdk
+      - image: cimg/openjdk:8.0.322-browsers
 
   - &tag /.*\/\d{8}.\d{2}$/
 
