@@ -21,4 +21,4 @@ tar -cvf $APP-$(date +%Y-%m-%d).tar.gz *
 
 # Push results
 
-aws_run s3 sync $APP-$(date +%Y-%m-%d).tar.gz s3://gatling-metrics-application-results/$APP-$(date +%Y-%m-%d).tar.gz
+aws_run s3 sync $GATLING_HOME/results/$APP-$(date +%Y-%m-%d).tar.gz s3://gatling-metrics-application-results/$APP-$(date +%Y-%m-%d).tar.gz
