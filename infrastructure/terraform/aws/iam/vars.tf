@@ -10,6 +10,9 @@ variable "username_admins" {
 variable "username_read_only" {
   type = list(string)
 }
+variable "username_billing" {
+  type = list(string)
+}
 variable "env" {
   type = string
 }

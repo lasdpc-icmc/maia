@@ -8,6 +8,11 @@ resource "aws_iam_group" "developers" {
   path = "/users/"
 }
 
+resource "aws_iam_group" "billing" {
+  name = "billing"
+  path = "/users/"
+}
+
 resource "aws_iam_group" "admins" {
   name = "admins"
   path = "/users/"
@@ -19,7 +24,7 @@ resource "aws_iam_group" "read_only" {
 }
 
 resource "aws_iam_group_policy" "developers" {
-  name  = "DevelopersPolicty"
+  name  = "DevelopersPolicy"
   group = aws_iam_group.developers.name
   policy = jsonencode({
     Version = "2012-10-17"
@@ -68,6 +73,39 @@ resource "aws_iam_group_policy" "read_only" {
     ]
   })
 }
+resource "aws_iam_group_policy" "billing" {
+  name  = "BillingPolicy"
+  group = aws_iam_group.billing.name
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+            "ec2:*",
+            "aws-portal:*Billing",
+            "aws-portal:*Usage",
+            "aws-portal:*PaymentMethods",
+            "budgets:ViewBudget",
+            "budgets:ModifyBudget",
+            "ce:UpdatePreferences",
+            "ce:CreateReport",
+            "ce:UpdateReport",
+            "ce:DeleteReport",
+            "ce:CreateNotificationSubscription",
+            "ce:UpdateNotificationSubscription",
+            "ce:DeleteNotificationSubscription",
+            "cur:DescribeReportDefinitions",
+            "cur:PutReportDefinition",
+            "cur:ModifyReportDefinition",
+            "cur:DeleteReportDefinition",
+            "purchase-orders:*PurchaseOrders"
+        ]
+        Effect   = "Allow"
+        Resource = "*"
+      },
+    ]
+  })
+}
 
 resource "aws_iam_group_membership" "dev" {
   name = "dev"
@@ -91,4 +129,12 @@ resource "aws_iam_group_membership" "read_only" {
   users = var.username_read_only
 
   group = aws_iam_group.read_only.name
+}
+
+resource "aws_iam_group_membership" "billing" {
+  name = "billing"
+
+  users = var.username_billing
+
+  group = aws_iam_group.billing.name
 }
