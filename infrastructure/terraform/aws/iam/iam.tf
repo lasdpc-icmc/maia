@@ -98,6 +98,7 @@ resource "aws_iam_group_policy" "billing" {
             "cur:PutReportDefinition",
             "cur:ModifyReportDefinition",
             "cur:DeleteReportDefinition",
+            "iam:ChangePassword",
             "purchase-orders:*PurchaseOrders"
         ]
         Effect   = "Allow"
