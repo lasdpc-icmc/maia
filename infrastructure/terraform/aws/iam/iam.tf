@@ -8,11 +8,6 @@ resource "aws_iam_group" "developers" {
   path = "/users/"
 }
 
-resource "aws_iam_group" "billing" {
-  name = "billing"
-  path = "/users/"
-}
-
 resource "aws_iam_group" "admins" {
   name = "admins"
   path = "/users/"
@@ -130,12 +125,4 @@ resource "aws_iam_group_membership" "read_only" {
   users = var.username_read_only
 
   group = aws_iam_group.read_only.name
-}
-
-resource "aws_iam_group_membership" "billing" {
-  name = "billing"
-
-  users = var.username_billing
-
-  group = aws_iam_group.billing.name
 }
