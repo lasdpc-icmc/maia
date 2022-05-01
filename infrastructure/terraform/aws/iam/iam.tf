@@ -111,14 +111,6 @@ resource "aws_iam_group_membership" "dev" {
   group = aws_iam_group.developers.name
 }
 
-resource "aws_iam_group_membership" "admins" {
-  name = "admins"
-
-  users = var.username_admins
-
-  group = aws_iam_group.admins.name
-}
-
 resource "aws_iam_group_membership" "read_only" {
   name = "read-only"
 
