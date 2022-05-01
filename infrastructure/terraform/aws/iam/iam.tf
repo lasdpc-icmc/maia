@@ -68,40 +68,6 @@ resource "aws_iam_group_policy" "read_only" {
     ]
   })
 }
-resource "aws_iam_group_policy" "billing" {
-  name  = "BillingPolicy"
-  group = aws_iam_group.billing.name
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-            "ec2:*",
-            "aws-portal:*Billing",
-            "aws-portal:*Usage",
-            "aws-portal:*PaymentMethods",
-            "budgets:ViewBudget",
-            "budgets:ModifyBudget",
-            "ce:UpdatePreferences",
-            "ce:CreateReport",
-            "ce:UpdateReport",
-            "ce:DeleteReport",
-            "ce:CreateNotificationSubscription",
-            "ce:UpdateNotificationSubscription",
-            "ce:DeleteNotificationSubscription",
-            "cur:DescribeReportDefinitions",
-            "cur:PutReportDefinition",
-            "cur:ModifyReportDefinition",
-            "cur:DeleteReportDefinition",
-            "iam:ChangePassword",
-            "purchase-orders:*PurchaseOrders"
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
-    ]
-  })
-}
 
 resource "aws_iam_group_membership" "dev" {
   name = "dev"
