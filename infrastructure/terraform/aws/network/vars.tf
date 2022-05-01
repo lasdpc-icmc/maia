@@ -13,9 +13,9 @@ variable "region" {
 variable "subnet" {
   type = map
   default = {
-    private  = 2
-    public   = 2
-    internal = 2
+    private  = 8
+    public   = 4
+    internal = 4
   }
 }
 variable "start_cidr_at" {
