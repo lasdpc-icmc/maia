@@ -15,8 +15,8 @@ provider "kubernetes" {
 module "aws_eks" {
   source          = "git::https://github.com/terraform-aws-modules/terraform-aws-eks.git?ref=v16.0.0"
   cluster_name    = "${var.env}-${var.resource_name}"
-  subnets         = data.terraform_remote_state.network.outputs.pub_sn_id
-  vpc_id          = data.terraform_remote_state.network.outputs.vpc_id
+  subnets         = data.terraform_remote_state.vpc.outputs.pub_sn_id
+  vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
   cluster_version = var.cluster_version
 
   worker_groups = [{
@@ -33,7 +33,7 @@ module "aws_eks" {
     public_ip             = false
     autoscaling_enabled   = true
     protect_from_scale_in = true
-    subnets               = data.terraform_remote_state.network.outputs.priv_sn_id
+    subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
   tags = local.common_tags
 }
