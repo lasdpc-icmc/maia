@@ -49,3 +49,9 @@ variable "cluster_version" {
 variable "key" {
   type = string
 }
+variable "organization" {
+  type = string
+}
+variable "workspace" {
+  type = string
+}
