@@ -6,4 +6,3 @@ username            = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki",
 username_read_only  = ["lucas.pulcinelli", "giovanni.shibaki", "pedro.grando"]
 username_dev        = ["julio.estrella", "henrique.lecco"]
 username_admins     = [""]
-username_billing    = ["luciana.marques"]
