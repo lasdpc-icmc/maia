@@ -4,9 +4,6 @@ variable "username" {
 variable "username_dev" {
   type = list(string)
 }
-variable "username_admins" {
-  type = list(string)
-}
 variable "username_read_only" {
   type = list(string)
 }
