@@ -1,4 +1,4 @@
-app_name      = "terraform-metrics-application"
+app_name      = "terraform-lasdpc-states"
 app_gatling   = "gatling-metrics-application-results"
 env           = "prod"
 resource_name = "application-metrics"
