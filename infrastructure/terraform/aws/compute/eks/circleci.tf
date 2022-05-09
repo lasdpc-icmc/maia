@@ -1,5 +1,5 @@
 resource "aws_iam_user" "usp-eks-deploy" {
-  name = "${terraform.workspace}-eks-circleci"
+  name = "aws-eks-circleci"
 }
 
 resource "aws_iam_access_key" "usp-eks-deploy" {

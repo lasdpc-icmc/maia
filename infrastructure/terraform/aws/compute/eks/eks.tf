@@ -40,7 +40,7 @@ module "aws_eks" {
   tags = local.common_tags
    map_users = [
     {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${terraform.workspace}-circleci-eks"
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"
       username = "circleci-deploy"
       groups   = ["system:masters"]
     }
