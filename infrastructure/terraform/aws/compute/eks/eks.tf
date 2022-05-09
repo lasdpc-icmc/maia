@@ -1,3 +1,5 @@
+data "aws_caller_identity" "this" {}
+
 data "aws_eks_cluster" "cluster" {
   name = module.aws_eks.cluster_id
 }
@@ -36,6 +38,13 @@ module "aws_eks" {
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
   tags = local.common_tags
+   map_users = [
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${terraform.workspace}-circleci-eks"
+      username = "circleci-deploy"
+      groups   = ["system:masters"]
+    }
+  ]  
 }
 
 resource "aws_key_pair" "prod" {
