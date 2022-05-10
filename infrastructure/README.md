@@ -1,10 +1,35 @@
 # Metrics Application on AWS EKS
 
 
+## How to setup awscli
+
+### Download and install
+To setup the AWS command line interface, start by downloading the awscli binary (if you are not on linux x86\_64 the command will be different):
+```bash
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+cd aws/
+```
+
+After that, install it either in the whole system with `sudo ./install` or only for the current user with `./install -i ~/.local/share/aws-cli -b ~/.local/bin`
+
+### Creating a user access key
+To create a access key, go to the [aws site](https://aws.amazon.com/) and log in. In the search bar, search for "iam" (AWS identity and access management)
+
+![stats](setup/IAM.png)
+
+
+then, go to "Users" in the left bar, click on your user, and, under "security credentials" / "access keys", click on "create access key"
+
+![stats](setup/accesskey.png)
+
+Save both your key ID and the secret, this is the only time you will be able to see the secret.
+
+### Log in using the aws binary
+Log in using your access key and secret via `aws configure`, and select the default region as `us-east-1`, leaving other configurations blank.
 
 ## How to access the EKS Cluster
-
-Example:
+Use `aws eks update-kubeconfig --name prod-application-metrics`, where prod-application-metrics is the name of our cluster, to generate a .kube/config. Then you can use `kubectl` as normal, for example:
 
 ```bash
 kubectl get nodes
@@ -12,7 +37,7 @@ kubectl get nodes
 NAME                             STATUS   ROLES    AGE    VERSION
 ip-172-20-105-85.ec2.internal    Ready    <none>   161m   v1.19.15-eks-9c63c4
 ip-172-20-112-145.ec2.internal   Ready    <none>   162m   v1.19.15-eks-9c63c4
- 
+
 ```
 
 
@@ -23,12 +48,12 @@ To access the monitoring stack services you need to forward the traffic using ku
 Grafana:
 
 ```bash
-kubectl port-forward service/grafana 3000:3000 -n monitoring   
+kubectl port-forward service/grafana 3000:3000 -n monitoring
 ```
 Prometheus:
 
 ```bash
-kubectl port-forward service/prometheus-k8s 9090:9090 -n monitoring   
+kubectl port-forward service/prometheus-k8s 9090:9090 -n monitoring
 ```
 
 Open your browser in localhost:3000
@@ -94,7 +119,7 @@ To access the istio observability stack you need to forward the traffic using ku
 Kiali:
 
 ```bash
-kubectl port-forward service/kiali 20001:20001 -n istio-system   
+kubectl port-forward service/kiali 20001:20001 -n istio-system
 ```
 
 Open your browser in localhost:20001
@@ -103,5 +128,6 @@ Open your browser in localhost:20001
 
 ## References
 
-[1] https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install <p>
-[2] https://istio.io/latest/docs/setup/getting-started/ <p>
+[1] https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html <p>
+[2] https://www.weave.works/docs/net/latest/kubernetes/kube-addon/#install <p>
+[3] https://istio.io/latest/docs/setup/getting-started/ <p>
