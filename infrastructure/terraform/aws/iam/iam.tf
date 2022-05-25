@@ -3,13 +3,13 @@ resource "aws_iam_user" "aws-usp" {
   name = "${element(var.username,count.index )}"
 }
 
-resource "aws_iam_group" "developers" {
-  name = "developers"
+resource "aws_iam_group" "general" {
+  name = "general"
   path = "/users/"
 }
 
-resource "aws_iam_group" "admins" {
-  name = "admins"
+resource "aws_iam_group" "developers" {
+  name = "developers"
   path = "/users/"
 }
 
@@ -18,9 +18,55 @@ resource "aws_iam_group" "read_only" {
   path = "/users/"
 }
 
-resource "aws_iam_group_policy" "developers" {
-  name  = "DevelopersPolicy"
-  group = aws_iam_group.developers.name
+resource "aws_iam_group_policy" "generalIAM" {
+  name = "GeneralIAMPolicy"
+  group = aws_iam_group.general
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowGeneralUserActions",
+            "Effect": "Allow",
+            "Action": [
+                "iam:DeactivateMFADevice",
+                "iam:DeleteAccessKey",
+                "iam:GetAccessKeyLastUsed",
+                "iam:UpdateAccessKey",
+                "iam:CreateVirtualMFADevice",
+                "iam:UpdateSSHPublicKey",
+                "iam:ListMFADevices",
+                "iam:CreateAccessKey",
+                "iam:DeleteVirtualMFADevice",
+                "iam:EnableMFADevice",
+                "iam:ResyncMFADevice",
+                "iam:UploadSSHPublicKey",
+                "iam:GetUser",
+                "iam:ListMFADeviceTags",
+                "iam:ChangePassword",
+                "iam:ListAccessKeys"
+            ],
+            "Resource": [
+                "arn:aws:iam::?:mfa/&{aws:username}",
+                "arn:aws:iam::?:sms-mfa/&{aws:username}",
+                "arn:aws:iam::?:user/&{aws:username}"
+            ]
+        },
+        {
+            "Sid": "AllowViewPasswordPolicy&MFADevices",
+            "Effect": "Allow",
+            "Action": [
+                "iam:GetAccountPasswordPolicy",
+                "iam:ListVirtualMFADevices"
+            ],
+            "Resource": "*"
+        }
+    ]
+  })
+}
+
+resource "aws_iam_group_policy" "generalEC2" {
+  name = "GeneralEC2Policy"
+  group = aws_iam_group.general
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -35,38 +81,187 @@ resource "aws_iam_group_policy" "developers" {
   })
 }
 
-resource "aws_iam_group_policy" "admins" {
-  name  = "AdminsPolicy"
-  group = aws_iam_group.admins.name
+resource "aws_iam_group_policy" "generalS3" {
+  name = "GeneralS3Policy"
+  group = aws_iam_group.general
   policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowReadAllForInfoBuckets",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetLifecycleConfiguration",
+                "s3:GetBucketTagging",
+                "s3:GetInventoryConfiguration",
+                "s3:GetObjectVersionTagging",
+                "s3:ListBucketVersions",
+                "s3:GetBucketLogging",
+                "s3:ListBucket",
+                "s3:GetAccelerateConfiguration",
+                "s3:GetObjectVersionAttributes",
+                "s3:GetBucketPolicy",
+                "s3:GetObjectVersionTorrent",
+                "s3:GetObjectAcl",
+                "s3:GetEncryptionConfiguration",
+                "s3:GetBucketObjectLockConfiguration",
+                "s3:GetIntelligentTieringConfiguration",
+                "s3:GetBucketRequestPayment",
+                "s3:GetObjectVersionAcl",
+                "s3:GetObjectTagging",
+                "s3:GetMetricsConfiguration",
+                "s3:GetBucketOwnershipControls",
+                "s3:GetBucketPublicAccessBlock",
+                "s3:GetBucketPolicyStatus",
+                "s3:ListBucketMultipartUploads",
+                "s3:GetObjectRetention",
+                "s3:GetBucketWebsite",
+                "s3:GetJobTagging",
+                "s3:GetObjectAttributes",
+                "s3:GetBucketVersioning",
+                "s3:GetBucketAcl",
+                "s3:GetObjectLegalHold",
+                "s3:GetBucketNotification",
+                "s3:GetReplicationConfiguration",
+                "s3:ListMultipartUploadParts",
+                "s3:GetObject",
+                "s3:GetObjectTorrent",
+                "s3:DescribeJob",
+                "s3:GetBucketCORS",
+                "s3:GetAnalyticsConfiguration",
+                "s3:GetObjectVersionForReplication",
+                "s3:GetBucketLocation",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": [
+                "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
+                "arn:aws:s3:::${resource.terraform_state.bucket}",
+                "arn:aws:s3:::${resource.gatling_results.bucket}",
+                "arn:aws:s3:::${resource.terraform_state.bucket}/*",
+                "arn:aws:s3:::${resource.gatling_results.bucket}/*"
+            ]
+        },
+        {
+            "Sid": "AllowListGeneralS3Info",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetAccountPublicAccessBlock",
+                "s3:ListAllMyBuckets",
+                "s3:ListJobs",
+            ],
+            "Resource": "*"
+        }
     ]
   })
 }
 
-resource "aws_iam_group_policy" "read_only" {
-  name  = "ReadOnlyPolicy"
-  group = aws_iam_group.read_only.name
+resource "aws_iam_group_policy" "generalEKS" {
+  name = "GeneralEKSPolicy"
+  group = aws_iam_group.general
   policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "ec2:Describe*",
-        ]
-        Effect   = "Allow"
-        Resource = "*"
-      },
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowReadInfoEKS",
+            "Effect": "Allow",
+            "Action": [
+                "eks:ListNodegroups",
+                "eks:DescribeFargateProfile",
+                "eks:ListTagsForResource",
+                "eks:ListAddons",
+                "eks:DescribeAddon",
+                "eks:ListFargateProfiles",
+                "eks:DescribeNodegroup",
+                "eks:DescribeIdentityProviderConfig",
+                "eks:ListUpdates",
+                "eks:DescribeUpdate",
+                "eks:AccessKubernetesApi",
+                "eks:DescribeCluster",
+                "eks:ListIdentityProviderConfigs"
+            ],
+            "Resource": [
+                "arn:aws:eks:${var.region}:${data.aws_caller_identity.this.account_id}:identityproviderconfig/*/*/*/*",
+                "arn:aws:eks:${var.region}:${data.aws_caller_identity.this.account_id}:fargateprofile/*/*/*",
+                "arn:aws:eks:${var.region}:${data.aws_caller_identity.this.account_id}:cluster/*",
+                "arn:aws:eks:${var.region}:${data.aws_caller_identity.this.account_id}:addon/*/*/*",
+                "arn:aws:eks:${var.region}:${data.aws_caller_identity.this.account_id}:nodegroup/*/*/*"
+            ]
+        },
+        {
+            "Sid": "AllowListClusters&AddonVersions",
+            "Effect": "Allow",
+            "Action": [
+                "eks:ListClusters",
+                "eks:DescribeAddonVersions"
+            ],
+            "Resource": "*"
+        }
     ]
   })
+}
+
+resource "aws_iam_group_policy" "developersS3" {
+  name = "DevelopersS3Policy"
+  group = aws_iam_group.developers
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowManageForInfoBuckets",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutAnalyticsConfiguration",
+                "s3:PutAccelerateConfiguration",
+                "s3:DeleteObjectVersion",
+                "s3:RestoreObject",
+                "s3:ReplicateObject",
+                "s3:PutEncryptionConfiguration",
+                "s3:AbortMultipartUpload",
+                "s3:PutLifecycleConfiguration",
+                "s3:UpdateJobPriority",
+                "s3:DeleteObject",
+                "s3:PutBucketVersioning",
+                "s3:PutMetricsConfiguration",
+                "s3:PutBucketOwnershipControls",
+                "s3:PutReplicationConfiguration",
+                "s3:PutObjectLegalHold",
+                "s3:InitiateReplication",
+                "s3:UpdateJobStatus",
+                "s3:PutBucketCORS",
+                "s3:PutInventoryConfiguration",
+                "s3:PutObject",
+                "s3:PutBucketNotification",
+                "s3:PutBucketWebsite",
+                "s3:PutBucketRequestPayment",
+                "s3:PutObjectRetention",
+                "s3:PutBucketLogging",
+                "s3:PutBucketObjectLockConfiguration",
+                "s3:ReplicateDelete"
+            ],
+            "Resource": [
+                "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
+                "arn:aws:s3:::${resource.terraform_state.bucket}",
+                "arn:aws:s3:::${resource.gatling_results.bucket}",
+                "arn:aws:s3:::${resource.terraform_state.bucket}/*",
+                "arn:aws:s3:::${resource.gatling_results.bucket}/*"
+            ]
+        },
+        {
+            "Sid": "AllowCreateJobs",
+            "Effect": "Allow",
+            "Action": "s3:CreateJob",
+            "Resource": "*"
+        }
+    ]
+  })
+}
+
+resource "aws_iam_group_membership" "general" {
+  name = "general"
+
+  users = var.username
+
+  group = aws_iam_group.general.name
 }
 
 resource "aws_iam_group_membership" "dev" {
