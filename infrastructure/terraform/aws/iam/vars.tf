@@ -16,3 +16,11 @@ variable "resource_name" {
 variable "region" {
   type = string
 }
+
+variable "bucket_states_name"{
+  type = string
+}
+
+variable "bucket_gatling_name"{
+  type = string
+}

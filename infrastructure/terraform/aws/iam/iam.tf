@@ -20,7 +20,7 @@ resource "aws_iam_group" "read_only" {
 
 resource "aws_iam_group_policy" "generalIAM" {
   name = "GeneralIAMPolicy"
-  group = aws_iam_group.general
+  group = aws_iam_group.general.name
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -46,9 +46,9 @@ resource "aws_iam_group_policy" "generalIAM" {
                 "iam:ListAccessKeys"
             ],
             "Resource": [
-                "arn:aws:iam::?:mfa/&{aws:username}",
-                "arn:aws:iam::?:sms-mfa/&{aws:username}",
-                "arn:aws:iam::?:user/&{aws:username}"
+                "arn:aws:iam::${data.aws_caller_identity.this.account_id}:mfa/&{aws:username}",
+                "arn:aws:iam::${data.aws_caller_identity.this.account_id}:sms-mfa/&{aws:username}",
+                "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/&{aws:username}"
             ]
         },
         {
@@ -66,7 +66,7 @@ resource "aws_iam_group_policy" "generalIAM" {
 
 resource "aws_iam_group_policy" "generalEC2" {
   name = "GeneralEC2Policy"
-  group = aws_iam_group.general
+  group = aws_iam_group.general.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -83,7 +83,7 @@ resource "aws_iam_group_policy" "generalEC2" {
 
 resource "aws_iam_group_policy" "generalS3" {
   name = "GeneralS3Policy"
-  group = aws_iam_group.general
+  group = aws_iam_group.general.name
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -135,10 +135,10 @@ resource "aws_iam_group_policy" "generalS3" {
             ],
             "Resource": [
                 "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
-                "arn:aws:s3:::${aws_s3_bucket.terraform_state.bucket}",
-                "arn:aws:s3:::${aws_s3_bucket.gatling_results.bucket}",
-                "arn:aws:s3:::${aws_s3_bucket.terraform_state.bucket}/*",
-                "arn:aws:s3:::${aws_s3_bucket.gatling_results.bucket}/*"
+                "arn:aws:s3:::${var.bucket_states_name}",
+                "arn:aws:s3:::${var.bucket_gatling_name}",
+                "arn:aws:s3:::${var.bucket_states_name}/*",
+                "arn:aws:s3:::${var.bucket_gatling_name}/*"
             ]
         },
         {
@@ -157,7 +157,7 @@ resource "aws_iam_group_policy" "generalS3" {
 
 resource "aws_iam_group_policy" "generalEKS" {
   name = "GeneralEKSPolicy"
-  group = aws_iam_group.general
+  group = aws_iam_group.general.name
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -202,7 +202,7 @@ resource "aws_iam_group_policy" "generalEKS" {
 
 resource "aws_iam_group_policy" "developersS3" {
   name = "DevelopersS3Policy"
-  group = aws_iam_group.developers
+  group = aws_iam_group.developers.name
   policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
@@ -240,10 +240,10 @@ resource "aws_iam_group_policy" "developersS3" {
             ],
             "Resource": [
                 "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
-                "arn:aws:s3:::${aws_s3_bucket.terraform_state.bucket}",
-                "arn:aws:s3:::${aws_s3_bucket.gatling_results.bucket}",
-                "arn:aws:s3:::${aws_s3_bucket.terraform_state.bucket}/*",
-                "arn:aws:s3:::${aws_s3_bucket.gatling_results.bucket}/*"
+                "arn:aws:s3:::${var.bucket_states_name}",
+                "arn:aws:s3:::${var.bucket_gatling_name}",
+                "arn:aws:s3:::${var.bucket_states_name}/*",
+                "arn:aws:s3:::${var.bucket_gatling_name}/*"
             ]
         },
         {
