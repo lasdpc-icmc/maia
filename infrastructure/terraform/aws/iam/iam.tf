@@ -52,7 +52,7 @@ resource "aws_iam_group_policy" "general_iam_group_policy" {
             ]
         },
         {
-            "Sid": "AllowViewPasswordPolicy&MFADevices",
+            "Sid": "AllowViewPasswordPolicyAndMFADevices",
             "Effect": "Allow",
             "Action": [
                 "iam:GetAccountPasswordPolicy",
@@ -188,7 +188,7 @@ resource "aws_iam_group_policy" "general_eks_group_policy" {
             ]
         },
         {
-            "Sid": "AllowListClusters&AddonVersions",
+            "Sid": "AllowListClustersAndAddonVersions",
             "Effect": "Allow",
             "Action": [
                 "eks:ListClusters",
