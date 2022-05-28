@@ -18,7 +18,7 @@ resource "aws_iam_group" "read_only" {
   path = "/users/"
 }
 
-resource "aws_iam_group_policy" "generalIAM" {
+resource "aws_iam_group_policy" "general_iam_policy" {
   name = "GeneralIAMPolicy"
   group = aws_iam_group.general.name
   policy = jsonencode({
@@ -64,7 +64,7 @@ resource "aws_iam_group_policy" "generalIAM" {
   })
 }
 
-resource "aws_iam_group_policy" "generalEC2" {
+resource "aws_iam_group_policy" "general_ec2_policy" {
   name = "GeneralEC2Policy"
   group = aws_iam_group.general.name
   policy = jsonencode({
@@ -81,7 +81,7 @@ resource "aws_iam_group_policy" "generalEC2" {
   })
 }
 
-resource "aws_iam_group_policy" "generalS3" {
+resource "aws_iam_group_policy" "general_s3_policy" {
   name = "GeneralS3Policy"
   group = aws_iam_group.general.name
   policy = jsonencode({
@@ -155,7 +155,7 @@ resource "aws_iam_group_policy" "generalS3" {
   })
 }
 
-resource "aws_iam_group_policy" "generalEKS" {
+resource "aws_iam_group_policy" "general_eks_policy" {
   name = "GeneralEKSPolicy"
   group = aws_iam_group.general.name
   policy = jsonencode({
@@ -200,7 +200,7 @@ resource "aws_iam_group_policy" "generalEKS" {
   })
 }
 
-resource "aws_iam_group_policy" "developersS3" {
+resource "aws_iam_group_policy" "developers_s3_policy" {
   name = "DevelopersS3Policy"
   group = aws_iam_group.developers.name
   policy = jsonencode({
