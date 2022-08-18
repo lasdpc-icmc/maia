@@ -22,7 +22,6 @@ module "aws_eks" {
   cluster_version = var.cluster_version
 
   worker_groups = [{
-
     asg_desired_capacity  = var.desired_capacity
     asg_max_size          = var.max_size
     asg_min_size          = var.min_size
@@ -36,7 +35,34 @@ module "aws_eks" {
     autoscaling_enabled   = true
     protect_from_scale_in = true
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
+  },
+  {
+    asg_desired_capacity  = "1"
+    asg_max_size          = "2"
+    asg_min_size          = "1"
+    instance_type         = "x2gd.4xlarge"
+    spot_price            = var.spot_price
+    root_volume_size      = "120"
+    root_volume_type      = var.root_volume_type
+    key_name              = var.key_pair
+    ebs_optimized         = true
+    public_ip             = false
+    autoscaling_enabled   = true
+    protect_from_scale_in = true
+    subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
+
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    for user in var.users: 
+      {
+        userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
+        username = user
+        groups   = ["system:masters"]
+      }
+  ]
+
   tags = local.common_tags
    map_users = [
     {
@@ -44,7 +70,7 @@ module "aws_eks" {
       username = "circleci-deploy"
       groups   = ["system:masters"]
     }
-  ]  
+  ]
 }
 
 resource "aws_key_pair" "prod" {
