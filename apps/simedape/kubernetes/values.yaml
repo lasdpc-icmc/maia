@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: simedape-synthetic
+---  
+apiVersion: v1
+kind: Service
+metadata:
+  name: simedape-synthetic-sao-paulo-service
+  namespace: simedape-synthetic
+  labels:
+    app: simedape-synthetic-sao-paulo-app
+    service: simedape-synthetic-sao-paulo-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 22
+    name: ssh
+  selector:
+    app: simedape-synthetic-sao-paulo-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simedape-synthetic-sao-paulo-app
+  namespace: simedape-synthetic
+  labels:
+    app: simedape-synthetic-sao-paulo-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simedape-synthetic-sao-paulo-app
+  template:
+    metadata:
+      labels:
+        app: simedape-synthetic-sao-paulo-app
+    spec:
+      containers:
+      - name: simedape-sao-paulo-synthetic-container
+        image: docker.io/uxhabam/sao_paulo_synthetic:latest
+        ports:
+        - protocol: TCP
+          name: ssh
+          containerPort: 22
+        imagePullPolicy: IfNotPresent
+      nodeSelector:
+        kubernetes.io/os: linux
