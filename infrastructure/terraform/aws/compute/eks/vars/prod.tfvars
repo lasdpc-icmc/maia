@@ -15,4 +15,3 @@ region                     = "us-east-1"
 key_pair                   = "prod"
 resource_name              = "usp-icmc"
 key                        = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCn9tj+F1+xIOpNaqnp9z/NHGIuMUMlwXcy6X0BMAJVP1Joovqqz8yeQ4oYRwcF7fFaQOrhaABZJcZgZkoYiBEqRZEiMXpnH/Fey0IKjM8Eq15GF1BDkN30VxwVwIBhNDZSUS1NtP/L20FFc1BfIdFPLhuHRu12yweD4BSiyUg7XgOqa++mgeIt5TSy9qMNO6sXa4KzuUBY5cRHBeFbifA7Th7rGC3zdj4nvcvGGySAtbHlsxWptGcGy9FzwD8jmfBTMUgk6CbOwmv6RboRwPWM2+9pMuE+oGnN35NaB5UV0uIizUW5KTg2Re3hQsiwPDAWTkSu0xTDA7/9YKuwEX8x"
-users                      = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki", "pedro.grando", "henrique.lecco", "luciana.marques", "franciscorocha"]
