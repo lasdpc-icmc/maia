@@ -41,7 +41,6 @@ module "aws_eks" {
     asg_max_size          = "2"
     asg_min_size          = "1"
     instance_type         = "r6a.8xlarge"
-    spot_price            = "0.50"
     root_volume_size      = "120"
     root_volume_type      = var.root_volume_type
     key_name              = var.key_pair
