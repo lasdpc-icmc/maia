@@ -52,10 +52,21 @@ module "aws_eks" {
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
 
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    for user in var.users: 
+      {
+        userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
+        username = user
+        groups   = ["system:masters"]
+      }
+  ]
+
   tags = local.common_tags
    map_users = [
     {
-      userarn  = "arn:aws:iam::326123346670:user/aws-eks-circleci"
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"
       username = "circleci-deploy"
       groups   = ["system:masters"]
     }
