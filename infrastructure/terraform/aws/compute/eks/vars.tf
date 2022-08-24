@@ -55,3 +55,6 @@ variable "organization" {
 variable "workspace" {
   type = string
 }
+variable "users" {
+  type = list(string)
+}
