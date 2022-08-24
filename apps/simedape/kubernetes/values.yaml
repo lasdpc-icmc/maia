@@ -37,9 +37,18 @@ spec:
       labels:
         app: synthetic-sao-paulo
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.kubernetes.io/instance-type
+                operator: In
+                values:
+                - r6a.8xlarge
       containers:
       - name: synthetic-sao-paulo
-        image: docker.io/uxhabam/sao_paulo_synthetic:latest
+        image: uxhabam/sao_paulo_synthetic:latest
         ports:
         - protocol: TCP
           name: ssh
