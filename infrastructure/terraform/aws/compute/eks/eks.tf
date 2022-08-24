@@ -14,6 +14,17 @@ provider "kubernetes" {
   version                = "1.11.1"
 }
 
+locals {
+  auth_users = [
+    for user in var.users: 
+      {
+        userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
+        username = user
+        groups   = ["system:masters"]
+      }
+  ]
+}
+
 module "aws_eks" {
   source          = "git::https://github.com/terraform-aws-modules/terraform-aws-eks.git?ref=v16.0.0"
   cluster_name    = "${var.env}-${var.resource_name}"
@@ -53,13 +64,13 @@ module "aws_eks" {
   }]
 
   tags = local.common_tags
-   map_users = [
+   map_users = concat([
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"
       username = "circleci-deploy"
       groups   = ["system:masters"]
-    }
-  ]
+    }    
+  ], local.auth_users)
 }
 
 resource "aws_key_pair" "prod" {
