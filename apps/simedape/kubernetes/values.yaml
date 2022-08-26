@@ -2,40 +2,40 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: simedape-synthetic
+  name: simedape-synthetic-sao-paulo
 ---  
 apiVersion: v1
 kind: Service
 metadata:
-  name: synthetic-sao-paulo
-  namespace: simedape-synthetic
+  name: synthetic-sao-paulo-service
+  namespace: simedape-synthetic-sao-paulo
   labels:
-    app: synthetic-sao-paulo
-    service: synthetic-sao-paulo
+    app: synthetic-sao-paulo-app
+    service: synthetic-sao-paulo-service
 spec:
   ports:
   - protocol: TCP
     port: 22
     name: ssh
   selector:
-    app: synthetic-sao-paulo
+    app: synthetic-sao-paulo-app
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: synthetic-sao-paulo
-  namespace: simedape-synthetic
+  name: synthetic-sao-paulo-app
+  namespace: simedape-synthetic-sao-paulo
   labels:
-    app: synthetic-sao-paulo
+    app: synthetic-sao-paulo-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: synthetic-sao-paulo
+      app: synthetic-sao-paulo-app
   template:
     metadata:
       labels:
-        app: synthetic-sao-paulo
+        app: synthetic-sao-paulo-app
     spec:
       affinity:
         nodeAffinity:
@@ -47,7 +47,7 @@ spec:
                 values:
                 - r6a.8xlarge
       containers:
-      - name: synthetic-sao-paulo
+      - name: synthetic-sao-paulo-app
         image: uxhabam/sao_paulo_synthetic:latest
         ports:
         - protocol: TCP
