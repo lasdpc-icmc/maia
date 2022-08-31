@@ -4,6 +4,7 @@ locals {
     "environment" = var.env
     "team"        = "icmc"
     "project"     = "platform"
+    "teste"       = "diego"
   }
 }
 
