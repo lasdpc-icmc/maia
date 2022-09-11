@@ -26,7 +26,7 @@ data "terraform_remote_state" "vpc" {
   config = {
     organization = "${var.organization}"
     workspaces = {
-      name = "aws-vpc-US"
+      name = "${var.workspace}"
     }
   }
 }

@@ -49,6 +49,9 @@ variable "key" {
 variable "organization" {
   type = string
 }
+variable "workspace" {
+  type = string
+}
 variable "users" {
   type = list(string)
 }
