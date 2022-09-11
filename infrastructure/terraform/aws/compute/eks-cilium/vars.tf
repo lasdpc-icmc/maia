@@ -19,16 +19,7 @@ variable "max_size" {
 variable "min_size" {
   type = string
 }
-variable "min_size_on_demand" {
-  type = string
-}
-variable "max_size_on_demand" {
-  type = string
-}
 variable "desired_capacity" {
-  type = string
-}
-variable "desired_capacity_on_demand" {
   type = string
 }
 variable "spot_price" {
