@@ -55,7 +55,7 @@ module "aws_eks" {
     spot_price            = "0.65"
     root_volume_size      = "500"
     root_volume_type      = var.root_volume_type
-    key_name              = var.key_pair
+    key_name              = "${var.workspace}-${var.env}"
     ebs_optimized         = true
     public_ip             = false
     autoscaling_enabled   = true
