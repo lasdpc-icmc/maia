@@ -1,5 +1,5 @@
 resource "aws_iam_user" "usp-eks-deploy-cilium" {
-  name = "${terraform.workspace}-aws-eks-circleci"
+  name = "${var.workspace}-aws-eks-circleci"
 }
 
 resource "aws_iam_access_key" "usp-eks-deploy-cilium" {
