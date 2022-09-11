@@ -40,7 +40,7 @@ module "aws_eks" {
     spot_price            = var.spot_price
     root_volume_size      = var.root_volume_size
     root_volume_type      = var.root_volume_type
-    key_name              = var.key_pair
+    key_name              = "${var.workspace}-${var.env}"
     ebs_optimized         = true
     public_ip             = false
     autoscaling_enabled   = true
@@ -73,7 +73,7 @@ module "aws_eks" {
   ], local.auth_users)
 }
 
-resource "aws_key_pair" "prod" {
-  key_name   = var.env
+resource "aws_key_pair" "eks-cilium" {
+  key_name   = "${var.workspace}-${var.env}"
   public_key = var.key
 }

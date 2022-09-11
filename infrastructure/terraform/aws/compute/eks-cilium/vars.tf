@@ -1,9 +1,6 @@
 variable "env" {
   type = string
 }
-variable "key_pair" {
-  type = string
-}
 variable "region" {
   type = string
 }
