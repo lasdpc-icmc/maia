@@ -48,11 +48,16 @@ spec:
                 - r6a.8xlarge
       containers:
       - name: synthetic-ile-de-france-app
-        image: uxhabam/ile-de-france_synthetic:run_simulation
+        image: uxhabam/ile-de-france_synthetic:latest
+        volumeMounts:
+          - name: synthetic-ile-de-france-volume
+            mountPath: /app/output
         ports:
         - protocol: TCP
           name: ssh
           containerPort: 22
         imagePullPolicy: Always
+      volumes:
+        - name: synthetic-ile-de-france-volume
       nodeSelector:
         kubernetes.io/os: linux
