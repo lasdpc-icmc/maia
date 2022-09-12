@@ -48,7 +48,7 @@ module "aws_eks" {
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   },
   {
-    asg_desired_capacity  = "1"
+    asg_desired_capacity  = "2"
     asg_max_size          = "2"
     asg_min_size          = "1"
     instance_type         = "r6a.8xlarge"
