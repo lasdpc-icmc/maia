@@ -58,7 +58,7 @@ module "aws_eks" {
     key_name              = var.key_pair
     ebs_optimized         = true
     public_ip             = false
-    autoscaling_enabled   = false
+    autoscaling_enabled   = true
     protect_from_scale_in = true
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
