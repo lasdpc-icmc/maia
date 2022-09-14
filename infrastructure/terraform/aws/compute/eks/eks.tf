@@ -51,14 +51,14 @@ module "aws_eks" {
     asg_desired_capacity  = "0"
     asg_max_size          = "0"
     asg_min_size          = "0"
-    instance_type         = "r6a.8xlarge"
+    instance_type         = "t3.nano"
     spot_price            = "0.65"
     root_volume_size      = "520"
     root_volume_type      = var.root_volume_type
     key_name              = var.key_pair
     ebs_optimized         = true
     public_ip             = false
-    autoscaling_enabled   = true
+    autoscaling_enabled   = false
     protect_from_scale_in = true
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
