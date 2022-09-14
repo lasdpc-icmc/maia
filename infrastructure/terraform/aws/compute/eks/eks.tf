@@ -46,6 +46,21 @@ module "aws_eks" {
     autoscaling_enabled   = true
     protect_from_scale_in = true
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
+  },
+  {
+    asg_desired_capacity  = "0"
+    asg_max_size          = "0"
+    asg_min_size          = "0"
+    instance_type         = "r6a.8xlarge"
+    spot_price            = "0.65"
+    root_volume_size      = "520"
+    root_volume_type      = var.root_volume_type
+    key_name              = var.key_pair
+    ebs_optimized         = true
+    public_ip             = false
+    autoscaling_enabled   = true
+    protect_from_scale_in = true
+    subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
 
   tags = local.common_tags
