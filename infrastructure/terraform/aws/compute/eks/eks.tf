@@ -37,7 +37,6 @@ module "aws_eks" {
     asg_max_size          = var.max_size
     asg_min_size          = var.min_size
     instance_type         = var.instance_type
-    spot_price            = var.spot_price
     root_volume_size      = var.root_volume_size
     root_volume_type      = var.root_volume_type
     key_name              = var.key_pair
