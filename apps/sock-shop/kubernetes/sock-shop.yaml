@@ -23,6 +23,7 @@ spec:
     metadata:
       labels:
         name: carts
+        version: v1
     spec:
       containers:
       - name: carts
@@ -91,10 +92,11 @@ spec:
     metadata:
       labels:
         name: carts-db
+        version: v1
     spec:
       containers:
       - name: carts-db
-        image: mongo
+        image: mongo:4.2.23
         ports:
         - name: mongo
           containerPort: 27017
@@ -148,6 +150,7 @@ spec:
     metadata:
       labels:
         name: catalogue
+        version: v1
     spec:
       containers:
       - name: catalogue
@@ -221,6 +224,7 @@ spec:
     metadata:
       labels:
         name: catalogue-db
+        version: v1
     spec:
       containers:
       - name: catalogue-db
@@ -265,6 +269,7 @@ spec:
     metadata:
       labels:
         name: front-end
+        version: v1
     spec:
       containers:
       - name: front-end
@@ -337,6 +342,7 @@ spec:
     metadata:
       labels:
         name: orders
+        version: v1
     spec:
       containers:
       - name: orders
@@ -405,6 +411,7 @@ spec:
     metadata:
       labels:
         name: orders-db
+        version: v1
     spec:
       containers:
       - name: orders-db
@@ -462,6 +469,7 @@ spec:
     metadata:
       labels:
         name: payment
+        version: v1
     spec:
       containers:
       - name: payment
@@ -532,6 +540,7 @@ spec:
     metadata:
       labels:
         name: queue-master
+        version: v1
     spec:
       containers:
       - name: queue-master
@@ -584,6 +593,7 @@ spec:
     metadata:
       labels:
         name: rabbitmq
+        version: v1
       annotations:
         prometheus.io/scrape: "false"
     spec:
@@ -652,6 +662,7 @@ spec:
     metadata:
       labels:
         name: session-db
+        version: v1
       annotations:
         prometheus.io.scrape: "false"
     spec:
@@ -704,6 +715,7 @@ spec:
     metadata:
       labels:
         name: shipping
+        version: v1
     spec:
       containers:
       - name: shipping
@@ -775,6 +787,7 @@ spec:
     metadata:
       labels:
         name: user
+        version: v1
     spec:
       containers:
       - name: user
@@ -849,6 +862,7 @@ spec:
     metadata:
       labels:
         name: user-db
+        version: v1
     spec:
       containers:
       - name: user-db
@@ -910,11 +924,11 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: carts
+  name: cart
   namespace: sock-shop
 spec:
   hosts:
-  - carts
+  - cart
   http:
   - route:
     - destination:
@@ -924,10 +938,10 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: carts
+  name: cart
   namespace: sock-shop
 spec:
-  host: carts
+  host: cart
   subsets:
   - name: v1
     labels:
@@ -1166,6 +1180,8 @@ spec:
     - destination:
         host: rabbitmq
         subset: v1
+        port:
+          number: 9090
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -1252,7 +1268,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: user-db
-  namespace: sock-shop  
+  namespace: sock-shop
 spec:
   host: user-db
   subsets:
