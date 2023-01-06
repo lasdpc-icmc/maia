@@ -415,7 +415,7 @@ spec:
     spec:
       containers:
       - name: orders-db
-        image: mongo
+        image: mongo:4.2.23
         ports:
         - name: mongo
           containerPort: 27017
@@ -941,7 +941,7 @@ metadata:
   name: cart
   namespace: sock-shop
 spec:
-  host: cart
+  host: carts
   subsets:
   - name: v1
     labels:
@@ -1070,7 +1070,7 @@ spec:
   http:
   - route:
     - destination:
-        host: catalogue-db
+        host: orders
         subset: v1
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -1181,7 +1181,7 @@ spec:
         host: rabbitmq
         subset: v1
         port:
-          number: 9090
+          number: 5672
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
