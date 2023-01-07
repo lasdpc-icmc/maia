@@ -31,8 +31,6 @@ module "aws_eks" {
   subnets         = data.terraform_remote_state.vpc.outputs.pub_sn_id
   vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
   cluster_version = var.cluster_version
-  manage_aws_auth_configmap = true
-
 
   worker_groups = [{
     asg_desired_capacity  = var.desired_capacity
