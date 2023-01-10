@@ -617,8 +617,13 @@ spec:
           readOnlyRootFilesystem: true
       - name: rabbitmq-exporter
         image: kbudde/rabbitmq-exporter
+        env:
+        - name: RABBIT_CAPABILITIES
+          value: "bert"
+        - name: PUBLISH_PORT
+          value: "80"
         ports:
-        - containerPort: 9090
+        - containerPort: 80
           name: exporter
       nodeSelector:
         beta.kubernetes.io/os: linux
@@ -629,7 +634,7 @@ metadata:
   name: rabbitmq
   annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '9090'
+        prometheus.io/port: '80'
   labels:
     name: rabbitmq
   namespace: sock-shop
@@ -639,7 +644,7 @@ spec:
   - port: 5672
     name: rabbitmq
     targetPort: 5672
-  - port: 9090
+  - port: 80
     name: exporter
     targetPort: exporter
     protocol: TCP
