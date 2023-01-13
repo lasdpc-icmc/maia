@@ -23,6 +23,7 @@ spec:
     metadata:
       labels:
         name: carts
+        version: v1
     spec:
       containers:
       - name: carts
@@ -91,10 +92,11 @@ spec:
     metadata:
       labels:
         name: carts-db
+        version: v1
     spec:
       containers:
       - name: carts-db
-        image: mongo
+        image: mongo:4.2.23
         ports:
         - name: mongo
           containerPort: 27017
@@ -148,6 +150,7 @@ spec:
     metadata:
       labels:
         name: catalogue
+        version: v1
     spec:
       containers:
       - name: catalogue
@@ -221,6 +224,7 @@ spec:
     metadata:
       labels:
         name: catalogue-db
+        version: v1
     spec:
       containers:
       - name: catalogue-db
@@ -265,6 +269,7 @@ spec:
     metadata:
       labels:
         name: front-end
+        version: v1
     spec:
       containers:
       - name: front-end
@@ -337,6 +342,7 @@ spec:
     metadata:
       labels:
         name: orders
+        version: v1
     spec:
       containers:
       - name: orders
@@ -405,10 +411,11 @@ spec:
     metadata:
       labels:
         name: orders-db
+        version: v1
     spec:
       containers:
       - name: orders-db
-        image: mongo
+        image: mongo:4.2.23
         ports:
         - name: mongo
           containerPort: 27017
@@ -462,6 +469,7 @@ spec:
     metadata:
       labels:
         name: payment
+        version: v1
     spec:
       containers:
       - name: payment
@@ -532,10 +540,11 @@ spec:
     metadata:
       labels:
         name: queue-master
+        version: v1
     spec:
       containers:
       - name: queue-master
-        image: weaveworksdemos/queue-master:0.3.1
+        image: weaveworksdemos/queue-master:master-b8bcfc79
         env:
          - name: JAVA_OPTS
            value: -Xms64m -Xmx128m -XX:+UseG1GC -Djava.security.egd=file:/dev/urandom -Dspring.zipkin.enabled=false
@@ -584,6 +593,7 @@ spec:
     metadata:
       labels:
         name: rabbitmq
+        version: v1
       annotations:
         prometheus.io/scrape: "false"
     spec:
@@ -607,8 +617,13 @@ spec:
           readOnlyRootFilesystem: true
       - name: rabbitmq-exporter
         image: kbudde/rabbitmq-exporter
+        env:
+        - name: RABBIT_CAPABILITIES
+          value: "bert"
+        - name: PUBLISH_PORT
+          value: "80"
         ports:
-        - containerPort: 9090
+        - containerPort: 80
           name: exporter
       nodeSelector:
         beta.kubernetes.io/os: linux
@@ -619,7 +634,7 @@ metadata:
   name: rabbitmq
   annotations:
         prometheus.io/scrape: 'true'
-        prometheus.io/port: '9090'
+        prometheus.io/port: '80'
   labels:
     name: rabbitmq
   namespace: sock-shop
@@ -629,7 +644,7 @@ spec:
   - port: 5672
     name: rabbitmq
     targetPort: 5672
-  - port: 9090
+  - port: 80
     name: exporter
     targetPort: exporter
     protocol: TCP
@@ -652,6 +667,7 @@ spec:
     metadata:
       labels:
         name: session-db
+        version: v1
       annotations:
         prometheus.io.scrape: "false"
     spec:
@@ -704,6 +720,7 @@ spec:
     metadata:
       labels:
         name: shipping
+        version: v1
     spec:
       containers:
       - name: shipping
@@ -775,6 +792,7 @@ spec:
     metadata:
       labels:
         name: user
+        version: v1
     spec:
       containers:
       - name: user
@@ -849,6 +867,7 @@ spec:
     metadata:
       labels:
         name: user-db
+        version: v1
     spec:
       containers:
       - name: user-db
@@ -910,11 +929,11 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: carts
+  name: cart
   namespace: sock-shop
 spec:
   hosts:
-  - carts
+  - cart
   http:
   - route:
     - destination:
@@ -924,7 +943,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: carts
+  name: cart
   namespace: sock-shop
 spec:
   host: carts
@@ -1056,7 +1075,7 @@ spec:
   http:
   - route:
     - destination:
-        host: catalogue-db
+        host: orders
         subset: v1
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -1166,6 +1185,8 @@ spec:
     - destination:
         host: rabbitmq
         subset: v1
+        port:
+          number: 5672
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -1252,7 +1273,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: user-db
-  namespace: sock-shop  
+  namespace: sock-shop
 spec:
   host: user-db
   subsets:
@@ -1260,3 +1281,26 @@ spec:
     labels:
       version: v1
       name: user-db
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: listener-timeout-tcp
+  namespace: istio-system
+spec:
+  configPatches:
+  - applyTo: NETWORK_FILTER
+    match:
+      context: ANY
+      listener:
+        filterChain:
+          filter:
+            name: envoy.filters.network.tcp_proxy
+    patch:
+      operation: MERGE
+      value:
+        name: envoy.filters.network.tcp_proxy
+        typed_config:
+          '@type': type.googleapis.com/envoy.config.filter.network.tcp_proxy.v2.TcpProxy
+          idle_timeout: "0"
+---
