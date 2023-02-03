@@ -48,12 +48,12 @@ To access the monitoring stack services you need to forward the traffic using ku
 Grafana:
 
 ```bash
-kubectl port-forward service/grafana 3000:3000 -n monitoring
+kubectl port-forward service/kube-prometheus-grafana 3000:80 -n monitoring
 ```
 Prometheus:
 
 ```bash
-kubectl port-forward service/prometheus-k8s 9090:9090 -n monitoring
+kubectl port-forward service/prometheus-operated 9090:9090 -n monitoring
 ```
 
 Open your browser in localhost:3000
