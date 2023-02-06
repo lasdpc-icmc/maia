@@ -8,6 +8,10 @@ defaults:
   - &generic
     machine:
       image: ubuntu-2004:202010-01
+
+  - &locust
+    docker:
+      - image: cimg/python:3.8
   
   - &gatling
     docker:
@@ -33,20 +37,6 @@ jobs:
             chmod +x .circleci/common.sh && .circleci/common.sh
             chmod +x .circleci/run_test.sh && .circleci/run_test.sh
 
-  # check_exposed_secrets:
-  #   executor: gitleaks/docker
-  #   working_directory: /home/gitleaks/project
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         command: |
-  #           gitleaks detect --no-git -v
-
-  #     - run:
-  #         name: Exposed secrets warning
-  #         command: echo "$(<.circleci/exposed-secrets-warning.txt)" && exit 1;
-  #         when: on_fail
-
   build:
     <<: *docker
     steps:
@@ -69,7 +59,7 @@ jobs:
           command: |
             chmod +x .circleci/deploy.sh && .circleci/deploy.sh
 
-  load_test:
+  load_test_gatling:
     <<: *gatling
     steps:
       - checkout
@@ -79,6 +69,15 @@ jobs:
           command: |
               chmod +x .circleci/gatling.sh && .circleci/gatling.sh
           
+  load_test_locust:
+    <<: *locust
+    steps:
+      - checkout
+      - run:
+          name: Locust Load Test
+          command: |
+              chmod +x .circleci/locust.sh && .circleci/locust.sh
+  
   rollback:
     <<: *docker
     steps:
@@ -108,15 +107,24 @@ workflows:
           requires:
             - approve_deploy
           <<: *tag_only        
-      - approve_load_test:
+      - approve_load_test_gatling:
           type: approval
           requires:
             - deploy
           <<: *tag_only           
-      - load_test:
+      - load_test_gatling:
           requires:
-            - approve_load_test
-          <<: *tag_only                  
+            - approve_load_test_gatling
+          <<: *tag_only     
+      - approve_load_test_locust:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only           
+      - load_test_locust:
+          requires:
+            - approve_load_test_locust
+          <<: *tag_only                
       - approve_rollback:
           type: approval
           requires:
