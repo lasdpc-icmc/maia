@@ -6,6 +6,13 @@
 * poetry > 0.12
 * docker
 
+
+To install poetry using python3:
+
+```bash
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
 ## Mechanisms
 
 We have a simple tool to deal with all applications over different environments, on the flow section we'll describe how to use all of them. 
