@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -xe
+
+function dev-environment() {
+    if [[ ! -z "$RUNNING_IN_DOCKER" ]]; then
+        $@
+    else
+        docker run --rm -it \
+            -v $(pwd):/root/workspace \
+            -v /tmp/poetry-cache:/root/.cache \
+            -e RUNNING_IN_DOCKER=true \
+            --env-file .env \
+            -w /root/workspace \
+            --network host \
+            $(docker build -q .) \
+            $@
+    fi
+}
+
+function dev-data-cleaning() {
+    dev-environment poetry install
+    dev-environment run data_cleaning.py --reload --log-level debug
+}
+
+function prod-data-cleaning() {
+    poetry install
+    poetry run data_cleaning.py
+}
+
+function dev-deep-log() {
+    dev-environment poetry install
+    dev-environment run deep_log.py --reload --log-level debug
+}
+
+function prod-deep-log() {
+    poetry install
+    poetry run deep_log.py
+}
+
+function dev-drain-parser() {
+    dev-environment poetry install
+    dev-environment run drain_parser.py --reload --log-level debug
+}
+
+function prod-drain-parser() {
+    poetry install
+    poetry run drain_parser.py
+}
+
+function dev-shell() {
+    dev-environment bash $@
+}
+
+function python() {
+    dev-environment poetry run python $@
+}
+
+function build() {
+    docker build -t marea-turbo:v1 .
+}
+
+function help() {
+    echo "CLI utility for managing this project"
+    echo ""
+    echo "OPTIONS:"
+    echo "  dev-shell               Runs shell in local dev enviornment"
+    echo "  dev-server [options]    Runs development server"
+    echo "                          the options are the same of python manage.py runserver"
+    echo "  dev-consumer            Runs the feature switch queue consumer"
+    echo "  cluster [options]       Manages local development cluster with kind"
+    echo "  build                   Build Marea Turbo Docker image"
+    echo ""
+}
+
+function main() {
+    local subcommands=(
+        build
+        cluster
+        watch-python
+        dev-data-cleaning
+        prod-data-cleaning
+        dev-deep-log
+        prod-deep-log
+        dev-drain-parser
+        prod-drain-parser
+    )
+
+    if [[ " ${subcommands[@]} " =~ " $1 " ]]; then
+        $@
+    else
+        help
+    fi
+}
+
+main $@
