@@ -16,4 +16,4 @@ chmod 600 ~/.kube/config
 # Rollback to the last RS version
 
 kubectl_run rollout undo deployment $APP -n $APP
-kubectl_run rollout status deployment $APP -n $APP || kubectl_run rollout status statefulset $APP -n $APP
+kubectl get deploy -o name -n $APP | xargs -n1 -t kubectl rollout status -n $APP
