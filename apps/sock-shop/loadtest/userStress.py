@@ -1,16 +1,9 @@
 from locust import HttpUser, between, task
 from locust.exception import StopUser
 from base64 import b64encode
-from random import choice, randint
-from string import ascii_lowercase, digits
+from random import randint
 
-
-def randomword(length):
-    return ''.join(choice(ascii_lowercase) for i in range(length))
-
-
-def randomdigits(length):
-    return ''.join(choice(digits) for i in range(length))
+from common import create_random_user, get_random_card, get_random_address
 
 
 def gen_base64_login(username, password):
@@ -25,29 +18,12 @@ class UserStresser(HttpUser):
         self.user_info = {}
         super().__init__(*args, **kwargs)
 
-    def create_random_user(self):
-        self.user_info = {
-            "username": randomword(10),
-            "password": randomword(20),
-            "email": randomword(5) + "@" + randomword(5) + ".com",
-            "firstName": randomword(5),
-            "lastName": randomword(5)
-        }
-
-        with self.client.post("/register",
-                              json=self.user_info,
-                              catch_response=True) as resp:
-
-            if not resp.ok:
-                resp.failure("Failed user registration")
-                raise StopUser
-
     def on_start(self):
-        self.create_random_user()
+        self.user_info = create_random_user(self)
 
     @task(1)
     def create_new_user(self):
-        self.create_random_user()
+        self.user_info = create_random_user(self)
 
     @task(10)
     def fail_register(self):
@@ -67,35 +43,25 @@ class UserStresser(HttpUser):
         b64login = gen_base64_login(self.user_info["username"],
                                     self.user_info["password"])
 
-        with self.client.get("/login",
-                             headers={"Authorization": b64login},
-                             catch_response=True) as resp:
-            if not resp.ok:
-                resp.failure("Could not log in again")
-                raise StopUser
+        resp = self.client.get("/login", headers={"Authorization": b64login})
+        if not resp.ok:
+            raise StopUser
 
     @task(10)
     def post_card(self):
-        new_card = {
-            "longNum": randomdigits(16),
-            "ccv": randomdigits(3),
-            "expires": f'{randint(1, 12)}/{randint(2020,2050)}'
-        }
+        new_card = get_random_card()
 
-        with self.client.post("/cards", json=new_card,
-                              catch_response=True) as resp:
-            if not resp.ok:
-                resp.failure("Failed adding card")
-                return
-            resp_json = resp.json()
-            card_id = resp_json["id"]
+        resp = self.client.post("/cards", json=new_card)
+        if not resp.ok:
+            return
+        
+        card_id = resp.json()["id"]
 
         with self.client.get(f"/cards/{card_id}",
                              catch_response=True,
                              name="/cards/<card_id>") as resp:
-            
-            if (not resp.ok) or ("error" in resp.json().keys()):
-                resp.failure("Failed getting new card")
+
+            if not resp.ok:
                 return
             resp_json = resp.json()
 
@@ -106,29 +72,15 @@ class UserStresser(HttpUser):
 
     @task(5)
     def post_address(self):
-        new_address = {
-            "street": randomword(30),
-            "number": randomdigits(4),
-            "country": randomword(10),
-            "city": randomword(10),
-            "postcode": randomdigits(8)
-        }
+        new_address = get_random_address()
 
-        with self.client.post("/addresses",
-                              json=new_address,
-                              catch_response=True) as resp:
-            
-            if (not resp.ok) or ("error" in resp.json().keys()):
-                resp.failure("Failed adding address")
-                return
+        self.client.post("/addresses", json=new_address)
 
-        # as the path /addresses/<address_id> is not implemented, 
+        # as the path /addresses/<address_id> is not implemented,
         # there is no way to check if the data is correct for a given request,
         # only the first address can be accessed at /address
 
     @task(5)
     def get_full_db(self):
         for path in ["customers", "cards", "addresses"]:
-            with self.client.get(f"/{path}", catch_response=True) as resp:
-                if not resp.ok:
-                    resp.failure(f"Failed getting {path}")
+            self.client.get(f"/{path}")
