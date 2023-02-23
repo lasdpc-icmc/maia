@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.9.7
 
 RUN apt update && apt install -y tree fzf entr
 RUN pip install poetry
