@@ -10,7 +10,7 @@ install_awscli_kubectl
 aws_credentials
 pip install locust
 
-for file in `find apps/$APP/loadtest/ -type f |grep "\.py$"`; do
+for file in `find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$"`; do
     locust                                      \
         --headless                              \
         --config apps/$APP/loadtest/locust.conf \
