@@ -8,3 +8,4 @@ username_read_only  = []
 
 bucket_states_name  = "terraform-lasdpc-states"
 bucket_gatling_name = "lasdpc-gatling-results"
+bucket_locust_name  = "lasdpc-locust-results"
