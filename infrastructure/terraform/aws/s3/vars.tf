@@ -4,6 +4,9 @@ variable "app_name" {
 variable "app_gatling" {
   type = string
 }
+variable "app_locust" {
+  type = string
+}
 variable "resource_name" {
   type = string
 }
