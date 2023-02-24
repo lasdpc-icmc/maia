@@ -10,13 +10,17 @@ install_awscli_kubectl
 aws_credentials
 pip install locust
 
-# Run loadTest
-locust                                      \
-    --headless                              \
-    --config apps/$APP/loadtest/locust.conf \
-    -f apps/$APP/loadtest/locustfile.py     \
-    --html result.html
+for file in `find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$"`; do
+    locust                                      \
+        --headless                              \
+        --config apps/$APP/loadtest/locust.conf \
+        -f $file                                \
+        --html $(echo $file| cut -d'/' -f 4 | cut -d'.' -f 1).html
+done
+
+tar czf result.tar.gz *.html
 
 # Save results to S3
-aws_run s3 cp result.html \
-    s3://lasdpc-locust-results/$APP/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.html
+aws_run s3 cp result.tar.gz \
+    s3://lasdpc-locust-results/$APP/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.tar.gz
+

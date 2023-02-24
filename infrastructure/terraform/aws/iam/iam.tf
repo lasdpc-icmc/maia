@@ -137,8 +137,10 @@ resource "aws_iam_group_policy" "general_s3_group_policy" {
                 "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
                 "arn:aws:s3:::${var.bucket_states_name}",
                 "arn:aws:s3:::${var.bucket_gatling_name}",
+                "arn:aws:s3:::${var.bucket_locust_name}",
                 "arn:aws:s3:::${var.bucket_states_name}/*",
-                "arn:aws:s3:::${var.bucket_gatling_name}/*"
+                "arn:aws:s3:::${var.bucket_gatling_name}/*",
+                "arn:aws:s3:::${var.bucket_locust_name}/*"
             ]
         },
         {
@@ -242,8 +244,10 @@ resource "aws_iam_group_policy" "developers_s3_group_policy" {
                 "arn:aws:s3:${var.region}:${data.aws_caller_identity.this.account_id}:job/*",
                 "arn:aws:s3:::${var.bucket_states_name}",
                 "arn:aws:s3:::${var.bucket_gatling_name}",
+                "arn:aws:s3:::${var.bucket_locust_name}",
                 "arn:aws:s3:::${var.bucket_states_name}/*",
-                "arn:aws:s3:::${var.bucket_gatling_name}/*"
+                "arn:aws:s3:::${var.bucket_gatling_name}/*",
+                "arn:aws:s3:::${var.bucket_locust_name}/*"
             ]
         },
         {
