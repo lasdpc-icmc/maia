@@ -19,31 +19,42 @@ def remove_header(lines):
 import re
 
 
-def clean_book(lines):
+def clean_sock(lines):
+    '''
+    Remove unimportant information from the logs lines before parse them using Drain3
+    :param lines: list, lines of logs
+    :return: clean_log, list with the cleaned log lines
+    :return: time_log, list with the time in which the logs were generated
+
+    '''
     clean_log = []
     time_log = []
-    lines = remove_header(lines)
-    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
-    time_pattern1 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
-    ascii_pattern = r"\\u0009|\\n"
-    colch = r"\{|\}"
-    aspas = r"\"|\""
-    for i in lines:
-        i = re.sub(time_pattern, '', i)
-        i = re.sub(time_pattern1, '', i)
-        i = re.sub(ascii_pattern, ' ', i)
-        #i = re.sub(colch, '', i)
-        #i = i.split('"stream"')[0]
-        #i = re.sub(aspas, '', i)
-        i = i.replace('\t', '')
 
-        to_json = json.loads(i)
-        del to_json['stream']
-        time = to_json.pop('time')
-        key = to_json['log'].lstrip(' ')
+    #lines = remove_header(lines)
+    time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
+    time_pattern_get2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    time_pattern_remove = r"\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\]"
+    time_pattern_remove2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
+    ascii_pattern = r"\\n"
+    
+    
+    for i in lines:
+        time = re.findall(time_pattern_get, i)
+        time = re.findall(time_pattern_get2, i)
+        i = re.sub(time_pattern_remove, '', i)
+        i = re.sub(time_pattern_remove2, '', i)
+        i = re.sub(ascii_pattern, ' ', i)
+        
+        i = i.replace('\t', ' ')
+
+
+        key = i
+
 
         clean_log.append(key)
         time_log.append(time)
+
 
     return clean_log, time_log
 
