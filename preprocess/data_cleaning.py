@@ -1,9 +1,6 @@
 
 import json
-
-
-
-
+import re
 
 
 def remove_header(lines):
@@ -16,10 +13,38 @@ def remove_header(lines):
 
     return lines
 
-import re
 
 
-def clean_sock(lines):
+def clean_book(lines):
+    clean_log = []
+    time_log = []
+    lines = remove_header(lines)
+    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
+    time_pattern1 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    ascii_pattern = r"\\u0009|\\n"
+    colch = r"\{|\}"
+    aspas = r"\"|\""
+    for i in lines:
+        i = re.sub(time_pattern, '', i)
+        i = re.sub(time_pattern1, '', i)
+        i = re.sub(ascii_pattern, ' ', i)
+        #i = re.sub(colch, '', i)
+        #i = i.split('"stream"')[0]
+        #i = re.sub(aspas, '', i)
+        i = i.replace('\t', '')
+
+        to_json = json.loads(i)
+        del to_json['stream']
+        time = to_json.pop('time')
+        key = to_json['log'].lstrip(' ')
+
+        clean_log.append(key)
+        time_log.append(time)
+
+    return clean_log, time_log
+
+
+def clean_sockv1(lines):
     '''
     Remove unimportant information from the logs lines before parse them using Drain3
     :param lines: list, lines of logs
@@ -31,25 +56,27 @@ def clean_sock(lines):
     time_log = []
 
     #lines = remove_header(lines)
-    time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
-    time_pattern_get2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
-    time_pattern_remove = r"\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\]"
-    time_pattern_remove2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z"
     time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
     ascii_pattern = r"\\n"
-    
-    
+    print(lines)
     for i in lines:
-        time = re.findall(time_pattern_get, i)
-        time = re.findall(time_pattern_get2, i)
-        i = re.sub(time_pattern_remove, '', i)
-        i = re.sub(time_pattern_remove2, '', i)
+        i = re.sub(time_pattern, '', i)
+        i = re.sub(time_pattern2, '', i)
         i = re.sub(ascii_pattern, ' ', i)
-        
-        i = i.replace('\t', ' ')
+
+        #i = re.sub(colch, '', i)
+        #i = i.split('"stream"')[0]
+        #i = re.sub(aspas, '', i)
+        i = i.replace('\t', '')
 
 
-        key = i
+        to_json = json.loads(i)
+
+
+        del to_json['stream']
+        time = to_json.pop('time')
+        key = to_json['log']
 
 
         clean_log.append(key)
@@ -70,24 +97,42 @@ def clean_sock(lines):
     clean_log = []
     time_log = []
 
-    lines = remove_header(lines)
-    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    #lines = remove_header(lines)
+    time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
+    time_pattern_get2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    time_pattern_remove = r"\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\]"
+    time_pattern_remove2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
+    time_pattern_remove3 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"
+    time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
     ascii_pattern = r"\\n"
+    log = r"\{'log': '"
+
+
+    
+
     for i in lines:
-        i = re.sub(time_pattern, '', i)
+
+
+        i = i[i.index("{'log'"):]
+        
+
+        time = i[i.index("'time': "):]
+        time = re.sub(r"'time':", '', time).replace('}', '')
+
+        i = i[:i.index("'stream'")]
+
+        time = 0
+
+
+        i = re.sub(time_pattern_remove, '', i)
+        i = re.sub(time_pattern_remove2, '', i)
+        i = re.sub(time_pattern_remove3, '', i)
         i = re.sub(ascii_pattern, ' ', i)
+        i = re.sub(log, ' ', i)
 
-        #i = re.sub(colch, '', i)
-        #i = i.split('"stream"')[0]
-        #i = re.sub(aspas, '', i)
-        i = i.replace('\t', '')
+        i = i.replace('\t', ' ')
 
-        to_json = json.loads(i)
-        del to_json['stream']
-        time = to_json.pop('time')
-        key = to_json['log']
-
-
+        key = i
         clean_log.append(key)
         time_log.append(time)
 
@@ -123,7 +168,9 @@ def read_logs(archive_path):
         lines = f.readlines()
         lines = [i.replace('\n', '') for i in lines]
 
-
     return lines
 
 
+
+# lines = read_logs('sock-shop_test.txt')
+# clean_log, time_log = clean_sock(lines)
