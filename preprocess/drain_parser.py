@@ -14,7 +14,7 @@ from drain3.template_miner_config import TemplateMinerConfig
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(message)s')
 
-from preprocess.data_cleaning import clean_book, write_logs
+from data_cleaning import clean_sock, read_logs, write_logs
 
 
 
@@ -106,4 +106,9 @@ def log_parser(clean_lines):
 
 
 
-log_parser(clean_lines)
+## Exemplo de utilização:
+initial_logs = read_logs('sock-shop_test.txt')
+cleansed_logs, time_logs = clean_sock(initial_logs)
+
+
+log_parser(cleansed_logs)
