@@ -26,7 +26,7 @@ preprocessor = Preprocessor(
 
 # Load normal data from HDFS dataset
 X, y, label, mapping = preprocessor.text(
-    path    = "../book_logs.txt",
+    path    = "book_logs.txt",
     verbose = True,
     # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
 )

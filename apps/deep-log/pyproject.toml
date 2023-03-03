@@ -5,10 +5,10 @@ description = "Metrics application data collection"
 authors = ["diegopedroso@usp.br"]
 
 [tool.poetry.dependencies]
-python = "^3.9.7"
+python = "^3.9.13"
 numpy = "^1.22.0"
 torch-train = "^0.0.1"
-torch = "^1.13.1"
+torch = "^1.13.0"
 argformat = "^0.0.1"
 scikit_learn = "^1.2.0"
 drain3 = "^0.9.11"

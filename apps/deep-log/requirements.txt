@@ -4,4 +4,6 @@ torch==1.13.1
 argformat==0.0.1
 scikit_learn==1.2.0
 drain3 ==0.9.11
-datetime
+tqdm ==4.64.1
+deeplog ==0.0.3
+pandas==1.5.3
