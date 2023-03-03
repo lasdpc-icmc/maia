@@ -7,6 +7,7 @@ import subprocess
 import sys
 import time
 from os.path import dirname
+import datetime
 
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
@@ -22,13 +23,14 @@ from data_cleaning import clean_sock, read_logs, write_logs
 
 
 
-def log_parser(clean_lines):
+def log_parser(clean_lines, write_txt = True):
     '''
     Write parsed logs in .txt files
     book_logs_cluster - .txt with the constant part of logs encoded
     book_logs_values - .txt with the parameter values of logs
 
     :param clean_lines: list with logs lines to be parsed
+    write_txt: if True, writes clusters id and values on a .txt file, otherwise will return cluster_list, value_list
     :return: None
     '''
 
@@ -86,10 +88,6 @@ def log_parser(clean_lines):
 
 
 
-    write_logs(cluster_list, 'book_logs_cluster.txt')
-    write_logs(value_list, 'book_logs_values.txt')
-
-
 
     time_took = time.time() - start_time
     rate = line_count / time_took
@@ -104,11 +102,20 @@ def log_parser(clean_lines):
     template_miner.drain.print_tree()
     template_miner.profiler.report(0)
 
+    if write_txt:
+        
+        actual_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        write_logs(cluster_list, f'cluster_{actual_time}.txt')
+        write_logs(value_list, f'values_{actual_time}.txt')
+    
+    else:
+
+        return cluster_list, value_list
+
 
 
 ## Exemplo de utilização:
 initial_logs = read_logs('sock-shop_test.txt')
 cleansed_logs, time_logs = clean_sock(initial_logs)
-
 
 log_parser(cleansed_logs)
