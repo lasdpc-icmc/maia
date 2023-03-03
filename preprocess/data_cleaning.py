@@ -121,7 +121,6 @@ def clean_sock(lines):
 
         i = i[:i.index("'stream'")]
 
-        time = 0
 
 
         i = re.sub(time_pattern_remove, '', i)
@@ -129,8 +128,11 @@ def clean_sock(lines):
         i = re.sub(time_pattern_remove3, '', i)
         i = re.sub(ascii_pattern, ' ', i)
         i = re.sub(log, ' ', i)
+        
+        
 
         i = i.replace('\t', ' ')
+        i = i.replace('"', '')
 
         key = i
         clean_log.append(key)
