@@ -44,48 +44,6 @@ def clean_book(lines):
     return clean_log, time_log
 
 
-def clean_sockv1(lines):
-    '''
-    Remove unimportant information from the logs lines before parse them using Drain3
-    :param lines: list, lines of logs
-    :return: clean_log, list with the cleaned log lines
-    :return: time_log, list with the time in which the logs were generated
-
-    '''
-    clean_log = []
-    time_log = []
-
-    #lines = remove_header(lines)
-    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{9}Z"
-    time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
-    ascii_pattern = r"\\n"
-    print(lines)
-    for i in lines:
-        i = re.sub(time_pattern, '', i)
-        i = re.sub(time_pattern2, '', i)
-        i = re.sub(ascii_pattern, ' ', i)
-
-        #i = re.sub(colch, '', i)
-        #i = i.split('"stream"')[0]
-        #i = re.sub(aspas, '', i)
-        i = i.replace('\t', '')
-
-
-        to_json = json.loads(i)
-
-
-        del to_json['stream']
-        time = to_json.pop('time')
-        key = to_json['log']
-
-
-        clean_log.append(key)
-        time_log.append(time)
-
-
-    return clean_log, time_log
-
-
 def clean_sock(lines):
     '''
     Remove unimportant information from the logs lines before parse them using Drain3
@@ -108,13 +66,9 @@ def clean_sock(lines):
     log = r"\{'log': '"
 
 
-    
-
     for i in lines:
 
-
         i = i[i.index("{'log'"):]
-        
 
         time = i[i.index("'time': "):]
         time = re.sub(r"'time':", '', time).replace('}', '')

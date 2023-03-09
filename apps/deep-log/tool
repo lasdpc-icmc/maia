@@ -7,7 +7,6 @@ function dev-environment() {
     else
         docker run --rm -it \
             -v $(pwd):/root/workspace \
-            -v /tmp/poetry-cache:/root/.cache \
             -e RUNNING_IN_DOCKER=true \
             --env-file .env \
             -w /root/workspace \
@@ -17,34 +16,35 @@ function dev-environment() {
     fi
 }
 
-function dev-data-cleaning() {
-    dev-environment poetry install
-    dev-environment run data_cleaning.py --reload --log-level debug
+function dev-loki() {
+    dev-environment pip install -r requirements.txt
+    dev-environment python loki.py --reload --log-level debug
 }
 
-function prod-data-cleaning() {
-    poetry install
-    poetry run data_cleaning.py
-}
-
-function dev-deep-log() {
-    dev-environment poetry install
-    dev-environment run deep_log.py --reload --log-level debug
-}
-
-function prod-deep-log() {
-    poetry install
-    poetry run deep_log.py
+function prod-loki() {
+    pip install -r requirements.txt
+    python loki.py
 }
 
 function dev-drain-parser() {
-    dev-environment poetry install
-    dev-environment run drain_parser.py --reload --log-level debug
+    dev-environment pip install -r requirements.txt
+    dev-environment python drain_parser.py --reload --log-level debug
 }
 
 function prod-drain-parser() {
-    poetry install
-    poetry run drain_parser.py
+    dev-environment pip install -r requirements.txt
+    dev-environment python  --reload --log-level debug
+}
+
+
+function dev-deep-log() {
+    pip install -r requirements.txt
+    python deep_log.py --reload --log-level debug
+}
+
+function prod-deep-log() {
+    pip install -r requirements.txt
+    python deep_log.py
 }
 
 function dev-shell() {
@@ -52,11 +52,11 @@ function dev-shell() {
 }
 
 function python() {
-    dev-environment poetry run python $@
+    dev-environment python $@
 }
 
 function build() {
-    docker build -t marea-turbo:v1 .
+    docker build -t deep-log:v1 .
 }
 
 function help() {
@@ -68,7 +68,7 @@ function help() {
     echo "                          the options are the same of python manage.py runserver"
     echo "  dev-consumer            Runs the feature switch queue consumer"
     echo "  cluster [options]       Manages local development cluster with kind"
-    echo "  build                   Build Marea Turbo Docker image"
+    echo "  build                   Build Deep Log Docker image"
     echo ""
 }
 

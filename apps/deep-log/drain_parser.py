@@ -9,6 +9,7 @@ import time
 from os.path import dirname
 import datetime
 import aws_tools
+from loki import file_name
 
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
@@ -82,9 +83,6 @@ def log_parser(clean_lines, write_txt = True):
 
 
 
-
-
-
     time_took = time.time() - start_time
     rate = line_count / time_took
     logger.info(f"--- Done processing file in {time_took:.2f} sec. Total of {line_count} lines, rate {rate:.1f} lines/sec, "
@@ -100,9 +98,8 @@ def log_parser(clean_lines, write_txt = True):
 
     if write_txt:
         
-        actual_time = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-        write_logs(cluster_list, f'cluster_{actual_time}.txt')
-        write_logs(value_list, f'values_{actual_time}.txt')
+        write_logs(cluster_list, f'cluster_{file_name}')
+        write_logs(value_list, f'values_{file_name}')
     
     else:
 
@@ -111,12 +108,16 @@ def log_parser(clean_lines, write_txt = True):
 
 
 ## Exemplo de utilização:
-
-file_name = "sock-shop_1677876783.txt"
 prefix = "raw/"
 aws_tools.get_to_s3(file_name, prefix)
+print (f"download the file '{file_name}' from S3")
 
-# initial_logs = read_logs(new_filename)
-# cleansed_logs, time_logs = clean_sock(initial_logs)
+initial_logs = read_logs(file_name)
+cleansed_logs, time_logs = clean_sock(initial_logs)
 
-# log_parser(cleansed_logs)
+log_parser(cleansed_logs)
+
+## Upload results to S3
+s3_path = "clean"
+aws_tools.upload_to_s3(f'cluster_{file_name}', s3_path)
+aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
