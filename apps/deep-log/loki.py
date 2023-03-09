@@ -8,6 +8,7 @@ import aws_tools
 # Define environment variables
 LOKI_URL = os.environ['LOKI_URL']
 APP_NAME = os.environ['APP_NAME']
+CONTEXT = os.environ['CONTEXT']
 TIME_RANGE = int(os.environ['TIME_RANGE'])
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -19,7 +20,7 @@ end_time = int(time.time())  # current time in seconds
 start_time = end_time - TIME_RANGE  # TIME_RANGE seconds ago
 global file_name
 # Define the query for the logs
-query = '{namespace="' + APP_NAME + '"}'
+query = '{namespace ="' + APP_NAME + '"}'
 
 # Define the parameters for the query
 params = {
@@ -55,10 +56,10 @@ if response.status_code == 200:
                 f.write(f"{stream} {timestamp} {parsed_log}\n")
     
     # Upload the file to S3
-
     s3_path = "raw"
     aws_tools.upload_to_s3(file_name, s3_path)
-    
+    os.remove(file_name)
+
 else:
     # Print the error message and content if the request failed
     print("Error fetching logs from Loki API. Status code: ", response.status_code)

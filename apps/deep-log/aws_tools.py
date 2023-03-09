@@ -11,7 +11,6 @@ def upload_to_s3(file_name, s3_path):
     try:
         s3.Bucket(bucket_name).upload_file(file_name, s3_file_path)
         print("Upload successful")
-        os.remove(file_name)
     except Exception as e:
         print("Upload failed:", e)
 

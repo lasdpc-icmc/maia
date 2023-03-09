@@ -1,16 +1,15 @@
-# Marea Turbo - Deep Log application
+# Deep Log application
 
 ## Dependencies
 
 * python > 3.9
-* poetry > 0.12
 * docker
 
 
-To install poetry using python3:
+To build the docker image:
 
 ```bash
-curl -sSL https://install.python-poetry.org | python3 -
+docker build -t deep_log:v1 .
 ```
 
 ## Mechanisms
@@ -26,17 +25,19 @@ Basically, we have dev and prod environments, with the **tool** script we just c
 To install all dependencies and create a python virtual environment:
 
 ```bash
-poetry install
+virtualenv env
+source env/bin/activate
+pip install -r requirements.txt
 ```
 
 To run the Drain Parsen application locally, using a Docker container:
 
 ```bash
-./tool dev-drain-parser
+./tool dev-loki
 ```
 
 ```bash
-./tool prod-drain-parser
+./tool dev-deep-log
 ```
 
 Both will run the same code, but in the dev environment, we have some parameters enabled to improve the code delivery and test locally.
