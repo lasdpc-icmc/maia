@@ -12,12 +12,14 @@ defaults:
   - &locust
     docker:
       - image: cimg/python:3.8
+      - image: containersol/locust_exporter:v0.5.0
   
   - &gatling
     docker:
       - image: cimg/openjdk:8.0.322-browsers
 
-  - &tag /.*\/\d{8}.\d{2}$/
+  - &tag /[^\/]*\/\d{8}.\d{2}$/
+  - &load_test_tag /[^\/]*\/[^\/]*\/[0-9]+(s|m)\/\d{8}.\d{2}$/
 
   - &tag_only
     filters:
@@ -25,6 +27,13 @@ defaults:
         ignore: /.*/
       tags:
         only: *tag
+  
+  - &load_test_tag_only
+    filters:
+      branches:
+        ignore: /.*/
+      tags:
+        only: *load_test_tag
 
 jobs:
   code_test:
@@ -134,3 +143,8 @@ workflows:
           requires:
             - approve_rollback
           <<: *tag_only
+
+  load_test_only:
+    jobs:
+      - load_test_locust:
+          <<: *load_test_tag_only 
