@@ -10,17 +10,46 @@ install_awscli_kubectl
 aws_credentials
 pip install locust
 
-for file in `find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$"`; do
+
+run_locust() {
     locust                                      \
-        --headless                              \
+        --autostart --autoquit 15               \
         --config apps/$APP/loadtest/locust.conf \
-        -f $file                                \
-        --html $(echo $file| cut -d'/' -f 4 | cut -d'.' -f 1).html
-done
+        -f $1 -t $2                             \
+}
 
-tar czf result.tar.gz *.html
+loadtest_all_files() {
+    for file in `find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$"`; do
+        run_locust $file "60s"
+    done
+}
 
-# Save results to S3
-aws_run s3 cp result.tar.gz \
-    s3://lasdpc-locust-results/$APP/$APP-$(date +%Y-%m-%d)-$CIRCLE_PREVIOUS_BUILD_NUM.tar.gz
+send_metrics() {
+    while true
+    do
+        curl localhost:9646/metrics -o locust.metrics
+        push_to_s3
+        sleep 15
+    done
+}
+
+push_to_s3(){
+    aws_run s3 cp locust.metrics \
+        s3://lasdpc-locust-results/$APP/locust.metrics
+}
+
+#start background metrics sending process
+send_metrics &
+
+if [ -z $(echo $CIRCLE_TAG | awk -F "(/)" '{print $4}') ]
+then
+    loadtest_all_files
+else
+    file=apps/$APP/loadtest/$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}').py
+    runtime=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $3}')
+    run_locust $file $runtime
+fi
+
+#kill background metrics sending process
+kill $(jobs -p)
 
