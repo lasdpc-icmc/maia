@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: locust-metrics-distributor
+spec:
+  schedule: "1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: locust-metrics-distributor
+            image: locust-metrics-distributor:CIRCLE_TAG_REPLACE
+            env:
+            - name: AWS_SECRET_ACCESS_KEY
+              value: "LOCUST_DIST_SECRET_KEY_REPLACE"
+            - name: AWS_ACCESS_KEY_ID
+              value: "LOCUST_DIST_KEY_ID_REPLACE"
+            - name: PUSHGATEWAY_URL
+              value: "http://pushgateway-prometheus-pushgateway.metrics"
+

@@ -1,52 +1,33 @@
+import os
 import boto3
-import flask
-import threading
+import requests
 import time
-import datetime
-from botocore.exceptions import ClientError
 
-locust_metrics_file = "/tmp/locust.metrics"
-file_lock = threading.Lock()
+# Set general variables
+Bucket = os.environ['BUCKET_NAME']
+Key = os.environ['KEY_NAME']
+pushgateway_url = os.environ['PUSHGATEWAY_URL']
+metrics_filename = "/tmp/locust.metrics"
 
-server = flask.Flask("locust-metrics-distributor")
+# Get s3 client
+client = boto3.client("s3")
 
-@server.route("/metrics")
-def send_metris():
-    while file_lock.locked():
-        time.sleep(0.1)
-    return flask.send_file(locust_metrics_file)
+# Download file
+client.download_file(Bucket, Key, metrics_filename)
 
-def get_metrics_s3():
-    client = boto3.client("s3")
+# Get metrics data itself
+metrics_file = open(metrics_filename, "rb")
+metrics_data = metrics_file.read()
+metrics_file.close()
 
-    lasttime = datetime.datetime(2015, 1, 1)
-    while True:
-        try:
-            response = client.get_object(
-                Bucket="lasdpc-locust-results",
-                Key="sock-shop/locust.metrics",
-                IfModifiedSince=lasttime
-            )
-        except ClientError as e:
-            if e.response["Error"]["Code"] != 304:
-                print("Error", e.response["Error"]["Message"])
-            time.sleep(15)
-            continue
+response = requests.post(
+    pushgateway_url + "/metrics/job/locust-metrics",
+    data=metrics_data
+)
 
-        file_lock.acquire()
-        f = open(locust_metrics_file, "wb")
-        f.write(response["Body"].read())
-        f.close()
-        file_lock.release()
+if response.status_code >= 400:
+    print("Error posting metrics")
+    exit(-1)
 
-        lasttime = datetime.datetime.utcnow()
+time.sleep(15)
 
-        time.sleep(15)
-
-if __name__ == "__main__":
-    open(locust_metrics_file, "w").close()
-
-    s3thread = threading.Thread(target=get_metrics_s3)
-    s3thread.start()
-
-    server.run("0.0.0.0", 8080)
