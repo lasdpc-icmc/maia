@@ -12,22 +12,23 @@ metrics_filename = "/tmp/locust.metrics"
 # Get s3 client
 client = boto3.client("s3")
 
-# Download file
-client.download_file(Bucket, Key, metrics_filename)
+while True:
+    # Download file
+    client.download_file(Bucket, Key, metrics_filename)
 
-# Get metrics data itself
-metrics_file = open(metrics_filename, "rb")
-metrics_data = metrics_file.read()
-metrics_file.close()
+    # Get metrics data itself
+    metrics_file = open(metrics_filename, "rb")
+    metrics_data = metrics_file.read()
+    metrics_file.close()
 
-response = requests.post(
-    pushgateway_url + "/metrics/job/locust-metrics",
-    data=metrics_data
-)
+    response = requests.post(
+        pushgateway_url + "/metrics/job/locust-metrics",
+        data=metrics_data
+    )
 
-if response.status_code >= 400:
-    print("Error posting metrics")
-    exit(-1)
+    if response.status_code >= 400:
+        print("Error posting metrics")
+        exit(-1)
 
-time.sleep(15)
+    time.sleep(15)
 
