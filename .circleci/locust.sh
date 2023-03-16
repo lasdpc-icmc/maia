@@ -15,7 +15,7 @@ run_locust() {
     locust                                      \
         --autostart --autoquit 15               \
         --config apps/$APP/loadtest/locust.conf \
-        -f $1 -t $2                             \
+        -f $1 -t $2
 }
 
 loadtest_all_files() {
