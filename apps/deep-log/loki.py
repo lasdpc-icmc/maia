@@ -8,7 +8,6 @@ import aws_tools
 # Define environment variables
 LOKI_URL = os.environ['LOKI_URL']
 APP_NAME = os.environ['APP_NAME']
-CONTEXT = os.environ['CONTEXT']
 TIME_RANGE = int(os.environ['TIME_RANGE'])
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
