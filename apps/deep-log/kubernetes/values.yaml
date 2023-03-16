@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: loki-get-metrics
-        image: diegopedroso/deep-log:v1
+        image: diegopedroso/deep-log:CIRCLE_TAG_REPLACE
         command: ["python", "loki.py", "--log-level", "debug"]
         envFrom:
         - secretRef:
@@ -38,7 +38,7 @@ spec:
     spec:
       containers:
       - name: deep-log-training
-        image: diegopedroso/deep-log:v1
+        image: diegopedroso/deep-log:CIRCLE_TAG_REPLACE
         command: ["python", "deep_log.py", "--log-level", "debug"]
         envFrom:
         - secretRef:
