@@ -2,11 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: locust-metrics-distributor
-  namespace: metrics
+  namespace: locust-metrics-distributor
+  labels:
+    app: locust-metrics-distributor
 spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locust-metrics-distributor
   template:
     metadata:
-      name: locust-metrics-distributor
+      labels:
+        app: locust-metrics-distributor
     spec:
       containers:
       - name: locust-metrics-distributor
