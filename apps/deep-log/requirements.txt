@@ -7,3 +7,4 @@ drain3 ==0.9.11
 tqdm ==4.64.1
 deeplog ==0.0.3
 pandas==1.5.3
+boto3==1.26.92
