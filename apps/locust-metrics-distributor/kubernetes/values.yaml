@@ -29,7 +29,7 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           value: "LOCUST_DIST_KEY_ID_REPLACE"
         - name: PUSHGATEWAY_URL
-          value: "http://pushgateway-prometheus-pushgateway.monitoring"
+          value: "http://pushgateway-prometheus-pushgateway.monitoring:9091"
         - name: BUCKET_NAME
           value: "lasdpc-locust-results"
         - name: KEY_NAME
