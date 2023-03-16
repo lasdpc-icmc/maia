@@ -13,7 +13,7 @@ pip install locust
 # runs the locust loadtest in a single file for a specified time (such as 10s or 2m)
 run_locust() {
     locust                                      \
-        --autostart                             \
+        --autostart --autoquit 0                \
         --config apps/$APP/loadtest/locust.conf \
         -f $1 -t $2
 }
