@@ -80,8 +80,8 @@ def clean_sock(lines):
         i = re.sub(time_pattern_remove, '', i)
         i = re.sub(time_pattern_remove2, '', i)
         i = re.sub(time_pattern_remove3, '', i)
-        i = re.sub(ascii_pattern, ' ', i)
-        i = re.sub(log, ' ', i)
+        #i = re.sub(ascii_pattern, ' ', i)
+        #i = re.sub(log, ' ', i)
         
         
 
