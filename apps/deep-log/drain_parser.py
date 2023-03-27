@@ -24,8 +24,8 @@ from data_cleaning import clean_sock, read_logs, write_logs
 
 
 
-persistence = RedisPersistence(redis_host='',
-                                   redis_port=25061,
+persistence = RedisPersistence(redis_host='stg-deep-log.nrabmt.ng.0001.use1.cache.amazonaws.com',
+                                   redis_port=6379,
                                    redis_db=0,
                                    redis_pass='',
                                    is_ssl=True,
