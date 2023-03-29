@@ -37,31 +37,16 @@ kubectl get nodes
 NAME                             STATUS   ROLES    AGE    VERSION
 ip-172-20-105-85.ec2.internal    Ready    <none>   161m   v1.19.15-eks-9c63c4
 ip-172-20-112-145.ec2.internal   Ready    <none>   162m   v1.19.15-eks-9c63c4
-
 ```
 
 
-## Access Granafa and Prometheus
+## Access Grafana and Loki
 
-To access the monitoring stack services you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
+To access the monitoring stack services you need to login with Github SS0:
 
-Grafana:
-
-```bash
-kubectl port-forward service/kube-prometheus-grafana 3000:80 -n monitoring
-```
-Prometheus:
-
-```bash
-kubectl port-forward service/prometheus-operated 9090:9090 -n monitoring
-```
-
-Open your browser in localhost:3000
+https://grafana-lasdpc.icmc.usp.br/
 
 ![stats](setup/grafana.png)
-
-username: admin <p>
-password: usp2022 <p>
 
 ## Deploy applications using CircleCI
 
