@@ -28,7 +28,7 @@ persistence = RedisPersistence(redis_host='stg-deep-log.nrabmt.ng.0001.use1.cach
                                    redis_port=6379,
                                    redis_db=0,
                                    redis_pass='',
-                                   is_ssl=True,
+                                   is_ssl=False,
                                    redis_key="drain3_state_key")
 
 
