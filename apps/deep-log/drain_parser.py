@@ -13,11 +13,24 @@ from loki import file_name
 
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
+from drain3.redis_persistence import RedisPersistence
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(message)s')
 
 from data_cleaning import clean_sock, read_logs, write_logs
+
+
+
+
+persistence = RedisPersistence(redis_host='stg-deep-log.nrabmt.ng.0001.use1.cache.amazonaws.com',
+                                   redis_port=6379,
+                                   redis_db=0,
+                                   redis_pass='',
+                                   is_ssl=False,
+                                   redis_key="drain3_state_key")
+
 
 
 def log_parser(clean_lines, write_txt = True):
@@ -35,7 +48,7 @@ def log_parser(clean_lines, write_txt = True):
     config = TemplateMinerConfig()
     config.load(dirname(__file__) + "/drain3.ini")
     config.profiling_enabled = True
-    template_miner = TemplateMiner(config=config)
+    template_miner = TemplateMiner(persistence, config=config)
 
     line_count = 0
 
@@ -121,3 +134,6 @@ log_parser(cleansed_logs)
 s3_path = "clean"
 aws_tools.upload_to_s3(f'cluster_{file_name}', s3_path)
 aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
+
+
+
