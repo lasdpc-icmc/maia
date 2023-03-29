@@ -676,6 +676,29 @@ alertmanager:
 ## Using default values from https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
 ##
 grafana:
+  grafana.ini:
+    check_for_updates: false
+    reporting_enabled: false
+    server:
+      domain: grafana-lasdpc.icmc.usp.br
+      root_url: https://grafana-lasdpc.icmc.usp.br
+    security:
+      disable_gravatar: true
+    dashboards:
+      min_refresh_interval: 60s
+    auth:
+      disable_login_form: true
+    auth.github:
+      enabled: true
+      auto_login: false
+      client_id: $CLIENT_ID
+      client_secret: $CLIENT_SECRET
+      scopes: user:email, read:org
+      auth_url: https://github.com/login/oauth/authorize
+      token_url: https://github.com/login/oauth/access_token
+      api_url: https://api.github.com/user
+      allowed_organizations: lasdpc-icmc
+      allow_sign_up: true
   enabled: true
   namespaceOverride: ""
 
@@ -758,9 +781,9 @@ grafana:
       provider:
         allowUiUpdates: false
     datasources:
+      isDefault: false
       enabled: true
       defaultDatasourceEnabled: true
-
       uid: prometheus
 
       ## URL of prometheus datasource
@@ -794,20 +817,13 @@ grafana:
 
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
-  additionalDataSources: []
-  # - name: prometheus-sample
-  #   access: proxy
-  #   basicAuth: true
-  #   basicAuthPassword: pass
-  #   basicAuthUser: daco
-  #   editable: false
-  #   jsonData:
-  #       tlsSkipVerify: true
-  #   orgId: 1
-  #   type: prometheus
-  #   url: https://{{ printf "%s-prometheus.svc" .Release.Name }}:9090
-  #   version: 1
-
+  additionalDataSources:
+    - name: Loki
+      type: loki
+      isDefault: false
+      access: proxy
+      url: http://loki.monitoring.svc.cluster.local:3100
+      version: 1
   ## Passed to grafana subchart and used by servicemonitor below
   ##
   service:
