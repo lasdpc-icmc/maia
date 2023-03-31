@@ -12,7 +12,6 @@ provider "kubernetes" {
   token                  = data.aws_eks_cluster_auth.cluster.token
   load_config_file       = false
   version                = "1.11.1"
-  enable_irsa            = true
 }
 
 locals {
@@ -32,6 +31,8 @@ module "aws_eks" {
   subnets         = data.terraform_remote_state.vpc.outputs.pub_sn_id
   vpc_id          = data.terraform_remote_state.vpc.outputs.vpc_id
   cluster_version = var.cluster_version
+  enable_irsa     = true
+
 
   worker_groups = [{
     asg_desired_capacity  = var.desired_capacity
