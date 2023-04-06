@@ -16,4 +16,11 @@ terraform {
       version = ">= 1.7.0"
     }
   }
+
+  backend "s3" {
+    bucket = "terraform-lasdpc-states"
+    key    = "aws/vault"
+    region = "us-east-1"
+  }
 }
+
