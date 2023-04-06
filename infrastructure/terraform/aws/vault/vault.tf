@@ -12,7 +12,7 @@ resource "aws_iam_role" "vault-unseal" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-                        "oidc.eks.region-code.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:vault"
+            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:vault"
           }
         }
       }
@@ -36,7 +36,7 @@ resource "aws_iam_role_policy" "vault-unseal" {
           "iam:GetRole",
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.caller_identity.account_id}:role/vault-unseal"
+        Resource = "arn:aws:iam::${data.aws_caller_identity.caller_identity.account_id}:role/vault-unseal"
       },
       {
         Action = [
@@ -63,7 +63,7 @@ resource "aws_iam_role" "vault" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-            "oidc.eks.region-code.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:boot-vault"
+            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:boot-vault"
           }
         }
       }
@@ -126,7 +126,7 @@ resource "aws_iam_role_policy" "vault" {
           "iam:GetRole"
         ]
         Effect   = "Allow"
-        Resource = "arn:aws:secretsmanager:${var.region}:${data.aws_caller_identity.caller_identity.account_id}:role/vault"
+        Resource = "arn:aws:iam::${data.aws_caller_identity.caller_identity.account_id}:role/vault"
       }
     ]
   })
@@ -197,7 +197,7 @@ resource "aws_kms_key" "vault-kms" {
     }
   ]
 }
-EOT 
+EOT
 }
 
 resource "random_string" "vault-secret-suffix" {
@@ -320,7 +320,7 @@ resource "kubernetes_job" "vault-certificate" {
     update = "10m"
   }
 
-  depends_on = [aws_s3_bucket_object.vault-script-certificates]
+  depends_on = [aws_s3_bucket_object.vault-script-certificates, aws_iam_role_policy.vault]
 }
 
 # Configure EKS RBAC
@@ -390,39 +390,14 @@ resource "kubernetes_service_account" "boot-vault" {
   depends_on = [resource.kubernetes_cluster_role.boot-vault, kubernetes_namespace.vault]
 }
 
-# provider "helm" {
-#   kubernetes {
-#     config_path = "~/.kube/config"
-#   }
-# }
-
 resource "helm_release" "consul" {
   name      = "consul"
   chart     = "hashicorp/consul"
   version   = "0.48.0"
-  values    = [data.template_file.consul-values.rendered]
+  values    = [templatefile("consul-values.yaml", {})]
   namespace = "vault"
 
   depends_on = [kubernetes_job.vault-certificate, kubernetes_namespace.vault]
-}
-
-data "template_file" "consul-values" {
-  template = <<EOF
-global:
-  logLevel: debug
-  datacenter: vault-consul-lasdpc
-  global.consulAPITimeout: "60s"
-
-client:
-  enabled: false
-
-server:
-  replicas: 5
-  bootstrapExpect: 5
-  disruptionBudget:
-    maxUnavailable: 2
-
-   EOF
 }
 
 resource "helm_release" "vault" {
