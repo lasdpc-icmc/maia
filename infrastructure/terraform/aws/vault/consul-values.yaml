@@ -1,0 +1,14 @@
+global:
+  logLevel: debug
+  datacenter: vault-consul-lasdpc
+  consulAPITimeout: "60s"
+
+client:
+  enabled: false
+
+server:
+  replicas: 3
+  bootstrapExpect: 3
+  disruptionBudget:
+    maxUnavailable: 1
+
