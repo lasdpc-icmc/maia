@@ -21,7 +21,7 @@ export PATH=$PATH:$HOME/bin
 kubectl version --short --client
 
 yum update -y
-yum install wget curl -y
+yum install wget -y
 
 VERSION=$(curl --silent "https://api.github.com/repos/cloudflare/cfssl/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
 VNUMBER=${VERSION#"v"}
