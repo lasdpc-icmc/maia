@@ -18,7 +18,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "terraform-lasdpc-states"
+    bucket = "lasdpc-terraform-states"
     key    = "aws/vault"
     region = "us-east-1"
   }

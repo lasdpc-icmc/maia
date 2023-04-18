@@ -6,6 +6,6 @@ username            = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki",
 username_dev        = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki", "pedro.grando", "henrique.lecco", "franciscorocha"]
 username_read_only  = []
 
-bucket_states_name  = "terraform-lasdpc-states"
+bucket_states_name  = "lasdpc-terraform-states"
 bucket_gatling_name = "lasdpc-gatling-results"
 bucket_locust_name  = "lasdpc-locust-results"
