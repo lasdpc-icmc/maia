@@ -1,4 +1,4 @@
-app_name      = "terraform-lasdpc-states"
+app_name      = "lasdpc-terraform-states"
 app_gatling   = "lasdpc-gatling-results"
 app_locust    = "lasdpc-locust-results"
 env           = "prod"

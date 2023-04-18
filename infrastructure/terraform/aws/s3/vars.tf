@@ -7,6 +7,9 @@ variable "app_gatling" {
 variable "app_locust" {
   type = string
 }
+variable "app_deeplog" {
+  type = string
+}
 variable "resource_name" {
   type = string
 }
