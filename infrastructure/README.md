@@ -1,6 +1,5 @@
 # Metrics Application on AWS EKS
 
-
 ## How to setup awscli
 
 ### Download and install
@@ -35,10 +34,9 @@ Use `aws eks update-kubeconfig --name prod-application-metrics`, where prod-appl
 kubectl get nodes
 
 NAME                             STATUS   ROLES    AGE    VERSION
-ip-172-20-105-85.ec2.internal    Ready    <none>   161m   v1.19.15-eks-9c63c4
-ip-172-20-112-145.ec2.internal   Ready    <none>   162m   v1.19.15-eks-9c63c4
+ip-172-20-105-85.ec2.internal    Ready    <none>   161m   v1.22.15-eks-9c63c4
+ip-172-20-112-145.ec2.internal   Ready    <none>   162m   v1.22.15-eks-9c63c4
 ```
-
 
 ## Access Grafana and Loki
 
@@ -53,53 +51,44 @@ https://grafana-lasdpc.icmc.usp.br/
 
 ## Cluster Information
 
-**Kubernetes v1.19 + Weave Net addon**
+**Kubernetes v1.23 + Weave Net addon**
 
-EKS = v1.19<p>
-Istio = 1.10
+EKS = v1.23<p>
+Istio = 1.17<p>
 
 **Monitoring Stack**
 
 kube-prometheus =
 
-**Istio**
+# Install Istio
 
-Go to the Istio release page to download the installation file for your OS, or download and extract the latest release automatically (Linux or macOS):
+Install the istioctl binary:
 
-```bash
-curl -L https://istio.io/downloadIstio | sh -
+```shell
+curl -sL https://istio.io/downloadIstioctl | sh -
+```
+```shell
+$ export PATH=$HOME/.istioctl/bin:$PATH
 ```
 
-Download the last version:
+Install the istio service mesh with custom parameters provided by istio.yaml file.
 
-```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.10.0 TARGET_ARCH=x86_64 sh -
+```shell
+istioctl manifest apply -f istio/istio.yaml
 ```
 
-Move to the Istio package directory. For example, if the package is istio-1.10.0:
+## Install Istio Addons
 
-```bash
-export PATH=$PWD/bin:$PATH
+To quickly deploy all addons:
+
+```shell
+kubectl apply -f istio/addons
 ```
 
-For this installation, we use the demo configuration profile. It’s selected to have a good set of defaults for testing, but there are other profiles for production or performance testing.
 
-```bash
-istioctl install --set profile=demo -y
-```
-Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later:
+# Kiali
 
-```bash
-kubectl label namespace default istio-injection=enabled
-```
-
-Install istio observability tools:
-
-```bash
-kubectl apply -f samples/addons
-```
-
-To access the istio observability stack you need to forward the traffic using kubectl port-forward. There is no public traffic in this setup.
+https://istio.io/latest/docs/ops/diagnostic-tools/istioctl/
 
 Kiali:
 
