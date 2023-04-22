@@ -8,7 +8,7 @@ resource "aws_elasticache_cluster" "lasdpc-icmc" {
   port                 = var.redis_port
   tags                 = local.common_tags
   subnet_group_name    = var.subnet_group_name
-  security_group_ids  = aws_security_group.redis_sg.id
+  security_group_ids  = [aws_security_group.redis_sg.id]
 }
 
 resource "aws_security_group" "redis_sg" {
