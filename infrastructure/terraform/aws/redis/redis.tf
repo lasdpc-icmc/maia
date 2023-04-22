@@ -7,9 +7,14 @@ resource "aws_elasticache_cluster" "lasdpc-icmc" {
   engine_version       = var.engine_version
   port                 = var.redis_port
   tags                 = local.common_tags
-  subnet_group_name    = var.subnet_group_name
+  subnet_group_name    = aws_elasticache_subnet_group.lasdpc-vpc.name
   security_group_ids  = [aws_security_group.redis_sg.id]
 }
+
+resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
+  name       = "${var.namespace}-cache-subnet"
+  subnet_ids = ["${aws_subnet.lasdpc-vpc.*.id}"]
+}                                                                           
 
 resource "aws_security_group" "redis_sg" {
   name        = "${var.app_name}-${var.env}-sg"
