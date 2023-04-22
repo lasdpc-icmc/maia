@@ -16,9 +16,12 @@ variable "redis_port" {
 variable "parameter_group_name" {
   type = string
 }
-variable "num_cache_nodes" {
+variable "subnet_group_name" {
   type = string
 }
 variable "engine_version" {
+  type = string
+}
+variable "num_cache_nodes" {
   type = string
 }
