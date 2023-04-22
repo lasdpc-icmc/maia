@@ -4,7 +4,7 @@ resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
 }
 resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   automatic_failover_enabled  = true
-  preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b"]
+  preferred_cache_cluster_azs = ["us-east-1a"]
   replication_group_id        = "${var.app_name}-${var.env}"
   description                 = "Redis to store assets from DeepLog Training"
   node_type                   = var.node_type
