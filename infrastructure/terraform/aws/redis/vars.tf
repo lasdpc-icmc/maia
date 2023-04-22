@@ -26,5 +26,5 @@ variable "num_cache_nodes" {
   type = string
 }
 variable "subnets" {
-  type = list
+  type = string
 }
