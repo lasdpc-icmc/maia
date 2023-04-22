@@ -25,6 +25,6 @@ variable "engine_version" {
 variable "num_cache_nodes" {
   type = string
 }
-variable "subnets" {
+variable "subnet_ids" {
   type = string
 }
