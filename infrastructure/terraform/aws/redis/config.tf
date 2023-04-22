@@ -6,10 +6,6 @@ locals {
     "project"     = "platform"
   }
 }
-provider "aws" {
-  region  = var.region
-  version = "3.10.0"
-}
 terraform {
   required_providers {
     aws = {
