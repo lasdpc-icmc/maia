@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: third-party
+---  
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-k8s-model
+  namespace: third-party
+  labels:
+    job-name: training-k8s-model
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: training-k8s-model
+        image: diegopedroso/deep-log:v8
+        command: ["python", "deep_log.py", "--log-level", "debug"]
+        envFrom:
+        - secretRef:
+            name: third-party-k8s-secrets
+      restartPolicy: Never

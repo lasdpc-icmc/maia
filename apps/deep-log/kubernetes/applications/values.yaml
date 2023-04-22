@@ -30,7 +30,7 @@ metadata:
   name: deep-log-training
   namespace: deep-log
   labels:
-    job-name: loki-get-metrics
+    job-name: deep-log-training
 spec:
   completions: 1
   parallelism: 1
