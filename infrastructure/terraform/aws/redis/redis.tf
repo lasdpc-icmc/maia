@@ -4,7 +4,7 @@ resource "aws_elasticache_cluster" "lasdpc-icmc" {
   node_type            = var.node_type
   num_cache_nodes      = 1
   parameter_group_name = var.parameter_group_name
-  engine_version       = "7.0.7"
+  engine_version       = var.engine_version
   port                 = var.redis_port
   tags                 = local.common_tags
 }

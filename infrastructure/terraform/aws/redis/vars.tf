@@ -19,3 +19,6 @@ variable "parameter_group_name" {
 variable "num_cache_nodes" {
   type = string
 }
+variable "engine_version" {
+  type = string
+}
