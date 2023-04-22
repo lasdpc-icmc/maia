@@ -13,7 +13,7 @@ resource "aws_elasticache_cluster" "lasdpc-icmc" {
 
 resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
   name       = "${var.namespace}-cache-subnet"
-  subnet_ids = ["${aws_subnet.lasdpc-vpc.*.id}"]
+  subnet_ids = ["subnet-05fdd4b7eaea01c20", "subnet-07d9d78240501ee27", "subnet-0de52e8cce5e02bed", "subnet-00f15c24c17c442d9"]
 }                                                                           
 
 resource "aws_security_group" "redis_sg" {
