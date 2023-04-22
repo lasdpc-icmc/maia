@@ -25,7 +25,7 @@ resource "aws_elasticache_replication_group" "lasdpc-icmc" {
 resource "aws_elasticache_cluster" "replica" {
   count = 1
   cluster_id           = "${var.app_name}-${var.env}-${count.index}"
-  replication_group_id = aws_elasticache_replication_group.example.id
+  replication_group_id = aws_elasticache_replication_group.lasdpc-icmc.id
 }
 
 resource "aws_security_group" "redis_sg" {
