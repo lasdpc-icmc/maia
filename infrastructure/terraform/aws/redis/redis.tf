@@ -15,7 +15,6 @@ resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   security_group_ids          = [aws_security_group.redis_sg.id]
   tags                        = local.common_tags
   subnet_group_name           = aws_elasticache_subnet_group.lasdpc-vpc.name
-  cluster_enabled = true
 
 
   lifecycle {
