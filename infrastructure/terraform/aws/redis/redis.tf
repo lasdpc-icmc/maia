@@ -1,6 +1,6 @@
 resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
   name       = "${var.app_name}-cache-subnet"
-  subnet_ids = [var.subnets]
+  subnet_ids = var.subnets
 }
 
 resource "aws_elasticache_replication_group" "lasdpc-icmc" {
