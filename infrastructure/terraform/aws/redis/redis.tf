@@ -4,7 +4,7 @@ resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
 }
 resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   automatic_failover_enabled  = true
-  preferred_cache_cluster_azs = ["us-east-1a"]
+  preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b", "us-east-1c"]
   replication_group_id        = "${var.app_name}-${var.env}"
   description                 = "Redis to store assets from DeepLog Training"
   node_type                   = var.node_type
@@ -14,15 +14,14 @@ resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   security_group_ids          = [aws_security_group.redis_sg.id]
   tags                        = local.common_tags
   subnet_group_name           = aws_elasticache_subnet_group.lasdpc-vpc.name
-
-
   lifecycle {
     ignore_changes = [num_cache_clusters]
   }
 }
 
 resource "aws_elasticache_cluster" "replica" {
-  cluster_id           = "${var.app_name}-${var.env}"
+  count = 2
+  cluster_id           = "${var.app_name}-${var.env}-${count.index}"
   replication_group_id = aws_elasticache_replication_group.lasdpc-icmc.id
 }
 
