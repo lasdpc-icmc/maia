@@ -1,8 +1,7 @@
 resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
   name       = "${var.app_name}-cache-subnet"
-  subnet_ids = var.subnets
+  subnet_ids = ["subnet-05fdd4b7eaea01c20", "subnet-07d9d78240501ee27", "subnet-0de52e8cce5e02bed", "subnet-00f15c24c17c442d9"]
 }
-
 resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   automatic_failover_enabled  = true
   preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b"]
