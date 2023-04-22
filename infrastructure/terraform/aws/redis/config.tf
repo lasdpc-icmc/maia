@@ -1,6 +1,6 @@
 locals {
   common_tags = {
-    "application" = var.resource_name
+    "application" = var.app_name
     "environment" = var.env
     "team"        = "icmc"
     "project"     = "platform"
