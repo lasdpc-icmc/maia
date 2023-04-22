@@ -11,6 +11,17 @@ resource "aws_elasticache_cluster" "lasdpc-icmc" {
   security_group_ids  = [aws_security_group.redis_sg.id]
 }
 
+resource "aws_elasticache_replication_group" "lasdpc-icmc" {
+  automatic_failover_enabled  = true
+  preferred_cache_cluster_azs = ["us-east-1a", "us-east-1b"]
+  replication_group_id        = "${var.app_name}-${var.env}"
+  description                 = "Redis to store Deeplog training assets"
+  node_type                   = var.node_type
+  num_cache_clusters          = 2
+  parameter_group_name        = var.parameter_group_name
+  port                        = 6379
+}
+
 resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
   name       = "${var.app_name}-cache-subnet"
   subnet_ids = ["subnet-05fdd4b7eaea01c20", "subnet-07d9d78240501ee27", "subnet-0de52e8cce5e02bed", "subnet-00f15c24c17c442d9"]
