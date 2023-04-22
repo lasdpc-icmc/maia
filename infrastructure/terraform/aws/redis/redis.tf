@@ -1,6 +1,6 @@
 resource "aws_elasticache_subnet_group" "lasdpc-vpc" {
   name       = "${var.app_name}-cache-subnet"
-  subnet_ids = [var.subnet_ids]
+  subnet_ids = ["subnet-05fdd4b7eaea01c20", "subnet-07d9d78240501ee27", "subnet-0de52e8cce5e02bed", "subnet-00f15c24c17c442d9"]
 }
 resource "aws_elasticache_replication_group" "lasdpc-icmc" {
   automatic_failover_enabled  = true
@@ -20,7 +20,7 @@ resource "aws_elasticache_replication_group" "lasdpc-icmc" {
 }
 
 resource "aws_elasticache_cluster" "replica" {
-  count = 2
+  count = 1
   cluster_id           = "${var.app_name}-${var.env}-${count.index}"
   replication_group_id = aws_elasticache_replication_group.lasdpc-icmc.id
 }
