@@ -19,6 +19,6 @@ resource "aws_s3_bucket" "deeplog_results" {
 }
 
 resource "aws_s3_bucket" "thridy_party" {
-  bucket = var.app_thridyparty
+  bucket = var.app_thirdparty
   tags   = local.common_tags
 }
