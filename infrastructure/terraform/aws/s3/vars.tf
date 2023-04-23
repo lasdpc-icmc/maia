@@ -10,7 +10,7 @@ variable "app_locust" {
 variable "app_deeplog" {
   type = string
 }
-variable "app_thirdparty" {
+variable "app_thirdparty_nginx" {
   type = string
 }
 variable "resource_name" {
