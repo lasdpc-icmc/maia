@@ -24,10 +24,10 @@ preprocessor = Preprocessor(
     timeout = float('inf'), # Do not include a maximum allowed time between events
 )
 
-
+file_name = 'clean_logs.txt'
 # Dowload the file from S3
 prefix = "clean/"
-aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
+#aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
 
 # Load normal data from HDFS dataset
 X, y, label, mapping = preprocessor.text(
@@ -54,16 +54,15 @@ deeplog = DeepLog(
 deeplog.fit(
     X          = X_train,
     y          = y_train,
-    epochs     = 100 ,
+    epochs     = 5 ,
     batch_size = 128,
     optimizer  = torch.optim.Adam,
 )
 
-
 # Predict normal data using deeplog
 y_pred_normal, confidence = deeplog.predict(
     X = X_test,
-    k = 9, # Change this value to get the top k predictions (called 'g' in DeepLog paper, see Figure 6)
+    k = 2, # Change this value to get the top k predictions (called 'g' in DeepLog paper, see Figure 6)
 )
 print("Classification report - predictions")
 print(classification_report(
@@ -75,5 +74,22 @@ print(classification_report(
 
 ## Upload results to S3
 s3_path = "deep_log"
-aws_tools.upload_to_s3(f'cluster_{file_name}', s3_path)
-os.remove(f'cluster_{file_name}'), os.remove(f'values_{file_name}'), os.remove(file_name)
+
+
+
+shape_y = y_pred_normal.cpu().numpy().shape
+vector_pred = y_pred_normal.cpu().numpy()
+vector_conf = confidence.cpu().numpy()
+
+
+
+with open(f'predict_{file_name}', 'w') as f:
+    for i in range(0,shape_y[0]):
+        for j in range(0,shape_y[1]):
+            pred = vector_pred[i,j]
+            confidence = vector_conf[i,j]
+            f.write(str(pred) + ',' + str(confidence) + ';')
+        f.write('\n')
+
+aws_tools.upload_to_s3(f'predict_{file_name}', s3_path)
+os.remove(f'predict_{file_name}'), os.remove(f'values_{file_name}'), os.remove(file_name)
