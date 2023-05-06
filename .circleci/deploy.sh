@@ -20,7 +20,7 @@ if [ $namespaceStatus == "Active" ]
 then
     echo "namespace already exists"
 else
-   kubectl_run create namespace $APP --dry-run=client -o yaml | kubectl_run apply -f -
+   kubectl_run create namespace $APP
    kubectl_run create sa $APP -n $APP | sh 2>&1 >/dev/null || true
    vault_set_permissions
 fi
