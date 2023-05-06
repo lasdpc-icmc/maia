@@ -26,7 +26,7 @@ preprocessor = Preprocessor(
 
 # Dowload the file from S3
 prefix = "clean/"
-#aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
+aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
 
 # Load normal data from HDFS dataset
 X, y, label, mapping = preprocessor.text(
