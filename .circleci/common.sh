@@ -84,7 +84,7 @@ vault_set_permissions () {
   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
   sudo apt update && sudo apt install vault
-
+  setcap -r /usr/bin/vault
   export VAULT_ADDR="$VAULT_ADDRESS"
   export VAULT_TOKEN=$VAULT_TOKEN
   vault auth enable kubernetes | sh 2>&1 >/dev/null || true
