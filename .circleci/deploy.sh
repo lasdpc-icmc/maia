@@ -23,7 +23,7 @@ elif [ $APP == "deep-log" ]; then
     kubectl_run apply -f apps/$APP/kubernetes/applications/values.yaml
     #check if all deploys were successfull\
     kubectl_run wait --for=condition=complete job/deep-log-training --timeout=900s -n $APP
-    break
+    exit 0
 fi
 
 #apply deployment yaml
