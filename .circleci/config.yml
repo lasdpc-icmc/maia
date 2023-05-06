@@ -1,0 +1,150 @@
+version: 2.1
+
+defaults:
+  - &docker
+    docker:
+      - image: cimg/base:stable
+
+  - &generic
+    machine:
+      image: ubuntu-2004:202010-01
+
+  - &locust
+    docker:
+      - image: cimg/python:3.8
+      - image: containersol/locust_exporter:v0.5.0
+  
+  - &gatling
+    docker:
+      - image: cimg/openjdk:8.0.322-browsers
+
+  - &tag /[^\/]*\/\d{8}.\d{2}$/
+  - &load_test_tag /[^\/]*\/[^\/]*\/[0-9]+(s|m)\/\d{8}.\d{2}$/
+
+  - &tag_only
+    filters:
+      branches:
+        ignore: /.*/
+      tags:
+        only: *tag
+  
+  - &load_test_tag_only
+    filters:
+      branches:
+        ignore: /.*/
+      tags:
+        only: *load_test_tag
+
+jobs:
+  code_test:
+    <<: *generic
+    steps:
+      - checkout
+      - run:
+          name: Execute Tests
+          command: |
+            chmod +x .circleci/common.sh && .circleci/common.sh
+            chmod +x .circleci/run_test.sh && .circleci/run_test.sh
+
+  build:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.11
+          docker_layer_caching: true
+      - run:
+          name: Build Artifacts
+          command: |
+            chmod +x .circleci/build.sh && .circleci/build.sh
+
+  deploy:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Deploy Application
+          command: |
+            chmod +x .circleci/deploy.sh && .circleci/deploy.sh
+
+  load_test_gatling:
+    <<: *gatling
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Gatling Load Test
+          command: |
+              chmod +x .circleci/gatling.sh && .circleci/gatling.sh
+          
+  load_test_locust:
+    <<: *locust
+    steps:
+      - checkout
+      - run:
+          name: Locust Load Test
+          command: |
+              chmod +x .circleci/locust.sh && .circleci/locust.sh
+  
+  rollback:
+    <<: *docker
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          command: |
+            chmod +x .circleci/rollback.sh && .circleci/rollback.sh
+
+workflows:
+  version: 2
+
+  deployment:
+    jobs:
+      - code_test:
+          <<: *tag_only
+      - build:
+          requires:
+            - code_test      
+          <<: *tag_only        
+      - approve_deploy:
+          type: approval
+          requires:
+            - build
+          <<: *tag_only          
+      - deploy:
+          requires:
+            - approve_deploy
+          <<: *tag_only        
+      - approve_load_test_gatling:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only           
+      - load_test_gatling:
+          requires:
+            - approve_load_test_gatling
+          <<: *tag_only     
+      - approve_load_test_locust:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only           
+      - load_test_locust:
+          requires:
+            - approve_load_test_locust
+          <<: *tag_only                
+      - approve_rollback:
+          type: approval
+          requires:
+            - deploy
+          <<: *tag_only          
+      - rollback:
+          requires:
+            - approve_rollback
+          <<: *tag_only     
+
+  load_test_only:
+    jobs:
+      - load_test_locust:
+          <<: *load_test_tag_only

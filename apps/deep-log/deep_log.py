@@ -24,7 +24,6 @@ preprocessor = Preprocessor(
     timeout = float('inf'), # Do not include a maximum allowed time between events
 )
 
-file_name = 'clean_logs.txt'
 # Dowload the file from S3
 prefix = "clean/"
 #aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
