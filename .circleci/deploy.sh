@@ -17,12 +17,12 @@ if [ $APP == "locust-metrics-distributor" ]; then
         apps/$APP/kubernetes/values.yaml
     sed -i "s|LOCUST_DIST_KEY_ID_REPLACE|$LOCUST_DIST_KEY_ID_REPLACE|g" \
         apps/$APP/kubernetes/values.yaml
-if [ $APP == "deep-log" ]; then
+elif [ $APP == "deep-log" ]; then
     sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/applications/values.yaml
     kubectl_run delete job deep-log-training -n $APP
     kubectl_run apply -f apps/$APP/kubernetes/applications/values.yaml
     #check if all deploys were successfull\
-    kubectl wait --for=condition=complete job/deep-log-training -n $APP
+    kubectl_run wait --for=condition=complete job/deep-log-training -n $APP
     break
 fi
 
