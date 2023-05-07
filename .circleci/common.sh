@@ -84,13 +84,14 @@ vault_set_permissions () {
   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
   sudo apt update && sudo apt install -y vault
+  sudo apt-get install --reinstall -y vault
   # Create the Vault server Setup
   export VAULT_ADDR=$VAULT_ADDRESS
   export VAULT_TOKEN=$VAULT_TOKEN
   vault auth enable kubernetes | sh 2>&1 >/dev/null || true
   vault status
   vault policy write $APP -<< EOF
-  path "kv/data/k8s-secrets/$APP"
+  path "k8s-secrets/data/$APP"
   {  capabilities = ["read"]
   }
 EOF
