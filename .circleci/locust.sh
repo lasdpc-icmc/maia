@@ -18,13 +18,6 @@ run_locust() {
         -f $1 -t $2
 }
 
-loadtest_all_files() {
-    for file in `find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$"`; do
-        run_locust $file "60s"
-        sleep 10
-    done
-}
-
 #collects all metrics from the local running locust_exporter and pushes them to s3
 send_metrics() {
     sleep 5
@@ -44,15 +37,24 @@ push_to_s3(){
 #start background metrics sending process
 send_metrics &
 
+all_files=$(find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$" |sed ':a;N;$!ba;s/\n/,/g')
+
 #if we are in the deployment workflow
 if [ -z $(echo $CIRCLE_TAG | awk -F "(/)" '{print $4}') ]
 then
-    #run all tests sequentially
-    loadtest_all_files
+    #run all tests all at once for a minute
+    run_locust $all_files "60s"
 else
     #if we are in the loadtest only workflow
+
     #sets the specific file and time from the tag and run a single test
-    file=apps/$APP/loadtest/$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}').py
+    if [[ $(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}') == "all" ]]
+    then
+      file=$all_files
+    else
+      file=apps/$APP/loadtest/$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}').py
+    fi
+
     runtime=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $3}')
     run_locust $file $runtime
 fi
