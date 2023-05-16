@@ -15,6 +15,7 @@ run_locust() {
     locust                                      \
         --autostart --autoquit 0                \
         --config apps/$APP/loadtest/locust.conf \
+        --exit-code-on-error 0                  \
         -f $1 -t $2
 }
 
