@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: third-party
+---  
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: training-nginx-model
+  namespace: third-party
+  labels:
+    job-name: training-nginx-model
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: training-nginx-model
+        image: diegopedroso/deep-log:v8
+        command: ["python", "deep_log.py", "--log-level", "debug"]
+        envFrom:
+        - secretRef:
+            name: third-party-nginx-secrets
+      restartPolicy: Never

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: deep-log
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: deep-log-training
+  namespace: deep-log
+  labels:
+    job-name: deep-log-training
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    spec:
+      containers:
+      - name: deep-log-training
+        image: diegopedroso/deep-log:CIRCLE_TAG_REPLACE
+        command: ["python", "deep_log.py", "--log-level", "debug"]
+        envFrom:
+        - secretRef:
+            name: deep-log-secrets
+      restartPolicy: Never

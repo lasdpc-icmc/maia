@@ -10,9 +10,7 @@ def remove_header(lines):
     :return: list with the logs without the headers
     '''
     lines = lines[5:]
-
     return lines
-
 
 
 def clean_book(lines):
