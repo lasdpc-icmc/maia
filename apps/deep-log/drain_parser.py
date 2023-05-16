@@ -10,6 +10,9 @@ from os.path import dirname
 import datetime
 import aws_tools
 from loki import file_name
+REDIS_URL = os.environ['REDIS_URL']
+REDIS_PORT = os.environ['REDIS_PORT']
+REDIS_KEY = os.environ['REDIS_KEY']
 
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
@@ -21,17 +24,12 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(message)s')
 
 from data_cleaning import clean_sock, read_logs, write_logs
 
-
-
-
-persistence = RedisPersistence(redis_host='stg-deep-log.nrabmt.ng.0001.use1.cache.amazonaws.com',
-                                   redis_port=6379,
+persistence = RedisPersistence(redis_host=REDIS_URL,
+                                   redis_port=REDIS_PORT,
                                    redis_db=0,
                                    redis_pass='',
                                    is_ssl=False,
-                                   redis_key="drain3_state_key")
-
-
+                                   redis_key=REDIS_KEY)
 
 def log_parser(clean_lines, write_txt = True):
     '''
@@ -77,11 +75,8 @@ def log_parser(clean_lines, write_txt = True):
         except:
             value = ' '
 
-
         cluster_list.append(cluster_id)
         value_list.append(value)
-
-
 
         if line_count % batch_size == 0:
             time_took = time.time() - batch_start_time
@@ -93,8 +88,6 @@ def log_parser(clean_lines, write_txt = True):
             result_json = json.dumps(result)
             logger.info(f"Input ({line_count}): " + line)
             logger.info("Result: " + result_json)
-
-
 
     time_took = time.time() - start_time
     rate = line_count / time_took
@@ -119,7 +112,6 @@ def log_parser(clean_lines, write_txt = True):
         return cluster_list, value_list
 
 
-
 ## Exemplo de utilização:
 prefix = "raw/"
 aws_tools.get_to_s3(file_name, prefix)
@@ -134,6 +126,3 @@ log_parser(cleansed_logs)
 s3_path = "clean"
 aws_tools.upload_to_s3(f'cluster_{file_name}', s3_path)
 aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
-
-
-
