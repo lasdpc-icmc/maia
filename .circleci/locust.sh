@@ -26,7 +26,9 @@ send_metrics() {
     do
         curl localhost:9646/metrics -o locust.metrics
         push_to_s3
-        sleep 15
+        kubectl_run apply -f apps/locust-metrics-distributor/kubernetes/
+        sleep 25
+        kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
     done
 }
 
@@ -66,4 +68,8 @@ kill $(jobs -p)
 #set the metrics to zero before we exit to ensure no metrics linger with values
 sed -i 's/^\(locust_[^ ]*\) .*/\1 0/g' locust.metrics
 push_to_s3
+
+kubectl_run apply -f apps/locust-metrics-distributor/kubernetes/
+kubectl_run wait --for=condition=complete job/locust-metrics-distributor --timeout=30s -n monitoring
+kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
 
