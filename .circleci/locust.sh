@@ -26,9 +26,7 @@ send_metrics() {
     do
         curl localhost:9646/metrics -o locust.metrics
         push_to_s3
-        kubectl_run apply -f apps/locust-metrics-distributor/kubernetes/
-        sleep 25
-        kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
+        sleep 20
     done
 }
 
@@ -36,6 +34,9 @@ push_to_s3(){
     aws_run s3 cp locust.metrics \
         s3://lasdpc-locust-results/$APP/locust.metrics
 }
+
+# starts the eks distributor job
+kubectl_run apply -f apps/locust-metrics-distributor/kubernetes/
 
 #start background metrics sending process
 send_metrics &
@@ -69,7 +70,6 @@ kill $(jobs -p)
 sed -i 's/^\(locust_[^ ]*\) .*/\1 0/g' locust.metrics
 push_to_s3
 
-kubectl_run apply -f apps/locust-metrics-distributor/kubernetes/
-kubectl_run wait --for=condition=complete job/locust-metrics-distributor --timeout=30s -n monitoring
+sleep 30
 kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
 
