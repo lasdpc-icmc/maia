@@ -1,36 +1,30 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: locust-metrics-distributor
+  name: monitoring
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: locust-distributor-serviceaccount
+  namespace: monitoring
+---
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: locust-metrics-distributor
-  namespace: locust-metrics-distributor
+  namespace: monitoring
   labels:
-    app: locust-metrics-distributor
+    job-name: locust-metrics-distributor
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: locust-metrics-distributor
+  completions: 1
+  parallelism: 1
   template:
-    metadata:
-      labels:
-        app: locust-metrics-distributor
     spec:
       containers:
       - name: locust-metrics-distributor
         image: diegopedroso/locust-metrics-distributor:CIRCLE_TAG_REPLACE
-        env:
-        - name: AWS_SECRET_ACCESS_KEY
-          value: "LOCUST_DIST_SECRET_KEY_REPLACE"
-        - name: AWS_ACCESS_KEY_ID
-          value: "LOCUST_DIST_KEY_ID_REPLACE"
-        - name: PUSHGATEWAY_URL
-          value: "http://pushgateway-prometheus-pushgateway.monitoring:9091"
-        - name: BUCKET_NAME
-          value: "lasdpc-locust-results"
-        - name: KEY_NAME
-          value: "sock-shop/locust.metrics"
+        envFrom:
+        - secretRef:
+            name: locust-distributor-secrets
+      restartPolicy: Never

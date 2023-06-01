@@ -1,10 +1,9 @@
-FROM python:3.8.16-alpine3.17
+FROM python:3.10-alpine
 
-WORKDIR /srv
+COPY ./requirements.txt /srv/
+COPY ./src/ /srv/
+WORKDIR /srv/
 
-COPY . /srv/
+RUN pip install -r /srv/requirements.txt
 
-RUN pip install -r requirements.txt
-
-ENTRYPOINT ["/usr/local/bin/python3", "/srv/main.py"]
-
+ENTRYPOINT python /srv/main.py
