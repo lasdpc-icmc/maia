@@ -25,13 +25,7 @@ else
    vault_set_permissions
 fi
 
-
-if [ $APP == "locust-metrics-distributor" ]; then
-    sed -i "s|LOCUST_DIST_SECRET_KEY_REPLACE|$LOCUST_DIST_SECRET_KEY_REPLACE|g" \
-        apps/$APP/kubernetes/values.yaml
-    sed -i "s|LOCUST_DIST_KEY_ID_REPLACE|$LOCUST_DIST_KEY_ID_REPLACE|g" \
-        apps/$APP/kubernetes/values.yaml
-elif [ $APP == "deep-log" ]; then
+if [ $APP == "deep-log" ]; then
     sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/applications/values.yaml
     kubectl_run delete job deep-log-training deeplog-prom-exporter -n $APP | sh 2>&1 >/dev/null || true
     kubectl_run apply -f apps/$APP/kubernetes/applications/
