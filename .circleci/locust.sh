@@ -10,6 +10,10 @@ install_awscli_kubectl
 aws_credentials
 pip install locust
 
+# setup .kube/config
+aws_run eks --region $EKS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
+chmod 600 ~/.kube/config
+
 # runs the locust loadtest in a single file for a specified time (such as 10s or 2m)
 run_locust() {
     locust                                      \
