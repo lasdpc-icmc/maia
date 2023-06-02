@@ -21,6 +21,7 @@ spec:
   parallelism: 1
   template:
     spec:
+      serviceAccountName: locust-distributor-serviceaccount
       containers:
       - name: locust-metrics-distributor
         image: diegopedroso/locust-metrics-distributor:20230602.01
