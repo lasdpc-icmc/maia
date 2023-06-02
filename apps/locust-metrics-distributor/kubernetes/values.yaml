@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: locust-metrics-distributor
-        image: diegopedroso/locust-metrics-distributor:CIRCLE_TAG_REPLACE
+        image: diegopedroso/locust-metrics-distributor:20230602.01
         envFrom:
         - secretRef:
             name: locust-distributor-secrets
