@@ -71,5 +71,5 @@ sed -i 's/^\(locust_[^ ]*\) .*/\1 0/g' locust.metrics
 push_to_s3
 
 sleep 30
-kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
+kubectl_run delete job locust-metrics-distributor -n monitoring
 
