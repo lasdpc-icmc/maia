@@ -74,3 +74,7 @@ deeplog.fit(
 
 
 save_model(deeplog, 'deeplog_model_v1.pth')
+
+s3_path = "deep_log"
+aws_tools.upload_to_s3('deeplog_model_v1.pth', s3_path)
+os.remove('deeplog_model_v1.pth')

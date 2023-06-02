@@ -41,7 +41,11 @@ preprocessor = Preprocessor(
 
 # Dowload the file from S3
 prefix = "clean/"
-#aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
+s3_path = "deep_log"
+aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
+aws_tools.get_to_s3('deeplog_model_v1.pth', s3_path)
+
+
 
 # Load normal data from s3
 X, y, label, mapping = preprocessor.text(
