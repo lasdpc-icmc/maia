@@ -4,8 +4,8 @@ import requests
 import time
 
 # Set general variables
-Bucket = os.environ['BUCKET_NAME']
-Key = os.environ['KEY_NAME']
+bucket = os.environ['BUCKET_NAME']
+key = os.environ['KEY_NAME']
 pushgateway_url = os.environ['PUSHGATEWAY_URL']
 metrics_filename = "/tmp/locust.metrics"
 
@@ -14,7 +14,7 @@ client = boto3.client("s3")
 
 while True:
     # Download file
-    client.download_file(Bucket, Key, metrics_filename)
+    client.download_file(bucket, key, metrics_filename)
 
     # Get metrics data itself
     metrics_file = open(metrics_filename, "rb")
@@ -30,5 +30,4 @@ while True:
         print("Error posting metrics")
         exit(-1)
 
-    time.sleep(15)
-
+    time.sleep(20)

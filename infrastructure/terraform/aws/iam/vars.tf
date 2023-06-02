@@ -27,3 +27,7 @@ variable "bucket_gatling_name"{
 variable "bucket_locust_name"{
   type = string
 }
+
+variable "oidc_provider" {
+  type = string
+}
