@@ -10,6 +10,10 @@ install_awscli_kubectl
 aws_credentials
 pip install locust
 
+# setup .kube/config
+aws_run eks --region $EKS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
+chmod 600 ~/.kube/config
+
 # runs the locust loadtest in a single file for a specified time (such as 10s or 2m)
 run_locust() {
     locust                                      \
@@ -71,5 +75,5 @@ sed -i 's/^\(locust_[^ ]*\) .*/\1 0/g' locust.metrics
 push_to_s3
 
 sleep 30
-kubectl_run delete -f apps/locust-metrics-distributor/kubernetes/
+kubectl_run delete job locust-metrics-distributor -n monitoring
 
