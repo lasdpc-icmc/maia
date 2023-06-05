@@ -19,7 +19,7 @@ import json
 
 
 from data_cleaning import clean_sock, read_logs, write_logs
-from deeplog_metrics import get_ind_metrics, is_anomaly, save_model, load_model
+from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 
 
 
@@ -29,8 +29,6 @@ from deeplog_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 ##############################################################################
 #                                 Load data                                  #
 ##############################################################################
-
-
 
 # Create preprocessor for loading data
 #length - tamanho da janela a ser considerada
