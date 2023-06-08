@@ -125,5 +125,5 @@ def model_predict(file_name):
         json.dump(res_dic, outfile)
 
 
-    aws_tools.upload_to_s3(f'predict_{file_name}', s3_path)
-    os.remove(f'predict_{file_name}'), os.remove(f'values_{file_name}'), os.remove(file_name)
+    aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
+    os.remove(f'predict_{file_name}.json'), os.remove(file_name)
