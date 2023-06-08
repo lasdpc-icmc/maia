@@ -11,15 +11,17 @@ from deeplog.preprocessor import Preprocessor
 # Imports for showing metrics
 import numpy as np
 from sklearn.metrics import classification_report
-
+from deep_log_train import train_model
+from deep_log_predict import model_predict
 train = True
 
 def main():
     if train == True:
-        import deep_log_train, deep_log_predict
+        train_model(file_name)
+        model_predict(file_name)
 
     else:
-        import deep_log_predict
+        model_predict
 
 
 main()
