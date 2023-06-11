@@ -13,16 +13,17 @@ import numpy as np
 from sklearn.metrics import classification_report
 from deep_log_train import train_model
 from deep_log_predict import model_predict
-train = False
+
 
 
 def main():
+    train = False
     if train == True:
         train_model(file_name)
         model_predict(file_name)
 
     else:
-        model_predict
+        model_predict(file_name)
 
 
 main()
