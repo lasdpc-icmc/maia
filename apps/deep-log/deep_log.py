@@ -13,7 +13,8 @@ import numpy as np
 from sklearn.metrics import classification_report
 from deep_log_train import train_model
 from deep_log_predict import model_predict
-train = True
+train = False
+
 
 def main():
     if train == True:
