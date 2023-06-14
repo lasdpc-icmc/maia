@@ -134,7 +134,7 @@ res_dic = {'cluster': cluster_list,
                 'logs_template': template_list,
                 'time': time_logs}
 
-
+import boto3
 def list_s3_files(bucket_name, prefix):
     s3 = boto3.client('s3')
     response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
