@@ -52,6 +52,7 @@ def clean_sock(lines):
     '''
     clean_log = []
     time_log = []
+    apps = []
 
     #lines = remove_header(lines)
     time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
@@ -62,11 +63,17 @@ def clean_sock(lines):
     time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
     ascii_pattern = r"\\n"
     log = r"\{'log': '"
+    apps_rgx = r"'app': (.*?(?<!\\)) "
 
-
+    c = 0
     for i in lines:
+        
+ 
+
+        app_tag = re.sub( r"'" , '' ,re.findall(apps_rgx, i)[0]).strip(',')
 
         i = i[i.index("{'log'"):]
+
 
         time = i[i.index("'time': "):]
         time = re.sub(r"'time':", '', time).replace('}', '')
@@ -89,9 +96,16 @@ def clean_sock(lines):
         key = i
         clean_log.append(key)
         time_log.append(time)
+        apps.append(app_tag)
 
 
-    return clean_log, time_log
+    
+
+    return clean_log, time_log, apps
+
+
+
+
 
 
 def write_logs(cluster_list, archive_path):
@@ -124,6 +138,9 @@ def read_logs(archive_path):
 
     return lines
 
+
+# logs = read_logs('sock-shop_1686517944.txt')
+# clean_sock(logs)
 
 
 # lines = read_logs('sock-shop_test.txt')

@@ -17,11 +17,14 @@ from deep_log_predict import model_predict
 
 
 def main():
-    train = False
+    train = 'test'
     if train == True:
         train_model(file_name)
         model_predict(file_name)
 
+    elif train == 'test':
+        exit()
+    
     else:
         model_predict(file_name)
 
