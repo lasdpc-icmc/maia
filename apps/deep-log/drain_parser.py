@@ -135,19 +135,30 @@ res_dic = {'cluster': cluster_list,
                 'time': time_logs}
 
 
-def run_on_files(bucket_name, prefix = 'raw/'):
-    # run drain parser for all files in a s3 bucket
-    files = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+def list_s3_files(bucket_name, prefix):
+    s3 = boto3.client('s3')
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
 
-    print('AQUI ', files['content'])
-
-    # for i in files:
-    #     aws_tools.get_to_s3(file_name, prefix)
-    #     print (f"download the file '{file_name}' from S3")
+    files = []
+    if 'Contents' in response:
+        for file in response['Contents']:
+            files.append(file['Key'])
+    return files
 
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-run_on_files(S3_BUCKET_NAME, 'raw/')
+
+
+bucket_name = S3_BUCKET_NAME
+prefix = 'raw/'
+
+file_list = list_s3_files(bucket_name, prefix)
+
+print("List of files in the S3 bucket:")
+for file_name in file_list:
+    print(file_name)
+
+
 
 
 # remove .txt from file_name
