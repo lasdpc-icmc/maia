@@ -46,7 +46,7 @@ def log_parser(clean_lines, write_txt = True):
     config = TemplateMinerConfig()
     config.load(dirname(__file__) + "/drain3.ini")
     config.profiling_enabled = True
-    template_miner = TemplateMiner(persistence, config=config)
+    template_miner = TemplateMiner( config=config)
 
     line_count = 0
 
@@ -56,16 +56,19 @@ def log_parser(clean_lines, write_txt = True):
 
     cluster_list = []
     value_list = []
+    template_list = []
     for line in clean_lines:
         line = line.rstrip()
         line = line.partition(": ")[2]
         result = template_miner.add_log_message(line)
+
+
+        template_mined = result['template_mined']
         line_count += 1
 
 
         params = template_miner.extract_parameters(
             result["template_mined"], line, exact_matching=False)
-
 
         cluster_id = result['cluster_id']
 
@@ -75,6 +78,7 @@ def log_parser(clean_lines, write_txt = True):
         except:
             value = ' '
 
+        template_list.append(template_mined)
         cluster_list.append(cluster_id)
         value_list.append(value)
 
@@ -109,7 +113,7 @@ def log_parser(clean_lines, write_txt = True):
     
     else:
 
-        return cluster_list, value_list
+        return cluster_list, value_list, template_list
 
 
 ## Exemplo de utilização:
@@ -117,12 +121,45 @@ prefix = "raw/"
 aws_tools.get_to_s3(file_name, prefix)
 print (f"download the file '{file_name}' from S3")
 
-initial_logs = read_logs(file_name)
-cleansed_logs, time_logs = clean_sock(initial_logs)
 
-log_parser(cleansed_logs)
+#file_name = 'sock-shop_1686517944.txt'
+initial_logs = read_logs(file_name)
+cleansed_logs, time_logs, app = clean_sock(initial_logs)
+
+
+
+cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
+res_dic = {'cluster': cluster_list,
+                'value_list': value_list,
+                'logs_template': template_list,
+                'time': time_logs}
+
+
+def run_on_files(bucket_name, prefix = 'raw/'):
+    # run drain parser for all files in a s3 bucket
+    files = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+
+    print('AQUI ', files['content'])
+
+    # for i in files:
+    #     aws_tools.get_to_s3(file_name, prefix)
+    #     print (f"download the file '{file_name}' from S3")
+
+
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+run_on_files(S3_BUCKET_NAME, 'raw/')
+
+
+# remove .txt from file_name
+file_name = file_name[:-4]
+#with open(f"cleansed_{file_name}.json", "w") as outfile:
+#    json.dump(res_dic, outfile)
+
 
 ## Upload results to S3
 s3_path = "clean"
-aws_tools.upload_to_s3(f'cluster_{file_name}', s3_path)
-aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
+#aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
+#aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
+
+
+
