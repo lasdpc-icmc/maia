@@ -168,7 +168,7 @@ def run_on_all():
         os.remove(f'cleansed_{file_name}.json')
 
 
-run_on_all
+run_on_all()
 
 
 
