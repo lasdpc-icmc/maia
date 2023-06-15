@@ -141,6 +141,16 @@ def log_parser(clean_lines, write_txt = True):
 
 # bucket_name = S3_BUCKET_NAME
 # prefix = 'raw/'
+def list_s3_files(prefix):
+    s3 = boto3.client('s3')
+    bucket_name = S3_BUCKET_NAME
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+    files = []
+    if 'Contents' in response:
+        for file in response['Contents']:
+            files.append(file['Key'])
+    return files
+
 
 def run_on_all():
     prefix = 'raw/'
