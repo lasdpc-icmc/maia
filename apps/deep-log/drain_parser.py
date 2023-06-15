@@ -10,6 +10,7 @@ from os.path import dirname
 import datetime
 import aws_tools
 from loki import file_name
+import boto3
 REDIS_URL = os.environ['REDIS_URL']
 REDIS_PORT = os.environ['REDIS_PORT']
 REDIS_KEY = os.environ['REDIS_KEY']
