@@ -46,7 +46,7 @@ def log_parser(clean_lines, write_txt = True):
     config = TemplateMinerConfig()
     config.load(dirname(__file__) + "/drain3.ini")
     config.profiling_enabled = True
-    template_miner = TemplateMiner( config=config)
+    template_miner = TemplateMiner(persistence, config=config)
 
     line_count = 0
 
