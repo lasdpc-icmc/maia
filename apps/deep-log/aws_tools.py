@@ -28,3 +28,16 @@ def get_to_s3(file_name, prefix):
 
     # Download the file to the download directory
     s3.download_file(bucket_name, last_object_key, file_name)
+
+
+
+def list_s3_files(prefix):
+    s3 = boto3.client('s3')
+    bucket_name = S3_BUCKET_NAME
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+
+    files = []
+    if 'Contents' in response:
+        for file in response['Contents']:
+            files.append(file['Key'])
+    return files

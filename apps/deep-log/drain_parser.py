@@ -117,58 +117,70 @@ def log_parser(clean_lines, write_txt = True):
 
 
 ## Exemplo de utilização:
-prefix = "raw/"
-aws_tools.get_to_s3(file_name, prefix)
-print (f"download the file '{file_name}' from S3")
+# prefix = "raw/"
+# aws_tools.get_to_s3(file_name, prefix)
+# print (f"download the file '{file_name}' from S3")
 
 
-#file_name = 'sock-shop_1686517944.txt'
-initial_logs = read_logs(file_name)
-cleansed_logs, time_logs, app = clean_sock(initial_logs)
+# #file_name = 'sock-shop_1686517944.txt'
+# initial_logs = read_logs(file_name)
+# cleansed_logs, time_logs, app = clean_sock(initial_logs)
 
 
 
-cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
-res_dic = {'cluster': cluster_list,
-                'value_list': value_list,
-                'logs_template': template_list,
-                'time': time_logs}
-
-import boto3
-def list_s3_files(bucket_name, prefix):
-    s3 = boto3.client('s3')
-    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-
-    files = []
-    if 'Contents' in response:
-        for file in response['Contents']:
-            files.append(file['Key'])
-    return files
+# cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
+# res_dic = {'cluster': cluster_list,
+#                 'value_list': value_list,
+#                 'logs_template': template_list,
+#                 'time': time_logs}
 
 
-S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+
+# S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
 
-bucket_name = S3_BUCKET_NAME
-prefix = 'raw/'
+# bucket_name = S3_BUCKET_NAME
+# prefix = 'raw/'
 
-file_list = list_s3_files(bucket_name, prefix)
+def run_on_all():
+    prefix = 'raw/'
+    s3_path = "clean"
+    file_list = list_s3_files(prefix)
+    for file_name in file_list:
+        aws_tools.get_to_s3(file_name, prefix)
+        print (f"download the file '{file_name}' from S3")
 
-print("List of files in the S3 bucket:")
-for file_name in file_list:
-    print(file_name)
+        initial_logs = read_logs(file_name)
+        cleansed_logs, time_logs, app = clean_sock(initial_logs)
+
+        cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
+        res_dic = {'cluster': cluster_list,
+                        'value_list': value_list,
+                        'logs_template': template_list,
+                        'time': time_logs}
+        
+        file_name = file_name[:-4]
+        with open(f"cleansed_{file_name}.json", "w") as outfile:
+            json.dump(res_dic, outfile)
+        
+        
+        aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
+        os.remove(f'cleansed_{file_name}.json')
+
+
+run_on_all
 
 
 
 
 # remove .txt from file_name
-file_name = file_name[:-4]
+#file_name = file_name[:-4]
 #with open(f"cleansed_{file_name}.json", "w") as outfile:
 #    json.dump(res_dic, outfile)
 
 
 ## Upload results to S3
-s3_path = "clean"
+#s3_path = "clean"
 #aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
 #aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
 
