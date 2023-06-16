@@ -43,7 +43,8 @@ def train_model(file_name, first_train = False):
 
     aws_tools.get_to_s3(file_name, prefix)
 
-    cleansed_file = open(file_name)
+    file = open(file_name)
+    cleansed_file = json.load(file)
 
     with open('tempfile_train.txt', 'w') as f:
         for i in cleansed_file['cluster']:
