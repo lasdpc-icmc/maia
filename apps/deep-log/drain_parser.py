@@ -141,7 +141,7 @@ S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
 
 #bucket_name = S3_BUCKET_NAME
-# prefix = 'raw/'
+prefix = 'raw/'
 def list_s3_files(prefix):
     s3 = boto3.client('s3')
     bucket_name = S3_BUCKET_NAME
@@ -159,7 +159,6 @@ def run_on_all():
     prefix = 'raw/'
     s3_path = "clean"
     file_list = list_s3_files(prefix)
-    print(file_list)
     for file_name in file_list:
         print('AQUI', file_name)
         aws_tools.get_to_s3(file_name, prefix)
@@ -172,7 +171,8 @@ def run_on_all():
         res_dic = {'cluster': cluster_list,
                         'value_list': value_list,
                         'logs_template': template_list,
-                        'time': time_logs}
+                        'time': time_logs,
+                        'app': app}
         
         file_name = file_name[:-4]
         with open(f"cleansed_{file_name}.json", "w") as outfile:
