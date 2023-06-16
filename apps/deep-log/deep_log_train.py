@@ -70,7 +70,7 @@ def train_model(file_name, first_train = False):
     ##############################################################################
     #                                 Train deeplog                              #
     ##############################################################################
-    
+    s3_path = "deep_log"
     if first_train == True:
         # Create DeepLog object
         #output_size - número de chaves diferentes, geralmente output_size = length
@@ -92,7 +92,7 @@ def train_model(file_name, first_train = False):
 
         save_model(deeplog, 'model_v2')
 
-        s3_path = "deep_log"
+        
         aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
         #os.remove('deeplog_model_v1.pth')
     
