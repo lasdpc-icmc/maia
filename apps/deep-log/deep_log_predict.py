@@ -53,7 +53,7 @@ def model_predict(file_name):
     cleansed_file = open(file_name)
 
     with open('tempfile_predict.txt', 'w') as f:
-        for i in cleansed_file:
+        for i in cleansed_file['cluster']:
             f.write(str(i) + ' ')
 
 
