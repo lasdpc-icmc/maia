@@ -137,10 +137,10 @@ def log_parser(clean_lines, write_txt = True):
 
 
 
-# S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
 
-# bucket_name = S3_BUCKET_NAME
+#bucket_name = S3_BUCKET_NAME
 # prefix = 'raw/'
 def list_s3_files(prefix):
     s3 = boto3.client('s3')
