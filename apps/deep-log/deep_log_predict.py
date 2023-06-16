@@ -6,7 +6,7 @@ from sklearn.metrics import classification_report
 import torch
 import aws_tools
 import os
-from drain_parser import file_name
+#from drain_parser import file_name
 
 
 
@@ -41,14 +41,26 @@ def model_predict(file_name):
     # Dowload the file from S3
     prefix = "clean/"
     s3_path = "deep_log"
-    aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
-    aws_tools.get_to_s3('deeplog_model_v1.pth', s3_path)
+
+    #descomentar depois
+    #aws_tools.get_to_s3(f'cleansed_{file_name}', prefix)
+    aws_tools.get_to_s3(file_name, prefix)
+    aws_tools.get_to_s3('deeplog_model_v2.pth', s3_path)
+
+
+    # Preprocessor its not implemented for .json files
+    # in this chunk i convert the cluster entry in the .json to .txt 
+    cleansed_file = open(file_name)
+
+    with open('tempfile_predict.txt', 'w') as f:
+    for i in cleansed_file:
+        f.write(str(i) + ' ')
 
 
 
     # Load normal data from s3
     X, y, label, mapping = preprocessor.text(
-        path    = f'cluster_{file_name}',
+        path    = 'tempfile_predict.txt',
         verbose = True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
     )
@@ -71,15 +83,13 @@ def model_predict(file_name):
     )
 
 
-    load_model(deeplog, 'deeplog_model_v1.pth')
+    load_model(deeplog, 'deeplog_model_v2.pth')
 
 
 
     ##############################################################################
     #                                Predict logs                                #
     ##############################################################################
-
-
 
 
     # Predict normal data using deeplog
@@ -110,20 +120,35 @@ def model_predict(file_name):
     #                                Upload results of data batch to s3          #
     ##############################################################################
 
-
-    res_dic = {
-        'individual_pred' : individual_pred,
-        'predictions': y_pred.cpu().numpy().tolist(),
-        'confidence': confidence.cpu().numpy().tolist(),
-        'anomalies': anomalies_normal.numpy().tolist()
-    }
+    cleansed_file['individual_pred'] = individual_pred
+    cleansed_file['predictions'] = y_pred.cpu().numpy().tolist()
+    cleansed_file['confidence'] = confidence.cpu().numpy().tolist()
+    cleansed_file['anomalies'] = anomalies_normal.numpy().tolist()
 
 
+    # deletar depois se .json der certo
+    # res_dic = {
+    #     'individual_pred' : individual_pred,
+    #     'predictions': y_pred.cpu().numpy().tolist(),
+    #     'confidence': confidence.cpu().numpy().tolist(),
+    #     'anomalies': anomalies_normal.numpy().tolist()
+    # }
 
-    file_name = file_name[:-4]
-    with open(f"predict_{file_name}.json", "w") as outfile:
-        json.dump(res_dic, outfile)
 
 
-    aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
-    os.remove(f'predict_{file_name}.json')
+    file_name = file_name[8:]
+
+    with open(f"predict_{file_name}", "w") as outfile:
+        json.dump(cleansed_file, outfile)
+
+
+    aws_tools.upload_to_s3(f'predict_{file_name}', s3_path)
+    os.remove(f'predict_{file_name}')
+    os.remove('tempfile_predict.txt')
+    
+    # with open(f"predict_{file_name}.json", "w") as outfile:
+    #     json.dump(res_dic, outfile)
+
+
+    # aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
+    # os.remove(f'predict_{file_name}.json')

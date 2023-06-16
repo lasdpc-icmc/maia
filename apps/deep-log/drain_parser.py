@@ -19,7 +19,7 @@ from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
 from drain3.redis_persistence import RedisPersistence
 
-
+print('FILE NAME FROM LOKI', file_name)
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(message)s')
 
@@ -183,7 +183,7 @@ def run_on_all():
         os.remove(f'cleansed_{file_name}.json')
 
 
-run_on_all()
+#run_on_all()
 
 
 
