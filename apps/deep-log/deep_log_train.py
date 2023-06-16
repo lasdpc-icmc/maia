@@ -24,7 +24,7 @@ from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 
 
 
-def train_model(file_name):
+def train_model(file_name, first_train = False):
 
     ##############################################################################
     #                                 Load data                                  #
@@ -41,41 +41,93 @@ def train_model(file_name):
     prefix = "clean/"
     #aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
 
-    # Load normal data from s3
+    aws_tools.get_to_s3(file_name, prefix)
+
+    cleansed_file = open(file_name)
+
+    with open('tempfile_train.txt', 'w') as f:
+    for i in cleansed_file:
+        f.write(str(i) + ' ')
+
+
     X, y, label, mapping = preprocessor.text(
-        path    = f'cluster_{file_name}',
+        path    = 'tempfile_train.txt',
         verbose = True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
     )
+
+
+    # Load normal data from s3
+    # X, y, label, mapping = preprocessor.text(
+    #     path    = f'cluster_{file_name}',
+    #     verbose = True,
+    #     # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
+    # )
 
 
 
     ##############################################################################
     #                                 Train deeplog                              #
     ##############################################################################
-    # Create DeepLog object
-    #output_size - número de chaves diferentes, geralmente output_size = length
-    deeplog = DeepLog(
-        input_size  = 30, # Number of different events to expect
-        hidden_size = 64 , # Hidden dimension, we suggest 64
-        output_size = 30, # Number of different events to expect
-    )
+    
+    if first_train == True:
+        # Create DeepLog object
+        #output_size - número de chaves diferentes, geralmente output_size = length
+        deeplog = DeepLog(
+            input_size  = 30, # Number of different events to expect
+            hidden_size = 64 , # Hidden dimension, we suggest 64
+            output_size = 30, # Number of different events to expect
+        )
 
-    # Train deeplog
-    deeplog.fit(
-        X          = X,
-        y          = y,
-        epochs     = 30 ,
-        batch_size = 128,
-        optimizer  = torch.optim.Adam,
-    )
+        # Train deeplog
+        deeplog.fit(
+            X          = X,
+            y          = y,
+            epochs     = 100 ,
+            batch_size = 128,
+            optimizer  = torch.optim.Adam,
+        )
 
 
-    save_model(deeplog, 'model_v1')
+        save_model(deeplog, 'model_v2')
 
-    s3_path = "deep_log"
-    aws_tools.upload_to_s3('deeplog_model_v1.pth', s3_path)
-    #os.remove('deeplog_model_v1.pth')
+        s3_path = "deep_log"
+        aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
+        #os.remove('deeplog_model_v1.pth')
+    
+    else:
+        
+        aws_tools.get_to_s3('deeplog_model_v2.pth', s3_path)
+
+
+        # Create DeepLog object
+        #output_size - número de chaves diferentes, geralmente output_size = length
+        deeplog = DeepLog(
+            input_size  = 30, # Number of different events to expect
+            hidden_size = 64 , # Hidden dimension, we suggest 64
+            output_size = 30, # Number of different events to expect
+        )
+
+
+        load_model(deeplog, 'deeplog_model_v2.pth')
+
+        # Train deeplog
+        deeplog.fit(
+            X          = X,
+            y          = y,
+            epochs     = 100 ,
+            batch_size = 128,
+            optimizer  = torch.optim.Adam,
+        )
+
+
+        save_model(deeplog, 'model_v2')
+
+        s3_path = "deep_log"
+        aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
+    
+    os.remove('tempfile_train.txt')
+
 
 
 
