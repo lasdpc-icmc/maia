@@ -46,8 +46,8 @@ def train_model(file_name, first_train = False):
     cleansed_file = open(file_name)
 
     with open('tempfile_train.txt', 'w') as f:
-    for i in cleansed_file:
-        f.write(str(i) + ' ')
+        for i in cleansed_file:
+            f.write(str(i) + ' ')
 
 
     X, y, label, mapping = preprocessor.text(
