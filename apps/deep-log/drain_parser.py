@@ -157,7 +157,10 @@ def run_on_all():
     prefix = 'raw/'
     s3_path = "clean"
     file_list = list_s3_files(prefix)
-    for file_name in file_list:
+    print(file_list)
+    for i in file_list:
+        print('AQUI', file_name)
+        exit()
         aws_tools.get_to_s3(file_name, prefix)
         print (f"download the file '{file_name}' from S3")
 
