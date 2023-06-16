@@ -46,7 +46,7 @@ def train_model(file_name, first_train = False):
     cleansed_file = open(file_name)
 
     with open('tempfile_train.txt', 'w') as f:
-        for i in cleansed_file:
+        for i in cleansed_file['cluster']:
             f.write(str(i) + ' ')
 
 
