@@ -94,7 +94,7 @@ def train_model(file_name, first_train = False):
 
         
         aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
-        #os.remove('deeplog_model_v1.pth')
+        os.remove('deeplog_model_v2.pth')
     
     else:
         
@@ -126,6 +126,7 @@ def train_model(file_name, first_train = False):
 
         s3_path = "deep_log"
         aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
+        os.remove('deeplog_model_v2.pth')
     
     os.remove('tempfile_train.txt')
 
