@@ -57,15 +57,15 @@ s3_path = "predict"
 file_to_run = list_s3_files(prefix)
 
 i = 0
+v = 3
 for file_name in file_to_run:
     if i == 0:
-        train_model(file_name, first_train=True)
+        train_model(file_name, first_train=True, version = v)
         model_predict(file_name)
         i +=1
+        v+=1
     else:
-        train_model(file_name, first_train=False)
+        train_model(file_name, first_train=False, version = v)
         model_predict(file_name)
-
-
-
+        v+=1
 

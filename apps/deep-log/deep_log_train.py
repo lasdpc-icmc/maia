@@ -24,7 +24,7 @@ from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 
 
 
-def train_model(file_name, first_train = False):
+def train_model(file_name, first_train = False, version = 2):
 
     ##############################################################################
     #                                 Load data                                  #
@@ -90,15 +90,15 @@ def train_model(file_name, first_train = False):
         )
 
 
-        save_model(deeplog, 'model_v2')
+        save_model(deeplog, f'model_v{version}')
 
         
-        aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
-        os.remove('deeplog_model_v2.pth')
+        aws_tools.upload_to_s3(f'deeplog_model_v{version}.pth', s3_path)
+        os.remove(f'deeplog_model_v{version}.pth')
     
     else:
         
-        aws_tools.get_to_s3('deeplog_model_v2.pth', s3_path)
+        aws_tools.get_to_s3(f'deeplog_model_v{version-1}.pth', s3_path)
 
 
         # Create DeepLog object
@@ -110,7 +110,7 @@ def train_model(file_name, first_train = False):
         )
 
 
-        load_model(deeplog, 'deeplog_model_v2.pth')
+        load_model(deeplog, f'deeplog_model_v{version-1}.pth')
 
         # Train deeplog
         deeplog.fit(
@@ -122,11 +122,12 @@ def train_model(file_name, first_train = False):
         )
 
 
-        save_model(deeplog, 'model_v2')
+        save_model(deeplog, f'model_v{version}')
 
         s3_path = "deep_log"
-        aws_tools.upload_to_s3('deeplog_model_v2.pth', s3_path)
-        os.remove('deeplog_model_v2.pth')
+        aws_tools.upload_to_s3(f'deeplog_model_v{version}.pth', s3_path)
+        os.remove(f'deeplog_model_v{version}.pth')
+        os.remove(f'deeplog_model_v{version-1}.pth')
     
     os.remove('tempfile_train.txt')
 
