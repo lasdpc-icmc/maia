@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: deeplog-prom-exporter
-        image: diegopedroso/deeplog-prom-exporter:20230531.01
+        image: diegopedroso/deeplog-prom-exporter:20230617.01
         envFrom:
         - secretRef:
             name: deep-log-secrets
