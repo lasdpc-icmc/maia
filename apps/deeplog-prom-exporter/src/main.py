@@ -31,8 +31,8 @@ for i, prediction in enumerate(jsonin["predictions"]):
         dm.confidence.labels(apps_list[i].split('}')[0], prediction[0],
                              log_type).observe(confidence_point[j])
 
-    if anomaly:
-        dm.anomalies.labels(apps_list[i].split('}')[0], prediction[0]).inc()
+    dm.anomalies.labels(apps_list[i].split('}')[0],
+                        prediction[0]).inc(1 if anomaly else 0)
 
 # finally, use pushgateway to expose the metrics we just collected
 prometheus_client.push_to_gateway(
