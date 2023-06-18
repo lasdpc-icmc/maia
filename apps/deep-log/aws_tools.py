@@ -32,15 +32,15 @@ def get_to_s3(file_name, prefix):
 
 
 def list_s3_files(prefix):
-s3 = boto3.client('s3')
-bucket_name = S3_BUCKET_NAME
-response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-files = []
-if 'Contents' in response:
-    for file in response['Contents']:
-        files.append(file['Key'])
+    s3 = boto3.client('s3')
+    bucket_name = S3_BUCKET_NAME
+    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+    files = []
+    if 'Contents' in response:
+        for file in response['Contents']:
+            files.append(file['Key'])
 
-files = [j[6:] for j in files]
-return files
+    files = [j[6:] for j in files]
+    return files
 
 
