@@ -151,7 +151,7 @@ def list_s3_files(prefix):
         for file in response['Contents']:
             files.append(file['Key'])
     
-    files = [j[4:] for j in files]
+    files = [j[6:] for j in files]
     return files
 
 

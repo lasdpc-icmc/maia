@@ -41,14 +41,21 @@ def train_model(file_name, first_train = False, version = 2):
     prefix = "clean/"
     #aws_tools.get_to_s3(f'cluster_{file_name}', prefix)
 
-    aws_tools.get_to_s3(file_name, prefix)
 
-    file = open(file_name)
-    cleansed_file = json.load(file)
+    file_to_train = aws_tools.list_s3_files(prefix)
+    for file_name in file_to_train:
+        aws_tools.get_to_s3(file_name, prefix)
 
-    with open('tempfile_train.txt', 'w') as f:
-        for i in cleansed_file['cluster']:
-            f.write(str(i) + ' ')
+        file = open(file_name)
+        cleansed_file = json.load(file)
+
+        with open('tempfile_train.txt', 'a') as f:
+            for i in cleansed_file['cluster']:
+                f.write(str(i) + ' ')
+
+        os.remove(file_name)
+        
+
 
 
     X, y, label, mapping = preprocessor.text(
@@ -98,7 +105,9 @@ def train_model(file_name, first_train = False, version = 2):
     
     else:
         
-        aws_tools.get_to_s3(f'deeplog_model_v{version-1}.pth', s3_path)
+        
+        aws_tools.get_to_s3(f'deeplog_model_v{version}.pth', s3_path)
+
 
 
         # Create DeepLog object
