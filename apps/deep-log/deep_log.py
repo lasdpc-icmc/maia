@@ -19,7 +19,7 @@ import boto3
 
 
 def main():
-    train = 'test'
+    train = True
     if train == True:
         train_model(file_name)
         model_predict(file_name)
@@ -31,31 +31,33 @@ def main():
         model_predict(file_name)
 
 
+main()
+
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 bucket_name = S3_BUCKET_NAME
 prefix = 'clean/'
 
 
 
-def list_s3_files(prefix):
-    s3 = boto3.client('s3')
-    bucket_name = S3_BUCKET_NAME
-    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-    files = []
-    if 'Contents' in response:
-        for file in response['Contents']:
-            files.append(file['Key'])
+# def list_s3_files(prefix):
+#     s3 = boto3.client('s3')
+#     bucket_name = S3_BUCKET_NAME
+#     response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
+#     files = []
+#     if 'Contents' in response:
+#         for file in response['Contents']:
+#             files.append(file['Key'])
     
-    files = [j[6:] for j in files]
-    return files
+#     files = [j[6:] for j in files]
+#     return files
 
 
 
 
-prefix = 'clean/'
-s3_path = "predict"
-file_to_run = list_s3_files(prefix)
+# prefix = 'clean/'
+# s3_path = "predict"
+# file_to_run = list_s3_files(prefix)
 
-#train_model(file_name = 'whatever', first_train=True, version = 10)
+# #train_model(file_name = 'whatever', first_train=True, version = 10)
 
-model_predict(file_to_run)
+# #model_predict(file_to_run)
