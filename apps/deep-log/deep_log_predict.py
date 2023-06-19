@@ -47,29 +47,32 @@ def model_predict(file_list, get_weights = False):
     
 
 
-    aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
-
-
-    ##############################################################################
-    #                                 Load state of model                        #
-    ##############################################################################
-
-
-    # Create DeepLog object
-    #output_size - número de chaves diferentes, geralmente output_size = length
-    deeplog = DeepLog(
-        input_size  = 30, # Number of different events to expect
-        hidden_size = 64 , # Hidden dimension, we suggest 64
-        output_size = 30, # Number of different events to expect
-    )
-
-    load_model(deeplog, 'deeplog_model_v10.pth')
-
-    # Preprocessor its not implemented for .json files
-    # in this chunk i convert the cluster entry in the .json to .txt 
 
 
     for file in file_list:
+
+        
+        aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
+
+
+        ##############################################################################
+        #                                 Load state of model                        #
+        ##############################################################################
+
+
+        # Create DeepLog object
+        #output_size - número de chaves diferentes, geralmente output_size = length
+        deeplog = DeepLog(
+            input_size  = 30, # Number of different events to expect
+            hidden_size = 64 , # Hidden dimension, we suggest 64
+            output_size = 30, # Number of different events to expect
+        )
+
+        load_model(deeplog, 'deeplog_model_v10.pth')
+
+        # Preprocessor its not implemented for .json files
+        # in this chunk i convert the cluster entry in the .json to .txt 
+
         aws_tools.get_to_s3(file, prefix)
         file = open(file)
         cleansed_file = json.load(file)
@@ -153,6 +156,8 @@ def model_predict(file_list, get_weights = False):
         aws_tools.upload_to_s3(f'predict_{file_name}', s3_path)
         os.remove(f'predict_{file_name}')
         os.remove('tempfile_predict.txt')
+        os.remove('deeplog_model_v10.pth')
+        
     
     # with open(f"predict_{file_name}.json", "w") as outfile:
     #     json.dump(res_dic, outfile)
