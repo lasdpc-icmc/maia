@@ -54,7 +54,7 @@ def model_predict(file_name):
 
     # Preprocessor its not implemented for .json files
     # in this chunk i convert the cluster entry in the .json to .txt 
-    file = open(file_name)
+    file = open(f"cleansed_{file_name}.json")
     cleansed_file = json.load(file)
 
     with open('tempfile_predict.txt', 'w') as f:
