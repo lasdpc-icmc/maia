@@ -24,7 +24,18 @@ import json
 
 from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 
-#os.remove('__pycache__/deep_log_predict.cpython-39')
+
+
+try:
+    import shutil 
+    shutil.rmtree('~/.cache/torch/checkpoints/')
+except Exception as error:
+    # handle the exception
+    print("An exception occurred:", error)
+
+
+
+
 def model_predict(file_list, get_weights = False):
 
     ##############################################################################
