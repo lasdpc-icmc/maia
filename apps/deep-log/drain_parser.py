@@ -118,47 +118,35 @@ def log_parser(clean_lines, write_txt = True):
 
 
 ## Exemplo de utilização:
-# prefix = "raw/"
-# aws_tools.get_to_s3(file_name, prefix)
-# print (f"download the file '{file_name}' from S3")
+prefix = "raw/"
+aws_tools.get_to_s3(file_name, prefix)
+print (f"download the file '{file_name}' from S3")
 
 
-# #file_name = 'sock-shop_1686517944.txt'
-# initial_logs = read_logs(file_name)
-# cleansed_logs, time_logs, app = clean_sock(initial_logs)
-
-
-
-# cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
-# res_dic = {'cluster': cluster_list,
-#                 'value_list': value_list,
-#                 'logs_template': template_list,
-#                 'time': time_logs}
+initial_logs = read_logs(file_name)
+cleansed_logs, time_logs, app = clean_sock(initial_logs)
+cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
+res_dic = {'cluster': cluster_list,
+                        'value_list': value_list,
+                        'logs_template': template_list,
+                        'time': time_logs,
+                        'app': app}
 
 
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
 
-#bucket_name = S3_BUCKET_NAME
-prefix = 'raw/'
-def list_s3_files(prefix):
-    s3 = boto3.client('s3')
-    bucket_name = S3_BUCKET_NAME
-    response = s3.list_objects_v2(Bucket=bucket_name, Prefix=prefix)
-    files = []
-    if 'Contents' in response:
-        for file in response['Contents']:
-            files.append(file['Key'])
-    
-    files = [j[6:] for j in files]
-    return files
 
+
+
+prefix = 'raw/'
 
 def run_on_all():
+    # Code to run drain parser on all files in s3 raw data
     prefix = 'raw/'
     s3_path = "clean"
-    file_list = list_s3_files(prefix)
+    file_list = aws_tools.list_s3_files(prefix)
     for file_name in file_list:
         print('AQUI', file_name)
         aws_tools.get_to_s3(file_name, prefix)
@@ -183,21 +171,16 @@ def run_on_all():
         os.remove(f'cleansed_{file_name}.json')
 
 
-#run_on_all()
+#remove .txt from file_name
+file_name = file_name[:-4]
+with open(f"cleansed_{file_name}.json", "w") as outfile:
+   json.dump(res_dic, outfile)
 
 
-
-
-# remove .txt from file_name
-#file_name = file_name[:-4]
-#with open(f"cleansed_{file_name}.json", "w") as outfile:
-#    json.dump(res_dic, outfile)
-
-
-## Upload results to S3
-#s3_path = "clean"
-#aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-#aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
+# Upload results to S3
+s3_path = "clean"
+aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
+aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
 
 
 
