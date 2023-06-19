@@ -16,8 +16,11 @@ def load_model(deeplog,path_to_pth):
     '''
     Reloads deeplog model
     '''
+    import pickle
+    pickle.load = partial(pickle.load, encoding="latin1")
+    pickle.Unpickler = partial(pickle.Unpickler, encoding="latin1")
 
-    deeplog.load_state_dict(torch.load(path_to_pth))
+    deeplog.load_state_dict(torch.load(path_to_pth, map_location=lambda storage, loc: storage, pickle_module=pickle))
 
     return deeplog
 
