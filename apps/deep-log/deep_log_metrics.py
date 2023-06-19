@@ -19,6 +19,8 @@ def load_model(deeplog,path_to_pth):
 
     deeplog.load_state_dict(torch.load(path_to_pth))
 
+    return deeplog
+
 
 
 

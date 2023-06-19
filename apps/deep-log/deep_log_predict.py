@@ -24,7 +24,7 @@ import json
 
 from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
 
-os.remove('__pycache__/deep_log_predict.cpython-39')
+#os.remove('__pycache__/deep_log_predict.cpython-39')
 def model_predict(file_list, get_weights = False):
 
     ##############################################################################
@@ -56,7 +56,7 @@ def model_predict(file_list, get_weights = False):
         output_size = 30, # Number of different events to expect
     )
 
-    load_model(deeplog, 'deeplog_model_v10.pth')
+    deeplog = load_model(deeplog, 'deeplog_model_v10.pth')
 
     for file in file_list:
 
