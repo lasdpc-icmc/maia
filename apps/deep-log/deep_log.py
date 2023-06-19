@@ -57,5 +57,5 @@ s3_path = "predict"
 file_to_run = list_s3_files(prefix)
 
 #train_model(file_name = 'whatever', first_train=True, version = 10)
-for file_name in file_to_run:
-    model_predict(file_name)
+
+model_predict(file_to_run)
