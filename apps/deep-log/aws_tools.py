@@ -1,7 +1,7 @@
 import boto3
 import os
 
-S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+#S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 S3_BUCKET_NAME = 'lasdpc-deeplog-results'
 
 
