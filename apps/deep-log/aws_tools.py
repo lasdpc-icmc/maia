@@ -2,6 +2,8 @@ import boto3
 import os
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
+S3_BUCKET_NAME = 'lasdpc-deeplog-results'
+
 
 def upload_to_s3(file_name, s3_path):
     s3 = boto3.resource('s3')
