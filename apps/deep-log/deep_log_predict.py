@@ -49,7 +49,7 @@ def model_predict(file_name):
     aws_tools.get_to_s3(f"cleansed_{file_name}.json", prefix)
 
 
-    aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
+    #aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
 
 
     # Preprocessor its not implemented for .json files
