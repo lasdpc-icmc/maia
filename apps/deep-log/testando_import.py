@@ -20,8 +20,8 @@ prefix = "clean/"
 s3_path = "deep_log"
 
 
-aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
-aws_tools.get_to_s3('cleansed_sock-shop_1677876783.json', 'clean')
+#aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
+#aws_tools.get_to_s3('cleansed_sock-shop_1686517944.json', 'clean')
 
 
 dict_model = torch.load('deeplog_model_v10.pth')
@@ -31,7 +31,7 @@ deeplog.load_state_dict(torch.load('deeplog_model_v10.pth'))
 
  # Preprocessor its not implemented for .json files
 # in this chunk i convert the cluster entry in the .json to .txt 
-file = open('cleansed_sock-shop_1677876783.json')
+file = open('cleansed_sock-shop_1686517944.json')
 cleansed_file = json.load(file)
 
 with open('tempfile_predict.txt', 'w') as f:
@@ -76,6 +76,9 @@ y_pred, confidence = deeplog.predict(
 #print(y_pred)
 
 
-aws_tools.upload_to_s3('predict_seraquesobe.json', s3_path)
-os.remove(f'predict_{file_name}.json')
+print(y_pred)
+print('Funcionou.')
+
+#aws_tools.upload_to_s3('predict_seraquesobe.json', s3_path)
+#os.remove(f'predict_{file_name}.json')
 
