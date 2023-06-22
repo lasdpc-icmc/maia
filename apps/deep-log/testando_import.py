@@ -5,7 +5,7 @@ from deeplog.preprocessor import Preprocessor
 from deep_log_metrics import load_model
 import torch
 from deeplog.preprocessor import Preprocessor
-import aws_tools
+#import aws_tools
 
 
 # Create DeepLog object
@@ -38,6 +38,12 @@ with open('tempfile_predict.txt', 'w') as f:
     for i in cleansed_file['cluster']:
         f.write(str(i) + ' ')
 
+
+
+preprocessor = Preprocessor(
+    length  = 10,           # Extract sequences of 20 items
+    timeout = float('inf'), # Do not include a maximum allowed time between events
+)
 
 
 # Load normal data from s3
