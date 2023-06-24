@@ -127,7 +127,7 @@ def model_predict(file_name):
 
 
 
-    file_name = file_name[8:]
+    #file_name = file_name[8:]
 
     with open(f"predict_{file_name}", "w") as outfile:
         json.dump(cleansed_file, outfile)
@@ -137,9 +137,6 @@ def model_predict(file_name):
     os.remove(f'predict_{file_name}')
     os.remove('tempfile_predict.txt')
     
-    with open(f"predict_{file_name}.json", "w") as outfile:
-        json.dump(res_dic, outfile)
-
 
     aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
     os.remove(f'predict_{file_name}.json')
