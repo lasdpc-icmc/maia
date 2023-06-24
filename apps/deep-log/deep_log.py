@@ -18,8 +18,7 @@ from deep_log_predict import model_predict
 import boto3
 
 
-def main():
-    train = False
+def main(train = True):
     if train == True:
         train_model(file_name)
         model_predict(file_name)
@@ -31,7 +30,7 @@ def main():
         model_predict(file_name)
 
 
-main()
+main(train = False)
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 bucket_name = S3_BUCKET_NAME
