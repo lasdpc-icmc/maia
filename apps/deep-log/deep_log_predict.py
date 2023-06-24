@@ -134,9 +134,4 @@ def model_predict(file_name):
 
 
     aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
-    os.remove(f'predict_{file_name}')
-    os.remove('tempfile_predict.txt')
-    
-
-    aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
     os.remove(f'predict_{file_name}.json')
