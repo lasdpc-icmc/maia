@@ -13,6 +13,9 @@ variable "app_deeplog" {
 variable "app_thirdparty_nginx" {
   type = string
 }
+variable "app_deeplog_statemodel" {
+  type = string
+}
 variable "resource_name" {
   type = string
 }
