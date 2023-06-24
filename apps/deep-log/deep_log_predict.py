@@ -42,14 +42,13 @@ def model_predict(file_name):
 
     # Dowload the file from S3
     prefix = "clean/"
+    state_prefix = "deeplog_statemodel/"
     s3_path = "deep_log"
 
     #descomentar depois
-    #aws_tools.get_to_s3(f'cleansed_{file_name}', prefix)
+    aws_tools.get_to_s3(f'deeplog_model_v10.pth', state_prefix)
     aws_tools.get_to_s3(f"cleansed_{file_name}.json", prefix)
 
-
-    #aws_tools.get_to_s3('deeplog_model_v10.pth', s3_path)
 
 
     # Preprocessor its not implemented for .json files
