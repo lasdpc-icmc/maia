@@ -23,6 +23,7 @@ import json
 
 
 from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
+PREDICT_RANGE = os.environ['PREDICT_RANGE']
 
 
 def model_predict(file_name):
@@ -95,7 +96,7 @@ def model_predict(file_name):
     # Predict normal data using deeplog
     y_pred, confidence = deeplog.predict(
         X = X,
-        k = 5, # Change this value to get the top k predictions (called 'g' in DeepLog paper, see Figure 6)
+        k = PREDICT_RANGE , # Change this value to get the top k predictions (called 'g' in DeepLog paper, see Figure 6)
     )
 
 
