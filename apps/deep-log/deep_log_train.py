@@ -57,9 +57,16 @@ def train_model(file_name, first_train = False, version = 2):
         
 
 
+    file = open(f"cleansed_{file_name}.json")
+    cleansed_file = json.load(file)
+
+    with open('tempfile_train.txt', 'w') as f:
+        for i in cleansed_file['cluster']:
+            f.write(str(i) + ' ')
+
 
     X, y, label, mapping = preprocessor.text(
-        path    = f"cleansed_{file_name}.json",
+        path    = 'tempfile_train.txt',
         verbose = True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
     )
