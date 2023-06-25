@@ -19,14 +19,13 @@ import boto3
 
 
 def main(train = True):
+    version = 12
     if train == True:
         train_model(file_name)
         model_predict(file_name)
 
-    elif train == 'test':
-        exit()
-    
     else:
+        train_model(file_name, first_train=False, version = version)
         model_predict(file_name)
 
 
