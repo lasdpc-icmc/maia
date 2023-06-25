@@ -90,7 +90,7 @@ def train_model(file_name, first_train = False, version = 2):
         deeplog.fit(
             X          = X,
             y          = y,
-            epochs     = 100 ,
+            epochs     = 20 ,
             batch_size = 128,
             optimizer  = torch.optim.Adam,
         )
