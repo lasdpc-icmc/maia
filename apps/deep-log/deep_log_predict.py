@@ -23,7 +23,7 @@ import json
 
 
 from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
-PREDICT_RANGE = os.environ['PREDICT_RANGE']
+PREDICT_RANGE = int(os.environ['PREDICT_RANGE'])
 
 
 def model_predict(file_name):
