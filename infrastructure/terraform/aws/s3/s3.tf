@@ -22,3 +22,8 @@ resource "aws_s3_bucket" "thridy_party_nginx" {
   bucket = var.app_thirdparty_nginx
   tags   = local.common_tags
 }
+
+resource "aws_s3_bucket" "deeplog_statemodel" {
+  bucket = var.app_deeplog_statemodel
+  tags   = local.common_tags
+}

@@ -27,12 +27,13 @@ fi
 
 if [ $APP == "deep-log" ]; then
     sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/applications/values.yaml
-    kubectl_run delete job deep-log-training deeplog-prom-exporter -n $APP | sh 2>&1 >/dev/null || true
+    kubectl_run delete job deep-log-training -n $APP | sh 2>&1 >/dev/null || true
     kubectl_run apply -f apps/$APP/kubernetes/applications/
     #check if all deploys were successfull\
     kubectl_run wait --for=condition=complete job/deep-log-training --timeout=900s -n $APP
 
     # run the exporter job to send metrics to prometheus
+    kubectl_run delete job deeplog-prom-exporter -n $APP | sh 2>&1 >/dev/null || true
     kubectl_run apply -f apps/deeplog-prom-exporter/kubernetes/
     kubectl_run wait --for=condition=complete job/deeplog-prom-exporter --timeout=100s -n $APP
 
