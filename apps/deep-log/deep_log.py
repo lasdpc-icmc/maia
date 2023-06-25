@@ -19,7 +19,7 @@ import boto3
 
 
 def main(train = True):
-    version = 11
+    version = 12
     if train == True:
         train_model(file_name)
         model_predict(file_name)
