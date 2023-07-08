@@ -1,0 +1,30 @@
+{
+  "edges_fields": [
+    {
+      "field_name": "id",
+      "type": "string"
+    },
+    {
+      "field_name": "source",
+      "type": "string"
+    },
+    {
+      "field_name": "target",
+      "type": "string"
+    },
+    {
+      "field_name": "mainStat",
+      "type": "number"
+    }
+  ],
+  "nodes_fields": [
+    {
+      "field_name": "id",
+      "type": "string"
+    },
+    {
+      "field_name": "title",
+      "type": "string"
+    }
+  ]
+}
