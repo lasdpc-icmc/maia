@@ -833,6 +833,11 @@ grafana:
       access: proxy
       url: http://loki.monitoring.svc.cluster.local:3100
       version: 1
+    - name: Node Graph API
+      type: hamedkarbasi93-nodegraphapi-datasource
+      isDefault: false
+      access: proxy
+      url: http://nodegraph-generator.monitoring.svc.cluster.local
   ## Passed to grafana subchart and used by servicemonitor below
   ##
   service:
@@ -870,6 +875,8 @@ grafana:
     #   targetLabel: nodename
     #   replacement: $1
     #   action: replace
+  plugins:
+    - hamedkarbasi93-nodegraphapi-datasource
 
 ## Component scraping the kube api server
 ##
