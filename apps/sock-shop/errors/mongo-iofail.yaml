@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: IOChaos
+metadata:
+  name: mongo-iofail
+  namespace: sock-shop
+spec:
+  action: fault
+  mode: all
+  selector:
+    labelSelectors:
+      name: carts-db
+  volumePath: /data/db
+  path: /data/db/**/*
+  errno: 5
+  percent: 50
+  duration: '5m'

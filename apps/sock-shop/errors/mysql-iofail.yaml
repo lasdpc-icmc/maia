@@ -1,0 +1,16 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: IOChaos
+metadata:
+  name: mysql-iofail
+  namespace: sock-shop
+spec:
+  action: fault
+  mode: all
+  selector:
+    labelSelectors:
+      name: catalogue-db
+  volumePath: /var/lib/mysql
+  path: /var/lib/mysql/**/*
+  errno: 5
+  percent: 50
+  duration: '5m'

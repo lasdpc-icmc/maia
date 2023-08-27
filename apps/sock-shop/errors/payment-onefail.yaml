@@ -1,0 +1,12 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: PodChaos
+metadata:
+  name: payment-failure
+  namespace: sock-shop
+spec:
+  action: pod-failure
+  mode: one
+  duration: '5m'
+  selector:
+    labelSelectors:
+      name: 'payment'
