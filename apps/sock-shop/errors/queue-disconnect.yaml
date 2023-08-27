@@ -1,0 +1,20 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: queue-disconnect
+spec:
+  action: partition
+  mode: all
+  selector:
+    namespaces:
+      - sock-shop
+    labelSelectors:
+      name: rabbitmq
+  direction: both
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - sock-shop
+      labelSelectors:
+        name: queue-master

@@ -19,7 +19,7 @@ defaults:
       - image: cimg/openjdk:8.0.322-browsers
 
   - &tag /[^\/]*\/\d{8}.\d{2}$/
-  - &load_test_tag /[^\/]*\/[^\/]*\/[0-9]+(s|m)\/\d{8}.\d{2}$/
+  - &load_test_tag /testandchaos\/[^\/]*\/[^\/]*\/\d{8}.\d{2}$/
 
   - &tag_only
     filters:
@@ -83,7 +83,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Locust Load Test
+          name: Locust Load Test and Chaos Mesh error application
           command: |
               chmod +x .circleci/locust.sh && .circleci/locust.sh
   
@@ -144,7 +144,7 @@ workflows:
             - approve_rollback
           <<: *tag_only     
 
-  load_test_only:
+  load_test_and_chaos:
     jobs:
       - load_test_locust:
           <<: *load_test_tag_only

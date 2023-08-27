@@ -14,13 +14,29 @@ pip install locust
 aws_run eks --region $EKS_REGION update-kubeconfig --name $EKS_CLUSTER_NAME
 chmod 600 ~/.kube/config
 
-# runs the locust loadtest in a single file for a specified time (such as 10s or 2m)
+# identify our workflow and set variables accordingly
+if [[ $APP == "testandchaos" ]]
+then
+    APP=$(echo $CIRCLE_TAG |sed 's|testandchaos/\([^/]*\)/.*|\1|')
+    CHAOS=$(echo $CIRCLE_TAG |sed 's|testandchaos/[^/]*/\([^/]*\)/.*|\1|')
+else
+    CHAOS="none"
+fi
+
+# runs the locust loadtest for half an hour, only the files listed in the first argument
 run_locust() {
     locust                                      \
         --autostart --autoquit 0                \
         --config apps/$APP/loadtest/locust.conf \
         --exit-code-on-error 0                  \
-        -f $1 -t $2
+        -f $1 -t "30m"
+}
+
+apply_chaos_after_sleep() {
+    sleep 15m
+    kubectl_run apply -f apps/$APP/errors/$CHAOS.yaml
+    sleep 5m
+    kubectl_run delete -f apps/$APP/erros/$CHAOS.yaml
 }
 
 #collects all metrics from the local running locust_exporter and pushes them to s3
@@ -47,25 +63,15 @@ send_metrics &
 
 all_files=$(find apps/$APP/loadtest/ -maxdepth 1 -type f |grep "\.py$" |sed ':a;N;$!ba;s/\n/,/g')
 
-#if we are in the deployment workflow
-if [ -z $(echo $CIRCLE_TAG | awk -F "(/)" '{print $4}') ]
+#if we are in a workflow with chaos-mesh errors
+if [[ $CHAOS != "none" ]]
 then
-    #run all tests all at once for a minute
-    run_locust $all_files "60s"
-else
-    #if we are in the loadtest only workflow
-
-    #sets the specific file and time from the tag and run a single test
-    if [[ $(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}') == "all" ]]
-    then
-      file=$all_files
-    else
-      file=apps/$APP/loadtest/$(echo $CIRCLE_TAG | awk -F "(/)" '{print $2}').py
-    fi
-
-    runtime=$(echo $CIRCLE_TAG | awk -F "(/)" '{print $3}')
-    run_locust $file $runtime
+  #set a new thread to sleep for some time and apply the chaos after that
+  apply_chaos_after_sleep &
 fi
+
+#run all tests
+run_locust $all_files
 
 #kill background metrics sending process
 kill $(jobs -p)

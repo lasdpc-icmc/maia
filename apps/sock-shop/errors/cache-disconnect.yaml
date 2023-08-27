@@ -1,0 +1,20 @@
+apiVersion: chaos-mesh.org/v1alpha1
+kind: NetworkChaos
+metadata:
+  name: cache-disconnect
+spec:
+  action: partition
+  mode: all
+  selector:
+    namespaces:
+      - sock-shop
+    labelSelectors:
+      name: session-db
+  direction: both
+  target:
+    mode: all
+    selector:
+      namespaces:
+        - sock-shop
+      labelSelectors:
+        name: front-end
