@@ -1,7 +1,7 @@
 apiVersion: chaos-mesh.org/v1alpha1
 kind: PodChaos
 metadata:
-  name: orders-failure
+  name: shipping-failure
   namespace: sock-shop
 spec:
   action: pod-failure
@@ -9,4 +9,4 @@ spec:
   duration: '5m'
   selector:
     labelSelectors:
-      name: 'orders'
+      name: 'shipping'
