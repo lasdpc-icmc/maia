@@ -61,7 +61,6 @@ if response.status_code == 200:
     s3_path = "raw"  # Replace with desired S3 path
     s3 = boto3.client('s3', region_name=AWS_REGION, aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
     s3.upload_file(file_name, S3_BUCKET_NAME, s3_path + '/' + file_name)
-    os.remove(file_name)
 
 else:
     # Print the error message and content if the request failed

@@ -1,4 +1,4 @@
- # SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: MIT
 
 import json
 import logging
@@ -11,9 +11,11 @@ import datetime
 import aws_tools
 from loki import file_name
 import boto3
+
 REDIS_URL = os.environ['REDIS_URL']
 REDIS_PORT = os.environ['REDIS_PORT']
 REDIS_KEY = os.environ['REDIS_KEY']
+USE_REDIS = os.environ.get('USE_REDIS', 'false').lower() == 'true'
 
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
@@ -25,14 +27,26 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO, format='%(message)s')
 
 from data_cleaning import clean_sock, read_logs, write_logs
 
-persistence = RedisPersistence(redis_host=REDIS_URL,
-                                   redis_port=REDIS_PORT,
-                                   redis_db=0,
-                                   redis_pass='',
-                                   is_ssl=False,
-                                   redis_key=REDIS_KEY)
+# Define a persistence variable that will be used regardless of Redis usage
 
-def log_parser(clean_lines, write_txt = True):
+persistence = None
+file_name = file_name[:-4]
+
+if USE_REDIS:
+    persistence = RedisPersistence(
+        redis_host=REDIS_URL,
+        redis_port=REDIS_PORT,
+        redis_db=0,
+        redis_pass='',
+        is_ssl=False,
+        redis_key=REDIS_KEY
+    )
+else:
+    # Define a local persistence mechanism here if not using Redis
+    # For example, you can create a simple dictionary or use a file-based storage.
+    local_persistence = {}
+
+def log_parser(clean_lines, write_txt=True, persistence=None):
     '''
     Write parsed logs in .txt files
     book_logs_cluster - .txt with the constant part of logs encoded
@@ -116,29 +130,23 @@ def log_parser(clean_lines, write_txt = True):
 
         return cluster_list, value_list, template_list
 
-
 ## Exemplo de utilização:
 prefix = "raw/"
 aws_tools.get_to_s3(file_name, prefix)
-print (f"download the file '{file_name}' from S3")
-
+print(f"download the file '{file_name}' from S3")
 
 initial_logs = read_logs(file_name)
 cleansed_logs, time_logs, app = clean_sock(initial_logs)
-cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
-res_dic = {'cluster': cluster_list,
-                        'value_list': value_list,
-                        'logs_template': template_list,
-                        'time': time_logs,
-                        'app': app}
-
-
+cluster_list, value_list, template_list = log_parser(cleansed_logs, write_txt=False, persistence=persistence)
+res_dic = {
+    'cluster': cluster_list,
+    'value_list': value_list,
+    'logs_template': template_list,
+    'time': time_logs,
+    'app': app
+}
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-
-
-
-
 
 prefix = 'raw/'
 
@@ -150,37 +158,37 @@ def run_on_all():
     for file_name in file_list:
         print('AQUI', file_name)
         aws_tools.get_to_s3(file_name, prefix)
-        print (f"download the file '{file_name}' from S3")
+        print(f"download the file '{file_name}' from S3")
 
         initial_logs = read_logs(file_name)
         cleansed_logs, time_logs, app = clean_sock(initial_logs)
 
-        cluster_list, value_list, template_list =  log_parser(cleansed_logs, write_txt=False)
-        res_dic = {'cluster': cluster_list,
-                        'value_list': value_list,
-                        'logs_template': template_list,
-                        'time': time_logs,
-                        'app': app}
+        cluster_list, value_list, template_list = log_parser(cleansed_logs, write_txt=False, persistence=persistence)
+        res_dic = {
+            'cluster': cluster_list,
+            'value_list': value_list,
+            'logs_template': template_list,
+            'time': time_logs,
+            'app': app
+        }
         
-        file_name = file_name[:-4]
         with open(f"cleansed_{file_name}.json", "w") as outfile:
             json.dump(res_dic, outfile)
         
-        
+        if not USE_REDIS:
+            # Save data locally using a filename-based dictionary
+            local_persistence[f'cleansed_{file_name}.json'] = json.dumps(res_dic)
+
         aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-        os.remove(f'cleansed_{file_name}.json')
 
 
-#remove .txt from file_name
-file_name = file_name[:-4]
 with open(f"cleansed_{file_name}.json", "w") as outfile:
-   json.dump(res_dic, outfile)
+    json.dump(res_dic, outfile)
 
+if not USE_REDIS:
+    # Save data locally using a filename-based dictionary
+    local_persistence[f'cleansed_{file_name}.json'] = json.dumps(res_dic)
 
 # Upload results to S3
 s3_path = "clean"
 aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-aws_tools.upload_to_s3(f'values_{file_name}', s3_path)
-
-
-

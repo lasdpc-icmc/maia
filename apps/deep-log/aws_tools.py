@@ -1,9 +1,7 @@
 import boto3
 import os
 
-#S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-S3_BUCKET_NAME = 'lasdpc-deeplog-results'
-
+S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
 
 def upload_to_s3(file_name, s3_path):
     s3 = boto3.resource('s3')
@@ -30,7 +28,6 @@ def get_to_s3(file_name, prefix):
 
     # Download the file to the download directory
     s3.download_file(bucket_name, last_object_key, file_name)
-
 
 
 def list_s3_files(prefix):

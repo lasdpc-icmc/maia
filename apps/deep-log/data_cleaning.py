@@ -98,14 +98,7 @@ def clean_sock(lines):
         time_log.append(time)
         apps.append(app_tag)
 
-
-    
-
     return clean_log, time_log, apps
-
-
-
-
 
 
 def write_logs(cluster_list, archive_path):
@@ -125,7 +118,6 @@ def write_logs(cluster_list, archive_path):
             f.write(' ')
 
 
-
 def read_logs(archive_path):
     '''
     Read .txt file with logs
@@ -137,11 +129,3 @@ def read_logs(archive_path):
         lines = [i.replace('\n', '') for i in lines]
 
     return lines
-
-
-# logs = read_logs('sock-shop_1686517944.txt')
-# clean_sock(logs)
-
-
-# lines = read_logs('sock-shop_test.txt')
-# clean_log, time_log = clean_sock(lines)

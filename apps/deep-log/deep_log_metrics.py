@@ -1,14 +1,17 @@
 import numpy as np
+import os
+from loki import file_name
 from sklearn.metrics import classification_report
 import torch
 
+file_name = file_name[:-4]
 
 def save_model(deeplog, name):
     '''
     Saves deeplog state dictionary
     '''
 
-    torch.save(deeplog.state_dict(), f'deeplog_{name}.pth')
+    torch.save(deeplog.state_dict(), f'deeplog_model_trained_{file_name}.pth')
 
 
 def load_model(deeplog,path_to_pth):
@@ -17,15 +20,9 @@ def load_model(deeplog,path_to_pth):
     Reloads deeplog model
     '''
 
-
     deeplog.load_state_dict(torch.load(path_to_pth))
 
     return deeplog
-
-
-
-
-
 
 
 ## Considerando apenas o primeiro elemento do vetor de predição, o modelo acertou o próximo evento?
