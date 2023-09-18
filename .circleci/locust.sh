@@ -77,7 +77,7 @@ run_locust $all_files
 kill $(jobs -p)
 
 #set the metrics to zero before we exit to ensure no metrics linger with values
-sed -i 's/^\(locust_[^ ]*\) .*/\1 0/g' locust.metrics
+sed -i 's/^\(locust_[a-zA-Z0-9_]*\({[^}]*}\)\?\) [0-9\.]*/\1 0/g' locust.metrics
 push_to_s3
 
 sleep 30
