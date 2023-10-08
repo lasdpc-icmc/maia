@@ -1,4 +1,3 @@
-
 import json
 import re
 
@@ -26,9 +25,6 @@ def clean_book(lines):
         i = re.sub(time_pattern, '', i)
         i = re.sub(time_pattern1, '', i)
         i = re.sub(ascii_pattern, ' ', i)
-        #i = re.sub(colch, '', i)
-        #i = i.split('"stream"')[0]
-        #i = re.sub(aspas, '', i)
         i = i.replace('\t', '')
 
         to_json = json.loads(i)
@@ -54,7 +50,6 @@ def clean_sock(lines):
     time_log = []
     apps = []
 
-    #lines = remove_header(lines)
     time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
     time_pattern_get2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
     time_pattern_remove = r"\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\]"
@@ -67,28 +62,18 @@ def clean_sock(lines):
 
     c = 0
     for i in lines:
-        
- 
 
-        app_tag = re.sub( r"'" , '' ,re.findall(apps_rgx, i)[0]).strip(',')
-
+        app_tag = re.sub(r"'", '', re.findall(apps_rgx, i)[0]).strip(',')
         i = i[i.index("{'log'"):]
-
 
         time = i[i.index("'time': "):]
         time = re.sub(r"'time':", '', time).replace('}', '')
 
         i = i[:i.index("'stream'")]
 
-
-
         i = re.sub(time_pattern_remove, '', i)
         i = re.sub(time_pattern_remove2, '', i)
         i = re.sub(time_pattern_remove3, '', i)
-        #i = re.sub(ascii_pattern, ' ', i)
-        #i = re.sub(log, ' ', i)
-        
-        
 
         i = i.replace('\t', ' ')
         i = i.replace('"', '')
@@ -98,14 +83,7 @@ def clean_sock(lines):
         time_log.append(time)
         apps.append(app_tag)
 
-
-    
-
     return clean_log, time_log, apps
-
-
-
-
 
 
 def write_logs(cluster_list, archive_path):
@@ -125,7 +103,6 @@ def write_logs(cluster_list, archive_path):
             f.write(' ')
 
 
-
 def read_logs(archive_path):
     '''
     Read .txt file with logs
@@ -137,11 +114,3 @@ def read_logs(archive_path):
         lines = [i.replace('\n', '') for i in lines]
 
     return lines
-
-
-# logs = read_logs('sock-shop_1686517944.txt')
-# clean_sock(logs)
-
-
-# lines = read_logs('sock-shop_test.txt')
-# clean_log, time_log = clean_sock(lines)
