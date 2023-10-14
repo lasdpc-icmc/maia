@@ -1,56 +1,76 @@
 #!/bin/bash
 set -e
 
-DIR_ORIGIN=$(pwd)
+# Configuration
 PROFILE_NAME="aws-mock"
 REGION="us-east-1"
 CONFIG_FILE="$HOME/.aws/config"
 PORT=4566
 ENDPOINT_URL="http://localhost:4566"
-AWS_S3_PATH="../../../infrastructure/terraform/aws/s3"
-AWS_S3_VPC="../../../infrastructure/terraform/aws/network"
+AWS_PATH="../../../infrastructure/terraform/aws"
+AWS_ACCESS_KEY="test"
+AWS_SECRET_KEY="test"
 
-# Setup the AWS local config file
+# Function to check and stop existing AWS Mock container
+stop_existing_aws_mock_container() {
+    if docker ps -a --format '{{.Names}}' | grep -q "^aws_mock$"; then
+        echo "Stopping and removing existing 'aws_mock' container..."
+        docker stop aws_mock
+        docker rm aws_mock
+    fi
+}
 
-if grep -q "\[profile $PROFILE_NAME\]" "$CONFIG_FILE"; then
-  echo "Profile '$PROFILE_NAME' already exists in '$CONFIG_FILE'. Skipping."
-else
-  cat <<EOL >> "$CONFIG_FILE"
-
+# Function to add AWS Mock profile to AWS config file
+add_aws_mock_profile() {
+    if ! grep -q "\[profile $PROFILE_NAME\]" "$CONFIG_FILE"; then
+        cat <<EOL >> "$CONFIG_FILE"
 [profile $PROFILE_NAME]
 endpoint_url = $ENDPOINT_URL
 region = $REGION
-aws_access_key_id = test
-aws_secret_access_key = test
+aws_access_key_id = $AWS_ACCESS_KEY
+aws_secret_access_key = $AWS_SECRET_KEY
 EOL
+        echo "Profile '$PROFILE_NAME' added to '$CONFIG_FILE' with endpoint URL '$ENDPOINT_URL' and region '$REGION'."
+    else
+        echo "Profile '$PROFILE_NAME' already exists in '$CONFIG_FILE'. Skipping."
+    fi
+}
 
-  echo "Profile '$PROFILE_NAME' added to '$CONFIG_FILE' with endpoint URL '$ENDPOINT_URL' and region '$REGION'."
-fi
+# Function to start the AWS Mock container
+start_aws_mock_container() {
+    docker run -d -p 4566:4566 --name aws_mock --memory 2g --cpus 1 localstack/localstack &> /dev/null || true
+}
 
-export AWS_PROFILE=$PROFILE_NAME
+# Function to deploy Terraform stack
+deploy_terraform_stack() {
+    local tf_directory="$1"
+    local tf_vars_file="$2"
 
-docker run -d -p 4566:4566 --name aws_mock --memory 2g --cpus 1 localstack/localstack &> /dev/null || true
+    cd "$tf_directory"
+    tflocal init
+    tflocal workspace new aws-mock &> /dev/null || true
+    tflocal workspace select aws-mock
+    tflocal apply -var-file="$tf_vars_file" -auto-approve
+}
 
-cp -R $AWS_S3_PATH /tmp
-rm /tmp/s3/config.tf
-cd /tmp/s3/
-tflocal init 
-tflocal workspace new aws-mock &> /dev/null || true
-tflocal workspace select aws-mock
-tflocal apply -var-file=vars/prod.tfvars -auto-approve
+# Main Script
 
-cd $DIR_ORIGIN
-cp -R $AWS_S3_VPC /tmp
-rm /tmp/network/config.tf
-cd /tmp/network/
-tflocal init 
-tflocal workspace new aws-mock &> /dev/null || true
-tflocal workspace select aws-mock
-tflocal apply -var-file=vars/prod.tfvars -auto-approve
+# Stop existing AWS Mock container
+stop_existing_aws_mock_container
 
+# Add AWS Mock profile to AWS config file
+add_aws_mock_profile
+
+# Start AWS Mock container
+start_aws_mock_container
+
+# Deploy S3 Buckets
+deploy_terraform_stack "$AWS_PATH/s3" "$AWS_PATH/s3/vars/dev.tfvars"
+
+# Deploy VPC
+deploy_terraform_stack "$AWS_PATH/network" "$AWS_PATH/network/vars/dev.tfvars"
 
 # Check for successful completion
-
 if [ $? -eq 0 ]; then
     echo "Script successfully executed"
 else

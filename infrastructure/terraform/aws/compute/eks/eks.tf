@@ -16,12 +16,12 @@ provider "kubernetes" {
 
 locals {
   auth_users = [
-    for user in var.users: 
-      {
-        userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
-        username = user
-        groups   = ["system:masters"]
-      }
+    for user in var.users :
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
+      username = user
+      groups   = ["system:masters"]
+    }
   ]
 }
 
@@ -50,12 +50,12 @@ module "aws_eks" {
   }]
 
   tags = local.common_tags
-   map_users = concat([
+  map_users = concat([
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"
       username = "circleci-deploy"
       groups   = ["system:masters"]
-    }    
+    }
   ], local.auth_users)
 }
 

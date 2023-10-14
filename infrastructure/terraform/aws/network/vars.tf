@@ -11,7 +11,7 @@ variable "region" {
   type = string
 }
 variable "subnet" {
-  type = map
+  type = map(any)
   default = {
     private  = 8
     public   = 4

@@ -16,12 +16,12 @@ provider "kubernetes" {
 
 locals {
   auth_users = [
-    for user in var.users: 
-      {
-        userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
-        username = user
-        groups   = ["system:masters"]
-      }
+    for user in var.users :
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${user}"
+      username = user
+      groups   = ["system:masters"]
+    }
   ]
 }
 
@@ -45,16 +45,16 @@ module "aws_eks" {
     autoscaling_enabled   = true
     protect_from_scale_in = true
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
-  },
+    },
   ]
 
   tags = local.common_tags
-   map_users = concat([
+  map_users = concat([
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/${terraform.workspace}-aws-eks-circleci"
       username = "${terraform.workspace}-aws-eks-circleci"
       groups   = ["system:masters"]
-    }    
+    }
   ], local.auth_users)
 }
 
