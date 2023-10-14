@@ -17,14 +17,14 @@ variable "region" {
   type = string
 }
 
-variable "bucket_states_name"{
+variable "bucket_states_name" {
   type = string
 }
 
-variable "bucket_gatling_name"{
+variable "bucket_gatling_name" {
   type = string
 }
-variable "bucket_locust_name"{
+variable "bucket_locust_name" {
   type = string
 }
 
