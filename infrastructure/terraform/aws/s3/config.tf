@@ -8,15 +8,23 @@ locals {
 }
 
 provider "aws" {
+  alias = "aws-s3-US"
   region  = var.region
-  version = "3.10.0"
+}
+
+provider "aws" {
+  alias   = "aws-mock"
+  region  = "eu-west-1"
+  access_key = "test"
+  secret_key = "test"
+
+  endpoints {
+    s3      = "http://s3.localhost.localstack.cloud:4566"
+    dynamodb = "http://dynamodb.localhost.localstack.cloud:4566"
+    lambda  = "http://lambda.localhost.localstack.cloud:4566"
+  }
 }
 
 terraform {
   required_version = ">= 0.12.24"
-  backend "s3" {
-    bucket  = "lasdpc-terraform-states"
-    key     = "aws/s3/terraform.tfstate"
-    region  = "us-east-1"
-  }
 }
