@@ -2,7 +2,8 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+.deep-log
+.vscode/
 # C extensions
 *.so
 
@@ -161,4 +162,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Exclude deep-logs files
+
 /apps/deep-log/kubernetes/applications/deep-log-secrets.yaml
+/cleansed_sock-shop_\d+\.json
+/deeplog_model_v\d+\.pth
+/predict_sock-shop_\d+\.json
+/sock-shop_\d+\.txt
+/tempfile_train.txt
+/tempfile_predict.txt
+apps/deep-log/.env
