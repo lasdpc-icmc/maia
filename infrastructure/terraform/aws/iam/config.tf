@@ -15,9 +15,9 @@ provider "aws" {
 terraform {
   required_version = ">= 0.12.24"
   backend "s3" {
-    bucket  = "lasdpc-terraform-states"
-    key     = "aws/iam/terraform.tfstate"
-    region  = "us-east-1"
+    bucket = "lasdpc-terraform-states"
+    key    = "aws/iam/terraform.tfstate"
+    region = "us-east-1"
   }
 }
 

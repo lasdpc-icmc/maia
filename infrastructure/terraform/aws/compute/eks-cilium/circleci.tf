@@ -26,6 +26,6 @@ resource "aws_iam_user_policy" "usp-eks-deploy-cilium" {
 }
 
 output "secret" {
-  value = aws_iam_access_key.usp-eks-deploy-cilium.secret
+  value     = aws_iam_access_key.usp-eks-deploy-cilium.secret
   sensitive = true
 }

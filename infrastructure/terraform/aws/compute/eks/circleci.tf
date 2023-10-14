@@ -27,6 +27,6 @@ resource "aws_iam_user_policy" "usp-eks-deploy" {
 }
 
 output "secret" {
-  value = aws_iam_access_key.usp-eks-deploy.secret
+  value     = aws_iam_access_key.usp-eks-deploy.secret
   sensitive = true
 }

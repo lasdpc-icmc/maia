@@ -20,7 +20,7 @@ resource "aws_elasticache_replication_group" "lasdpc-icmc" {
 }
 
 resource "aws_elasticache_cluster" "replica" {
-  count = 0
+  count                = 0
   cluster_id           = "${var.app_name}-${var.env}-${count.index}"
   replication_group_id = aws_elasticache_replication_group.lasdpc-icmc.id
 }
@@ -31,10 +31,10 @@ resource "aws_security_group" "redis_sg" {
   vpc_id      = var.subnet_group_name
 
   ingress {
-    description      = "Redis from VPC"
-    from_port        = 6379
-    to_port          = 6379
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
+    description = "Redis from VPC"
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
