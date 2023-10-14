@@ -8,7 +8,7 @@ locals {
 }
 
 provider "aws" {
-  alias  = "aws-s3-US"
+  alias  = "aws-vpc-US"
   region = var.region
 }
 
@@ -27,4 +27,11 @@ provider "aws" {
 
 terraform {
   required_version = ">= 0.12.24"
+  backend "s3" {
+    bucket = "lasdpc-terraform-states"
+    key    = "aws/network/vpc/terraform.tfstate"
+    region = "us-east-1"
+  }
 }
+
+data "aws_availability_zones" "available" {}
