@@ -75,9 +75,14 @@ def log_parser(clean_lines, file_name, write_txt=True, persistence=persistence):
         cluster_id = result['cluster_id']
 
         try:
-            value = params[0][0]
-        except:
+            if params and len(params) > 0 and len(params[0]) > 0:
+                value = params[0][0]
+            else:
+                value = ' '
+        except Exception as e:
+            print(f"Error while extracting value from params: {e}")
             value = ' '
+
 
         template_list.append(template_mined)
         cluster_list.append(cluster_id)
@@ -114,36 +119,6 @@ def log_parser(clean_lines, file_name, write_txt=True, persistence=persistence):
 
     return cluster_list, value_list, template_list
 
-
-# Code to run drain parser on all files in s3 raw data
-
-def run_on_all():
-    prefix = 'raw/'
-    s3_path = "clean"
-    file_list = aws_tools.list_s3_files(prefix)
-    for file_name in file_list:
-        aws_tools.get_to_s3(file_name, prefix)
-        print(f"download the file '{file_name}' from S3")
-
-        initial_logs = read_logs(file_name)
-        cleansed_logs, time_logs, app = clean_sock(initial_logs)
-
-        cluster_list, value_list, template_list = log_parser(
-            cleansed_logs, write_txt=True, persistence=persistence)
-        res_dic = {
-            'cluster': cluster_list,
-            'value_list': value_list,
-            'logs_template': template_list,
-            'time': time_logs,
-            'app': app
-        }
-
-        with open(f"cleansed_{file_name}.json", "w") as outfile:
-            json.dump(res_dic, outfile)
-
-        aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-
-
 def proccess_logs_files(file_name):
     try:
         initial_logs = read_logs(file_name)
@@ -161,12 +136,6 @@ def proccess_logs_files(file_name):
         file_name = file_name[:-4]
         with open(f"cleansed_{file_name}.json", "w") as outfile:
             json.dump(res_dic, outfile)
-
-        # Upload results to S3
-
-        s3_path = "clean"
-        aws_tools.upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-        aws_tools.upload_to_s3(f'values_{file_name}.txt', s3_path)
 
     except Exception as e:
         print(f"Error in proccess_logs_files: {e}")
