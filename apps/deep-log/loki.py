@@ -42,9 +42,6 @@ def get_loki_logs(LOKI_URL, APP_NAME, TIME_RANGE, AWS_ACCESS_KEY_ID, AWS_SECRET_
                     parsed_log = json.loads(message)
                     f.write(f"{stream} {timestamp} {parsed_log}\n")
 
-        s3_path = "raw"
-        aws_tools.upload_to_s3(file_name, s3_path)
-
         return file_name
 
     else:

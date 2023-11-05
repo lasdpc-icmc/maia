@@ -31,14 +31,6 @@ def model_predict(file_name):
         timeout=float('inf'),
     )
 
-    # Dowload the file from S3
-    prefix = "clean/"
-    state_prefix = "deeplog_statemodel/"
-    s3_path = "deep_log"
-
-    aws_tools.get_to_s3(MODEL_STABLE_VERSION, state_prefix)
-    aws_tools.get_to_s3(f"cleansed_{file_name}.json", prefix)
-
     # Preprocessor its not implemented for .json files
     # in this chunk i convert the cluster entry in the .json to .txt
 
@@ -62,9 +54,9 @@ def model_predict(file_name):
 
     # Create DeepLog object
     deeplog = DeepLog(
-        input_size=30,  # Number of different events to expect
+        input_size=1000,  # Number of different events to expect
         hidden_size=64,  # Hidden dimension, we suggest 64
-        output_size=30,  # Number of different events to expect
+        output_size=1000,  # Number of different events to expect
     )
 
     load_model(deeplog, MODEL_STABLE_VERSION)
@@ -83,9 +75,6 @@ def model_predict(file_name):
     # Considering only the first element of the prediction vector, did the model get the next event right?
     individual_pred = get_ind_metrics(y, y_pred)
 
-    # Upload results to S3
-    s3_path = "deep_log"
-
     # vector of anomalies
     anomalies_normal = is_anomaly(y, y_pred)
 
@@ -100,5 +89,3 @@ def model_predict(file_name):
 
     with open(f"predict_{file_name}.json", "w") as outfile:
         json.dump(cleansed_file, outfile)
-
-    aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)

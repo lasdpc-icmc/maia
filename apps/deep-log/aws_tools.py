@@ -2,7 +2,7 @@ import boto3
 import os
 
 S3_BUCKET_NAME = os.environ['S3_BUCKET_NAME']
-
+MODEL_STABLE_VERSION = os.environ['MODEL_STABLE_VERSION']
 
 def upload_to_s3(file_name, s3_path):
     s3 = boto3.resource('s3')
@@ -38,3 +38,22 @@ def list_s3_files(prefix):
 
     files = [j[6:] for j in files]
     return files
+
+def sync_data (file_name):
+    
+    s3_path = "raw"
+    upload_to_s3(file_name, s3_path)
+    print(f"Upload Raw data '{file_name}' from Loki to S3")
+    
+    file_name = file_name[:-4]
+    s3_path = "deep_log"
+    upload_to_s3(f'predict_{file_name}.json', s3_path)
+    print(f"Upload Predicit data 'predict_{file_name}.json' to S3")
+
+    s3_path = "clean"
+    upload_to_s3(f'cleansed_{file_name}.json', s3_path)
+    print(f"Upload cleansed data 'cleansed_{file_name}.json' to S3")
+
+    s3_path = "deeplog_statemodel"
+    upload_to_s3(MODEL_STABLE_VERSION, s3_path)
+    print(f"Deeplog Model '{MODEL_STABLE_VERSION}' to S3")
