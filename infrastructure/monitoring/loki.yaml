@@ -3,6 +3,45 @@ test_pod:
   pullPolicy: IfNotPresent
 
 loki:
+
+  limits_config:
+    retention_period: 360d
+
+  compactor:
+    working_directory: /data/retention
+    compaction_interval: 10m
+    retention_enabled: true
+    retention_delete_delay: 2h
+
+  schema_config:
+    configs:
+    - from: 2023-11-11
+      store: boltdb-shipper
+      object_store: s3
+      schema: v11
+      index:
+        period: 24h
+        prefix: loki_index_
+
+  table_manager:
+    enable: true
+    retention_deletes_enabled: true
+    retention_period: 360d
+
+  storage:
+    bucketNames:
+      chunks: lasdpc-loki-logs
+      ruler: lasdpc-loki-logs
+      admin: lasdpc-loki-logs
+    type: s3
+    s3:
+      endpoint: null
+      region: us-east-1
+      secretAccessKey: $SECRETACCESSKEY
+      accessKeyId: $ACCESSKEYID
+      s3ForcePathStyle: false
+      insecure: false
+
   enabled: true
   isDefault: true
   url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
