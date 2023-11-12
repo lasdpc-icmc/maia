@@ -27,3 +27,8 @@ resource "aws_s3_bucket" "deeplog_statemodel" {
   bucket = var.app_deeplog_statemodel
   tags   = local.common_tags
 }
+
+resource "aws_s3_bucket" "loki_logs" {
+  bucket = var.app_loki_logs
+  tags   = local.common_tags
+}
