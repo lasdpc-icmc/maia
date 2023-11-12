@@ -691,8 +691,8 @@ grafana:
     auth.github:
       enabled: true
       auto_login: false
-      client_id: $CLIENT_ID
-      client_secret: $CLIENT_SECRET
+      client_id: $ACCESS_KEY_ID
+      client_secret: $SECRET_ACCESS_KEY_ID
       scopes: user:email, read:org
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
@@ -820,18 +820,18 @@ grafana:
   #   configMap: certs-configmap
   #   readOnly: true
 
-  deleteDatasources: []
-  # - name: example-datasource
-  #   orgId: 1
 
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
+
   additionalDataSources:
     - name: Loki
       type: loki
       isDefault: false
+      editable: true
+      readOnly: false
       access: proxy
-      url: http://loki.monitoring.svc.cluster.local:3100
+      url: http://loki-gateway.monitoring.svc.cluster.local
       version: 1
     - name: Node Graph API
       type: hamedkarbasi93-nodegraphapi-datasource
