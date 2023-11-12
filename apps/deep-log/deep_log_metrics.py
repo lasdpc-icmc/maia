@@ -17,7 +17,6 @@ def load_model(deeplog, path_to_pth):
     deeplog.load_state_dict(torch.load(path_to_pth))
     return deeplog
 
-
 # Considering only the first element of the prediction vector, did the model get the next event right?
 
 def get_ind_metrics(y_test, y_pred):
