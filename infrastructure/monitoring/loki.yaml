@@ -11,24 +11,6 @@ loki:
   limits_config:
     retention_period: 360d
 
-  compactor:
-    working_directory: /data/retention
-    compaction_interval: 10m
-    retention_enabled: true
-    retention_delete_delay: 2h
-
-  ingester:
-    chunk_block_size: 262144
-    chunk_idle_period: 3m
-    chunk_retain_period: 1m
-    lifecycler:
-      ring:
-        kvstore:
-          store: inmemory
-        replication_factor: 1
-      final_sleep: 0s
-      chunk_idle_period: 5m
-      chunk_retain_period: 30s
 
   schema_config:
     configs:
@@ -54,7 +36,7 @@ loki:
     s3:
       endpoint: null
       region: us-east-1
-      secretAccessKey: $SECRET_ACCESS_KEY_ID"
+      secretAccessKey: $SECRET_ACCESS_KEY
       accessKeyId: $ACCESS_KEY_ID
       s3ForcePathStyle: false
       insecure: false
