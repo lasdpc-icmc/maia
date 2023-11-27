@@ -1,0 +1,28 @@
+# Loki + Promtail
+
+## Prerequisites
+
+- Kubernetes 1.21+
+- Helm 3+
+
+### Download and Deploy
+
+```bash
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+
+```bash
+helm repo update
+```
+
+### Deploy Loki
+
+```bash
+helm upgrade --install loki-distributed grafana/loki-distributed --version 0.76.1 -f loki.yaml -n monitoring
+```
+
+### Deploy Promtail
+
+```bash
+helm upgrade --install loki-promtail grafana/promtail --version 6.15.3 -f promtail.yaml -n monitoring
+```
