@@ -411,7 +411,7 @@ config:
   # Must be reference in `config.file` to configure `clients`
   # @default -- See `values.yaml`
   clients:
-    - url: http://loki-distributed-gateway/loki/api/v1/push
+    - url: http://loki-stack/loki/api/v1/push
   # -- Configures where Promtail will save it's positions file, to resume reading after restarts.
   # Must be referenced in `config.file` to configure `positions`
   positions:

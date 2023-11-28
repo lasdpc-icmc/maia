@@ -18,7 +18,7 @@ helm repo update
 ### Deploy Loki
 
 ```bash
-helm upgrade --install loki-distributed grafana/loki-distributed --version 0.76.1 -f loki.yaml -n monitoring
+helm upgrade --install loki-distributed grafana/loki-stack --version 2.9.11 -f loki.yaml -n monitoring
 ```
 
 ### Deploy Promtail
