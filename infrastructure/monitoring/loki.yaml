@@ -1,147 +1,37 @@
-test_pod:
-  image: bats/bats:v1.1.0
-  pullPolicy: IfNotPresent
-
-minio:
-  enabled: true
-
 loki:
   auth_enabled: false
-
-  limits_config:
-    retention_period: 360d
-
-
-  schema_config:
-    configs:
-    - from: 2023-11-11
-      store: boltdb-shipper
-      object_store: s3
-      schema: v11
-      index:
-        period: 24h
-        prefix: loki_index_
-
-  table_manager:
-    enable: true
-    retention_deletes_enabled: true
-    retention_period: 360d
-
-  storage:
-    bucketNames:
-      chunks: lasdpc-loki-logs
-      ruler: lasdpc-loki-logs
-      admin: lasdpc-loki-logs
-    type: s3
-    s3:
-      endpoint: null
-      region: us-east-1
-      secretAccessKey: $SECRET_ACCESS_KEY
-      accessKeyId: $ACCESS_KEY_ID
-      s3ForcePathStyle: false
-      insecure: false
-
-  enabled: true
-  isDefault: true
-  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-  livenessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 45
-  datasource:
-    jsonData: {}
-    uid: ""
-
-
-promtail:
-  enabled: true
+  commonConfig:
+    path_prefix: /var/loki
+    replication_factor: 1
+  compactor:
+    apply_retention_interval: 1h
+    compaction_interval: 5m
+    retention_delete_worker_count: 500
+    retention_enabled: true
+    shared_store: s3
+    working_directory: /data/compactor
   config:
-    logLevel: info
-    serverPort: 3101
-    clients:
-      - url: http://{{ .Release.Name }}.monitoring:3100/loki/api/v1/push
-
-fluent-bit:
-  enabled: false
-
-grafana:
-  enabled: false
-  sidecar:
-    datasources:
-      enabled: true
-      maxLines: 1000
-  image:
-    tag: 8.3.5
-
-prometheus:
-  enabled: false
-  isDefault: false
-  url: http://{{ include "prometheus.fullname" .}}:{{ .Values.prometheus.server.service.servicePort }}{{ .Values.prometheus.server.prefixURL }}
-  datasource:
-    jsonData: {}
-
-filebeat:
-  enabled: false
-  filebeatConfig:
-    filebeat.yml: |
-      # logging.level: debug
-      filebeat.inputs:
-      - type: container
-        paths:
-          - /var/log/containers/*.log
-        processors:
-        - add_kubernetes_metadata:
-            host: ${NODE_NAME}
-            matchers:
-            - logs_path:
-                logs_path: "/var/log/containers/"
-      output.logstash:
-        hosts: ["logstash-loki:5044"]
-
-logstash:
-  enabled: false
-  image: grafana/logstash-output-loki
-  imageTag: 1.0.1
-  filters:
-    main: |-
-      filter {
-        if [kubernetes] {
-          mutate {
-            add_field => {
-              "container_name" => "%{[kubernetes][container][name]}"
-              "namespace" => "%{[kubernetes][namespace]}"
-              "pod" => "%{[kubernetes][pod][name]}"
-            }
-            replace => { "host" => "%{[kubernetes][node][name]}"}
-          }
-        }
-        mutate {
-          remove_field => ["tags"]
-        }
-      }
-  outputs:
-    main: |-
-      output {
-        loki {
-          url => "http://loki:3100/loki/api/v1/push"
-          #username => "test"
-          #password => "test"
-        }
-        # stdout { codec => rubydebug }
-      }
-
-# proxy is currently only used by loki test pod
-# Note: If http_proxy/https_proxy are set, then no_proxy should include the
-# loki service name, so that tests are able to communicate with the loki
-# service.
-proxy:
-  http_proxy: ""
-  https_proxy: ""
-  no_proxy: ""
-
+      schema_config:
+        configs:
+        - from: 2020-05-15
+          store: boltdb-shipper
+          object_store: s3
+          schema: v11
+          index:
+            period: 24h
+            prefix: loki_index_
+        
+      storage_config:
+        aws:
+          region: us-east-1
+          bucketnames: lasdpc-loki-logs
+          secret_access_key: ${secret_access_key}
+          access_key_id: ${access_key_id}
+          s3forcepathstyle: false
+        boltdb_shipper:
+          shared_store: s3
+          cache_ttl: 24h
+  write:
+     replicas: 2
+  read:
+    replicas: 1
