@@ -5,13 +5,9 @@ from drain3 import TemplateMiner
 import json
 import logging
 import os
-import subprocess
 import sys
 import time
 from os.path import dirname
-import datetime
-import aws_tools
-import boto3
 
 REDIS_URL = os.environ['REDIS_URL']
 REDIS_PORT = os.environ['REDIS_PORT']
