@@ -1,5 +1,4 @@
 from sklearn.metrics import classification_report
-import numpy as np
 import torch
 
 
@@ -53,33 +52,3 @@ def is_anomaly(y_test, y_pred):
     )
 
     return anomalies_normal
-
-
-# Compute classification report for anomalies
-
-def overall_metrics(anomalies_normal, anomalies_abnormal):
-    '''
-    If we have a batch of logs that we know beforehand that are not anomalous
-    and a batch of logs that we know are anomalous, we can compare the performance of deeplog in both classes
-
-    anomalies_normal: boolean Tensor, containing classifications of deeplog for normal logs (output of is_anomaly function)
-    anomalies_abnormal: boolean Tensor, containing classifications of deeplog for abnormal logs (output of is_anomaly function)
-
-    '''
-    # Compute classification report for anomalies
-    y_pred = torch.cat((anomalies_normal, anomalies_abnormal))
-    y_true = torch.cat((
-        torch.zeros(anomalies_normal  .shape[0], dtype=bool),
-        torch.ones(anomalies_abnormal.shape[0], dtype=bool),
-    ))
-
-    res = classification_report(
-        y_pred=y_pred.cpu().numpy(),
-        y_true=y_true.cpu().numpy(),
-        labels=[False, True],
-        target_names=["Normal", "Anomaly"],
-        digits=4,
-        output_dict=True
-    )
-
-    return res
