@@ -1,42 +1,4 @@
-import json
 import re
-
-
-def remove_header(lines):
-    '''
-    Remove headers from.txt file
-    :param lines: list
-    :return: list with the logs without the headers
-    '''
-    lines = lines[5:]
-    return lines
-
-
-def clean_book(lines):
-    clean_log = []
-    time_log = []
-    lines = remove_header(lines)
-    time_pattern = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
-    time_pattern1 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
-    ascii_pattern = r"\\u0009|\\n"
-    colch = r"\{|\}"
-    aspas = r"\"|\""
-    for i in lines:
-        i = re.sub(time_pattern, '', i)
-        i = re.sub(time_pattern1, '', i)
-        i = re.sub(ascii_pattern, ' ', i)
-        i = i.replace('\t', '')
-
-        to_json = json.loads(i)
-        del to_json['stream']
-        time = to_json.pop('time')
-        key = to_json['log'].lstrip(' ')
-
-        clean_log.append(key)
-        time_log.append(time)
-
-    return clean_log, time_log
-
 
 def clean_sock(lines):
     '''
@@ -50,17 +12,11 @@ def clean_sock(lines):
     time_log = []
     apps = []
 
-    time_pattern_get = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z"
-    time_pattern_get2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
     time_pattern_remove = r"\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z\]"
     time_pattern_remove2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{6}Z"
     time_pattern_remove3 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z"
-    time_pattern2 = r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}-\d{2}:\d{2}"
-    ascii_pattern = r"\\n"
-    log = r"\{'log': '"
     apps_rgx = r"'app': (.*?(?<!\\)) "
 
-    c = 0
     for i in lines:
 
         app_tag = re.sub(r"'", '', re.findall(apps_rgx, i)[0]).strip(',')

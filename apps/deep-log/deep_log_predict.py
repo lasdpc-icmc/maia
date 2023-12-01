@@ -1,15 +1,8 @@
 from deeplog import DeepLog
 from deeplog.preprocessor import Preprocessor
-from sklearn.metrics import classification_report
-from deeplog import DeepLog
-from deeplog.preprocessor import Preprocessor
-from sklearn.metrics import classification_report
-from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
+from deep_log_metrics import get_ind_metrics, is_anomaly, load_model
 
-import torch
-import aws_tools
 import os
-import numpy as np
 import json
 
 
@@ -42,7 +35,7 @@ def model_predict(file_name):
             f.write(str(i) + ' ')
 
     # Load normal data from s3
-    X, y, label, mapping = preprocessor.text(
+    X, y, _, _ = preprocessor.text(
         path='tempfile_predict.txt',
         verbose=True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
