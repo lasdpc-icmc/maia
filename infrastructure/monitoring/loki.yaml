@@ -10,6 +10,8 @@ loki:
     retention_enabled: true
     shared_store: s3
     working_directory: /data/compactor
+  limits_config:
+    retention_period: 365d
   config:
       schema_config:
         configs:
