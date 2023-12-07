@@ -1,31 +1,16 @@
-from deeplog import DeepLog
-from deeplog.preprocessor import Preprocessor
-from deep_log_metrics import get_ind_metrics, is_anomaly, load_model
+from deep_log_metrics import get_ind_metrics, is_anomaly
 
 import os
 import json
 
-
-MODEL_STABLE_VERSION = os.environ['MODEL_STABLE_VERSION']
 PREDICT_RANGE = int(os.environ['PREDICT_RANGE'])
 
 
-def model_predict(file_name):
+def model_predict(preprocessor, deeplog, file_name):
     file_name = file_name[:-4]
     ##############################################################################
     #                                 Load data                                  #
     ##############################################################################
-
-    # Create preprocessor for loading data
-    # length - tamanho da janela a ser considerada
-    preprocessor = Preprocessor(
-        length=10,           # Extract sequences of 20 items
-        # Do not include a maximum allowed time between events
-        timeout=float('inf'),
-    )
-
-    # Preprocessor its not implemented for .json files
-    # in this chunk i convert the cluster entry in the .json to .txt
 
     file = open(f"cleansed_{file_name}.json")
     cleansed_file = json.load(file)
@@ -40,19 +25,6 @@ def model_predict(file_name):
         verbose=True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
     )
-
-    ##############################################################################
-    #                                 Load state of model                        #
-    ##############################################################################
-
-    # Create DeepLog object
-    deeplog = DeepLog(
-        input_size=1000,  # Number of different events to expect
-        hidden_size=64,  # Hidden dimension, we suggest 64
-        output_size=1000,  # Number of different events to expect
-    )
-
-    load_model(deeplog, MODEL_STABLE_VERSION)
 
     ##############################################################################
     #                                Predict logs                                #

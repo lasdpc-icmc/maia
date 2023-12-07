@@ -1,36 +1,15 @@
 from data_cleaning import clean_sock, read_logs, write_logs
-from drain3.redis_persistence import RedisPersistence
-from drain3.template_miner_config import TemplateMinerConfig
-from drain3 import TemplateMiner
 import json
 import logging
-import os
 import sys
 import time
-from os.path import dirname
-
-REDIS_URL = os.environ['REDIS_URL']
-REDIS_PORT = os.environ['REDIS_PORT']
-REDIS_KEY = os.environ['REDIS_KEY']
-
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO,
                     format='%(message)s')
 
-# Define persistence variable that will be used regardless of Redis usage
 
-persistence = RedisPersistence(
-    redis_host=REDIS_URL,
-    redis_port=REDIS_PORT,
-    redis_db=0,
-    redis_pass='',
-    is_ssl=False,
-    redis_key=REDIS_KEY
-)
-
-
-def log_parser(clean_lines, file_name, write_txt=True, persistence=persistence):
+def log_parser(template_miner, clean_lines, file_name, write_txt=True):
     '''
     Write parsed logs in .txt files
     book_logs_cluster - .txt with the constant part of logs encoded
@@ -40,13 +19,6 @@ def log_parser(clean_lines, file_name, write_txt=True, persistence=persistence):
     write_txt: if True, writes clusters id and values on a .txt file, otherwise will return cluster_list, value_list
     :return: cluster_list, value_list, template_list
     '''
-
-    # Initialize Drain3
-
-    config = TemplateMinerConfig()
-    config.load(dirname(__file__) + "/drain3.ini")
-    config.profiling_enabled = True
-    template_miner = TemplateMiner(persistence, config=config)
 
     line_count = 0
 
@@ -115,12 +87,12 @@ def log_parser(clean_lines, file_name, write_txt=True, persistence=persistence):
 
     return cluster_list, value_list, template_list
 
-def proccess_logs_files(file_name):
+def proccess_logs_files(template_miner, file_name):
     try:
         initial_logs = read_logs(file_name)
         cleansed_logs, time_logs, app = clean_sock(initial_logs)
-        cluster_list, value_list, template_list = log_parser(
-            cleansed_logs, file_name, write_txt=False, persistence=persistence)
+        cluster_list, value_list, template_list = log_parser(template_miner,
+            cleansed_logs, file_name, write_txt=False)
         res_dic = {
             'cluster': cluster_list,
             'value_list': value_list,
