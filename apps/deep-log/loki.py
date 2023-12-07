@@ -1,21 +1,28 @@
 import requests
 import json
 import time
-global file_name
+import os
 
+LOKI_URL = os.environ["LOKI_URL"]
+APP_NAME = os.environ["APP_NAME"]
+TIME_RANGE = int(os.environ["TIME_RANGE"])
+AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
+AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 
-def get_loki_logs(LOKI_URL, APP_NAME, TIME_RANGE, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY):
-    end_time = int(time.time())
-    start_time = end_time - TIME_RANGE  # TIME_RANGE seconds ago
+def get_loki_logs(batch_id):
+
+    # each batch has 60 seconds of logs
+    now = int(time.time())
+    end_time = now - TIME_RANGE + (batch_id + 1) * 60
+    start_time = now - TIME_RANGE + batch_id * 60
+
     query = '{namespace ="' + APP_NAME + '"}'
 
     params = {
         "query": query,
         "start": start_time,
         "end": end_time,
-        "limit": 5000,
-        "batch": 5000,
-        "direction": "forward"
+        "limit": 5000
     }
 
     headers = {
@@ -31,8 +38,11 @@ def get_loki_logs(LOKI_URL, APP_NAME, TIME_RANGE, AWS_ACCESS_KEY_ID, AWS_SECRET_
         print(response.content)
         exit(-1)
 
+    base_folder_name = f"{APP_NAME}_logs"
+    os.makedirs(base_folder_name, exist_ok=True)
+
     raw_logs = response.json()["data"]["result"]
-    file_name = f"{APP_NAME}_{int(time.time())}.txt"
+    file_name = os.path.join(base_folder_name, f"{APP_NAME}_{batch_id}.txt")
     with open(file_name, "w") as f:
 
         for log in raw_logs:
