@@ -82,8 +82,8 @@ def log_parser(template_miner, clean_lines, file_name, write_txt=True):
     template_miner.profiler.report(0)
 
     if write_txt:
-        write_logs(cluster_list, f'cluster_{file_name}')
-        write_logs(value_list, f'values_{file_name}')
+        write_logs(cluster_list, f'{file_name}_cluster')
+        write_logs(value_list, f'{file_name}_values')
 
     return cluster_list, value_list, template_list
 
@@ -102,7 +102,7 @@ def proccess_logs_files(template_miner, file_name):
         }
 
         file_name = file_name[:-4]
-        with open(f"cleansed_{file_name}.json", "w") as outfile:
+        with open(f"{file_name}_cleansed.json", "w") as outfile:
             json.dump(res_dic, outfile)
 
     except Exception as e:

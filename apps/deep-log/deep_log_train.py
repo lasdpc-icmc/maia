@@ -10,7 +10,7 @@ def train_model(preprocessor, deeplog, file_name):
     #                                 Load data                                  #
     ##############################################################################
 
-    file = open(f"cleansed_{file_name}.json")
+    file = open(f"{file_name}_cleansed.json")
     cleansed_file = json.load(file)
 
     with open('tempfile_train.txt', 'w') as f:

@@ -40,19 +40,18 @@ def list_s3_files(prefix):
     return files
 
 def sync_data (file_name):
-    
     s3_path = "raw"
     upload_to_s3(file_name, s3_path)
     print(f"Upload Raw data '{file_name}' from Loki to S3")
-    
+
     file_name = file_name[:-4]
     s3_path = "deep_log"
-    upload_to_s3(f'predict_{file_name}.json', s3_path)
-    print(f"Upload Predicit data 'predict_{file_name}.json' to S3")
+    upload_to_s3(f'{file_name}_predict.json', s3_path)
+    print(f"Upload Predicit data '{file_name}_predict.json' to S3")
 
     s3_path = "clean"
-    upload_to_s3(f'cleansed_{file_name}.json', s3_path)
-    print(f"Upload cleansed data 'cleansed_{file_name}.json' to S3")
+    upload_to_s3(f'{file_name}_cleansed.json', s3_path)
+    print(f"Upload cleansed data '{file_name}_cleansed.json' to S3")
 
     s3_path = "deeplog_statemodel"
     upload_to_s3(MODEL_STABLE_VERSION, s3_path)

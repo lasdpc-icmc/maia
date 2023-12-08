@@ -12,7 +12,7 @@ def model_predict(preprocessor, deeplog, file_name):
     #                                 Load data                                  #
     ##############################################################################
 
-    file = open(f"cleansed_{file_name}.json")
+    file = open(f"{file_name}_cleansed.json")
     cleansed_file = json.load(file)
 
     with open('tempfile_predict.txt', 'w') as f:
@@ -52,5 +52,5 @@ def model_predict(preprocessor, deeplog, file_name):
     cleansed_file['confidence'] = confidence.cpu().numpy().tolist()
     cleansed_file['anomalies'] = anomalies_normal.numpy().tolist()
 
-    with open(f"predict_{file_name}.json", "w") as outfile:
+    with open(f"{file_name}_predict.json", "w") as outfile:
         json.dump(cleansed_file, outfile)
