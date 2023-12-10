@@ -58,4 +58,3 @@ def get_loki_logs(batch_id):
         return file_name
     else:
         print("No logs found. Skipping file creation.")
-        return None  # or you can choose to return an empty string or raise an exception
