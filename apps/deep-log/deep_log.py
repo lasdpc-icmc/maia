@@ -60,10 +60,13 @@ def main():
     for batch in range(math.ceil(TIME_RANGE/60)):
         file_name = loki.get_loki_logs(batch)
 
-        drain_parser.proccess_logs_files(template_miner, file_name)
-        deep_log_train.train_model(preprocessor, deeplog, file_name)
-        deep_log_predict.model_predict(preprocessor, deeplog, file_name)
-        aws_tools.sync_data(file_name)
+        if file_name is not None:  # Check if file_name is not None before processing
+            drain_parser.proccess_logs_files(template_miner, file_name)
+            deep_log_train.train_model(preprocessor, deeplog, file_name)
+            deep_log_predict.model_predict(preprocessor, deeplog, file_name)
+            aws_tools.sync_data(file_name)
+        else:
+            print(f"No logs found for batch {batch}. Skipping processing.")
 
     save_model(deeplog, MODEL_STABLE_VERSION)
 
