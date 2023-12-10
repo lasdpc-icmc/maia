@@ -42,16 +42,20 @@ def get_loki_logs(batch_id):
     os.makedirs(base_folder_name, exist_ok=True)
 
     raw_logs = response.json()["data"]["result"]
-    file_name = os.path.join(base_folder_name, f"{APP_NAME}_{batch_id}.txt")
-    with open(file_name, "w") as f:
 
-        for log in raw_logs:
-            stream = log["stream"]
-            log_entries = log["values"]
-            for entry in log_entries:
-                timestamp = entry[0]
-                message = entry[1]
-                parsed_log = json.loads(message)
-                f.write(f"{stream} {timestamp} {parsed_log}\n")
-
-    return file_name
+    # Check if raw_logs is not empty
+    if raw_logs and any(log["values"] for log in raw_logs):
+        file_name = os.path.join(base_folder_name, f"{APP_NAME}_{batch_id}.txt")
+        with open(file_name, "w") as f:
+            for log in raw_logs:
+                stream = log["stream"]
+                log_entries = log["values"]
+                for entry in log_entries:
+                    timestamp = entry[0]
+                    message = entry[1]
+                    parsed_log = json.loads(message)
+                    f.write(f"{stream} {timestamp} {parsed_log}\n")
+        return file_name
+    else:
+        print("No logs found. Skipping file creation.")
+        return None  # or you can choose to return an empty string or raise an exception
