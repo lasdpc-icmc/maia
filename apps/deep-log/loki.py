@@ -8,13 +8,14 @@ APP_NAME = os.environ["APP_NAME"]
 TIME_RANGE = int(os.environ["TIME_RANGE"])
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
+LOKI_BATCH_SIZE = int(os.environ["LOKI_BATCH_SIZE"])
 
 def get_loki_logs(batch_id):
 
-    # each batch has 60 seconds of logs
+    # each batch has LOKI_BATCH_SIZE seconds of logs
     now = int(time.time())
-    end_time = now - TIME_RANGE + (batch_id + 1) * 60
-    start_time = now - TIME_RANGE + batch_id * 60
+    end_time = now - TIME_RANGE + (batch_id + 1) * LOKI_BATCH_SIZE
+    start_time = now - TIME_RANGE + batch_id * LOKI_BATCH_SIZE
 
     query = '{namespace ="' + APP_NAME + '"}'
 
