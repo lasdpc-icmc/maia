@@ -20,6 +20,7 @@ REDIS_KEY = os.environ['REDIS_KEY']
 TIME_RANGE = int(os.environ['TIME_RANGE'])
 MODEL_STABLE_VERSION = os.environ['MODEL_STABLE_VERSION']
 FIRST_TRANING = os.environ['FIRST_TRANING']
+LOKI_BATCH_SIZE = int(os.environ["LOKI_BATCH_SIZE"])
 
 # Define persistence variable that will be used regardless of Redis usage
 persistence = RedisPersistence(
@@ -57,18 +58,19 @@ def main():
         load_model(deeplog, MODEL_STABLE_VERSION)
 
 
-    for batch in range(math.ceil(TIME_RANGE/60)):
+    for batch in range(math.ceil(TIME_RANGE/LOKI_BATCH_SIZE)):
         file_name = loki.get_loki_logs(batch)
 
         if file_name is not None:  # Check if file_name is not None before processing
             drain_parser.proccess_logs_files(template_miner, file_name)
             deep_log_train.train_model(preprocessor, deeplog, file_name)
             deep_log_predict.model_predict(preprocessor, deeplog, file_name)
-            aws_tools.sync_data(file_name)
         else:
             print(f"No logs found for batch {batch}. Skipping processing.")
 
     save_model(deeplog, MODEL_STABLE_VERSION)
+
+    aws_tools.sync_data(file_name)
 
 if __name__ == "__main__":
     main()
