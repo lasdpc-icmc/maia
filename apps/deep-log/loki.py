@@ -2,28 +2,25 @@ import requests
 import json
 import time
 import os
+from datetime import timedelta
 
 LOKI_URL = os.environ["LOKI_URL"]
 APP_NAME = os.environ["APP_NAME"]
-TIME_RANGE = int(os.environ["TIME_RANGE"])
 AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 LOKI_BATCH_SIZE = int(os.environ["LOKI_BATCH_SIZE"])
 
-def get_loki_logs(batch_id):
-
-    # each batch has LOKI_BATCH_SIZE seconds of logs
-    now = int(time.time())
-    end_time = now - TIME_RANGE + (batch_id + 1) * LOKI_BATCH_SIZE
-    start_time = now - TIME_RANGE + batch_id * LOKI_BATCH_SIZE
+def get_loki_logs(timestamp):
+    end_time = timestamp + timedelta(minutes=LOKI_BATCH_SIZE)
+    start_time = timestamp
 
     query = '{namespace ="' + APP_NAME + '"}'
 
     params = {
         "query": query,
-        "start": start_time,
-        "end": end_time,
-        "limit": 5000
+        "start": int(start_time.timestamp()),
+        "end": int(end_time.timestamp()),
+        "limit": 10000
     }
 
     headers = {
@@ -46,17 +43,17 @@ def get_loki_logs(batch_id):
 
     # Check if raw_logs is not empty
     if raw_logs and any(log["values"] for log in raw_logs):
-        file_name = os.path.join(base_folder_name, f"{APP_NAME}_{batch_id}.txt")
+        file_name = os.path.join(base_folder_name, f"{APP_NAME}_{timestamp}.txt")
         with open(file_name, "w") as f:
             for log in raw_logs:
                 stream = log["stream"]
                 log_entries = log["values"]
                 for entry in log_entries:
-                    timestamp = entry[0]
+                    entry_timestamp = entry[0]
                     message = entry[1]
                     parsed_log = json.loads(message)
-                    f.write(f"{stream} {timestamp} {parsed_log}\n")
+                    f.write(f"{stream} {entry_timestamp} {parsed_log}\n")
         return file_name
     else:
-        print("No logs found. Skipping file creation.")
+        print(f"No logs found for timestamp {timestamp}. Skipping file creation.")
         return None
