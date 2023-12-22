@@ -61,6 +61,8 @@ def main():
     )
 
     if FIRST_TRANING != 'True':
+        prefix = "deeplog_statemodel"
+        aws_tools.get_to_s3(MODEL_STABLE_VERSION, prefix)
         load_model(deeplog, MODEL_STABLE_VERSION)
 
     redis_client = redis_persistence.get_redis_client()
@@ -78,12 +80,10 @@ def main():
             deep_log_train.train_model(preprocessor, deeplog, file_name)
             deep_log_predict.model_predict(preprocessor, deeplog, file_name)
             redis_persistence.set_last_processed_timestamp(redis_client, timestamp)
+            save_model(deeplog, MODEL_STABLE_VERSION)
+            aws_tools.sync_data(file_name)
         else:
             print(f"No logs found for timestamp {timestamp}. Skipping processing.")
-
-    save_model(deeplog, MODEL_STABLE_VERSION)
-
-    aws_tools.sync_data(file_name)
 
 if __name__ == "__main__":
     main()
