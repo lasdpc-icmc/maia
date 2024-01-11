@@ -1,6 +1,5 @@
 import aws_tools
 import os
-import math
 
 import deep_log_train
 import deep_log_predict
@@ -14,7 +13,7 @@ from deeplog.preprocessor import Preprocessor
 from drain3 import TemplateMiner
 from drain3.template_miner_config import TemplateMinerConfig
 from drain3.redis_persistence import RedisPersistence
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 REDIS_URL = os.environ['REDIS_URL']
 REDIS_PORT = os.environ['REDIS_PORT']
@@ -36,8 +35,8 @@ persistence = RedisPersistence(
 def generate_time_batches(start_time, end_time, batch_size):
     current_time = start_time
     while current_time < end_time:
-        yield current_time
         current_time += timedelta(minutes=batch_size)
+        yield current_time
 
 def main():
     # Initialize Drain3
@@ -66,13 +65,12 @@ def main():
         load_model(deeplog, MODEL_STABLE_VERSION)
 
     redis_client = redis_persistence.get_redis_client()
-    last_processed_timestamp = redis_persistence.get_last_processed_timestamp(redis_client)
+    final_timestamp = redis_persistence.get_final_timestamp(redis_client)
+    last_processed_timestamp = redis_persistence.get_last_processed_timestamp(redis_client, final_timestamp)
 
-    start_time = datetime.utcnow() - timedelta(minutes=TIME_RANGE)
-    end_time = datetime.utcnow()
+    end_time = final_timestamp
 
-    for timestamp in generate_time_batches(start_time, end_time, LOKI_BATCH_SIZE):
-        batch_id = int((end_time - timestamp).total_seconds() / LOKI_BATCH_SIZE)
+    for timestamp in generate_time_batches(last_processed_timestamp, end_time, LOKI_BATCH_SIZE):
         file_name = loki.get_loki_logs(timestamp)
 
         if file_name is not None:
@@ -84,6 +82,7 @@ def main():
             aws_tools.sync_data(file_name)
         else:
             print(f"No logs found for timestamp {timestamp}. Skipping processing.")
+    redis_persistence.clear_timestamps(redis_client)
 
 if __name__ == "__main__":
     main()
