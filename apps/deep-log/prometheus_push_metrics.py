@@ -73,3 +73,4 @@ for i, prediction in enumerate(jsonin["predictions"]):
 def push_metrics_prometheus () :
     prometheus_client.push_to_gateway(
     os.environ["PUSHGATEWAY_URL"], "deep_log", registry)
+    print("Successfully pushed metrics to Prometheus")
