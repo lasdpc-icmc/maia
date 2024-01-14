@@ -10,3 +10,4 @@ pandas==1.5.3
 boto3==1.26.92
 requests==2.31.0
 redis==4.5.4
+prometheus-client==0.17.0
