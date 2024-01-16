@@ -825,14 +825,20 @@ grafana:
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
 
   additionalDataSources:
+    - name: Tempo
+      type: tempo
+      isDefault: false
+      editable: true
+      readOnly: false
+      access: proxy
+      url: http://tempo.istio-system.svc.cluster.local:3100
     - name: Loki
       type: loki
       isDefault: false
       editable: true
       readOnly: false
       access: proxy
-      url: http://loki-gateway.monitoring.svc.cluster.local
-      version: 1
+      url: http://loki-stack.monitoring.svc.cluster.local:3100
     - name: Node Graph API
       type: hamedkarbasi93-nodegraphapi-datasource
       isDefault: false
