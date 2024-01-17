@@ -81,7 +81,7 @@ def main():
             redis_persistence.set_last_processed_timestamp(redis_client, timestamp)
             save_model(deeplog, MODEL_STABLE_VERSION)
             aws_tools.sync_data(file_name)
-            push_metrics_prometheus ()
+            push_metrics_prometheus (file_name)
         else:
             print(f"No logs found for timestamp {timestamp}. Skipping processing.")
     redis_persistence.clear_timestamps(redis_client)
