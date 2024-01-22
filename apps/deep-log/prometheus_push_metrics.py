@@ -2,6 +2,8 @@ import prometheus_client
 import json
 import os
 
+APP_NAME = os.environ["APP_NAME"]
+
 def push_metrics_prometheus(file_name):
     registry = prometheus_client.CollectorRegistry()
 
@@ -22,26 +24,30 @@ def push_metrics_prometheus(file_name):
         "deep_log_anomalies", "number of anomalies for that batch", ["app", "log"],
         registry=registry)
 
-    # read the deep_log outputs from S3 as a json
-    jsonin = f"{file_name}_predict.json"
+    # read the deep_log outputs as a json
+    file_name = file_name[:-4]
+    json_file_path = f'{file_name}_predict.json'
+
+    with open(json_file_path, 'r') as json_file:
+        json_data = json.load(json_file)
 
     # find the relation between log lines and the apps that generated them
-    apps_list = jsonin["app"]
+    apps_list = json_data["app"]
 
     # parse the json and populate all metrics
     s = "individual_pred"
-    for i, log in enumerate(jsonin[s]):
+    for i, log in enumerate(json_data[s]):
         if log == "accuracy":
-            accuracy.set(jsonin[s][log])
+            accuracy.set(json_data[s][log])
             continue
 
-        for precision_type in jsonin[s][log]:
+        for precision_type in json_data[s][log]:
             precision.labels(log, precision_type).set(
-                jsonin[s][log][precision_type])
+                json_data[s][log][precision_type])
 
-    for i, prediction in enumerate(jsonin["predictions"]):
-        confidence_point = jsonin["confidence"][i]
-        anomaly = jsonin["anomalies"][i]
+    for i, prediction in enumerate(json_data["predictions"]):
+        confidence_point = json_data["confidence"][i]
+        anomaly = json_data["anomalies"][i]
 
         for j, log_type in enumerate(prediction):
             confidence.labels(apps_list[i].split('}')[0], prediction[0],
