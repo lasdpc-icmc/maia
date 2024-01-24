@@ -51,7 +51,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 20.10.11
+          version: docker23
           docker_layer_caching: true
       - run:
           name: Build Artifacts
@@ -106,15 +106,10 @@ workflows:
       - build:
           requires:
             - code_test      
-          <<: *tag_only        
-      - approve_deploy:
-          type: approval
-          requires:
-            - build
-          <<: *tag_only          
+          <<: *tag_only                 
       - deploy:
           requires:
-            - approve_deploy
+            - build
           <<: *tag_only        
       - approve_load_test_gatling:
           type: approval
