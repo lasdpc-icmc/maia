@@ -1,48 +1,18 @@
-from deeplog import DeepLog
-from deeplog.preprocessor import Preprocessor
-from sklearn.metrics import classification_report
-from deeplog import DeepLog
-from deeplog.preprocessor import Preprocessor
-from sklearn.metrics import classification_report
-from deep_log_metrics import get_ind_metrics, is_anomaly, save_model, load_model
+from deep_log_metrics import get_ind_metrics, is_anomaly
 
-import torch
-import aws_tools
 import os
-import numpy as np
 import json
 
-
-MODEL_STABLE_VERSION = os.environ['MODEL_STABLE_VERSION']
 PREDICT_RANGE = int(os.environ['PREDICT_RANGE'])
 
 
-def model_predict(file_name):
+def model_predict(preprocessor, deeplog, file_name):
     file_name = file_name[:-4]
     ##############################################################################
     #                                 Load data                                  #
     ##############################################################################
 
-    # Create preprocessor for loading data
-    # length - tamanho da janela a ser considerada
-    preprocessor = Preprocessor(
-        length=10,           # Extract sequences of 20 items
-        # Do not include a maximum allowed time between events
-        timeout=float('inf'),
-    )
-
-    # Dowload the file from S3
-    prefix = "clean/"
-    state_prefix = "deeplog_statemodel/"
-    s3_path = "deep_log"
-
-    aws_tools.get_to_s3(MODEL_STABLE_VERSION, state_prefix)
-    aws_tools.get_to_s3(f"cleansed_{file_name}.json", prefix)
-
-    # Preprocessor its not implemented for .json files
-    # in this chunk i convert the cluster entry in the .json to .txt
-
-    file = open(f"cleansed_{file_name}.json")
+    file = open(f"{file_name}_cleansed.json")
     cleansed_file = json.load(file)
 
     with open('tempfile_predict.txt', 'w') as f:
@@ -50,24 +20,11 @@ def model_predict(file_name):
             f.write(str(i) + ' ')
 
     # Load normal data from s3
-    X, y, label, mapping = preprocessor.text(
+    X, y, _, _ = preprocessor.text(
         path='tempfile_predict.txt',
         verbose=True,
         # nrows   = 10_000, # Uncomment/change this line to only load a limited number of rows
     )
-
-    ##############################################################################
-    #                                 Load state of model                        #
-    ##############################################################################
-
-    # Create DeepLog object
-    deeplog = DeepLog(
-        input_size=30,  # Number of different events to expect
-        hidden_size=64,  # Hidden dimension, we suggest 64
-        output_size=30,  # Number of different events to expect
-    )
-
-    load_model(deeplog, MODEL_STABLE_VERSION)
 
     ##############################################################################
     #                                Predict logs                                #
@@ -83,9 +40,6 @@ def model_predict(file_name):
     # Considering only the first element of the prediction vector, did the model get the next event right?
     individual_pred = get_ind_metrics(y, y_pred)
 
-    # Upload results to S3
-    s3_path = "deep_log"
-
     # vector of anomalies
     anomalies_normal = is_anomaly(y, y_pred)
 
@@ -98,7 +52,5 @@ def model_predict(file_name):
     cleansed_file['confidence'] = confidence.cpu().numpy().tolist()
     cleansed_file['anomalies'] = anomalies_normal.numpy().tolist()
 
-    with open(f"predict_{file_name}.json", "w") as outfile:
+    with open(f"{file_name}_predict.json", "w") as outfile:
         json.dump(cleansed_file, outfile)
-
-    aws_tools.upload_to_s3(f'predict_{file_name}.json', s3_path)
