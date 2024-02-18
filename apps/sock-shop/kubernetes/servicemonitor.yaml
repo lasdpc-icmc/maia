@@ -1,0 +1,152 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: front-end
+    release: kube-prometheus
+  name: front-end
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: front-end
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: carts
+    release: kube-prometheus
+  name: carts
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: carts
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: catalogue
+    release: kube-prometheus
+  name: catalogue
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: catalogue
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: orders
+    release: kube-prometheus
+  name: orders
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: orders
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: payment
+    release: kube-prometheus
+  name: payment
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: payment
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: shipping
+    release: kube-prometheus
+  name: shipping
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: shipping
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: user
+    release: kube-prometheus
+  name: user
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: user
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: rabbimq
+    release: kube-prometheus
+  name: rabbitmq
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: rabbitmq
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    name: queue-master
+    release: kube-prometheus
+  name: queue-master
+  namespace: sock-shop
+spec:
+  selector:
+    matchLabels:
+      name: queue-master
+  endpoints:
+  - honorLabels: true
+  - port: http-web
+    interval: 10s
