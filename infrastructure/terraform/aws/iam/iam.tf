@@ -283,3 +283,26 @@ resource "aws_iam_group_membership" "read_only" {
 
   group = aws_iam_group.read_only.name
 }
+
+resource "aws_sns_topic" "billing_alert" {
+  name = "cloud_billing_alert"
+}
+
+resource "aws_sns_topic_subscription" "biling_topic_subscription" {
+  topic_arn = aws_sns_topic.billing_alert.arn
+  protocol  = "email"
+  endpoint  = var.manager_email
+}
+
+resource "aws_cloudwatch_metric_alarm" "billing_alert" {
+  alarm_name          = "estimated_billing_alert"
+  alarm_description   = "Estimated billing alert alarm"
+  metric_name         = "EstimatedCharges"
+  namespace           = "Billing"
+  statistic           = "Maximum"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = 600
+  evaluation_periods  = 30 * 60
+  actions_enabled     = "true"
+  alarm_actions       = [aws_sns_topic.billing_alert.arn]
+}

@@ -31,3 +31,7 @@ variable "bucket_locust_name" {
 variable "oidc_provider" {
   type = string
 }
+
+variable "manager_email" {
+  type = string
+}
