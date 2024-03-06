@@ -308,7 +308,7 @@ resource "aws_iam_role" "grafana_read_billing_role" {
         "Resource" : "*",
         "Condition" = {
           "StringEquals" = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:grafana-read-billing"
+            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:kube-prometheus-grafana"
           }
         }
       }
