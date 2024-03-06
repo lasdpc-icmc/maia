@@ -5,7 +5,6 @@ resource_name      = "application-metrics"
 username           = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki", "pedro.grando", "henrique.lecco", "luciana.marques", "franciscorocha"] # for all users
 username_dev       = ["julio.estrella", "lucas.pulcinelli", "giovanni.shibaki", "pedro.grando", "henrique.lecco", "franciscorocha"]
 username_read_only = []
-manager_email      = "sarita@icmc.usp.br"
 
 bucket_states_name  = "lasdpc-terraform-states"
 bucket_gatling_name = "lasdpc-gatling-results"
