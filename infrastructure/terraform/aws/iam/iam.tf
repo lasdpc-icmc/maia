@@ -286,31 +286,49 @@ resource "aws_iam_group_membership" "read_only" {
 
 resource "aws_iam_role" "grafana_read_billing_role" {
   assume_role_policy = jsonencode({
-    "Version" : "2012-10-17",
-    "Statement" : [
+    "Version": "2012-10-17",
+    "Statement": [
       {
-        "Sid" : "AllowReadingMetricsFromCloudWatch",
-        "Effect" : "Allow",
-        "Principal" : {
-          "Federated" : "arn:aws:iam::${data.aws_caller_identity.this.account_id}:oidc-provider/${var.oidc_provider}"
-        },
-        "Action" : [
+        "Sid": "AllowReadingMetricsFromCloudWatch",
+        "Effect": "Allow",
+        "Action": [
           "cloudwatch:DescribeAlarmsForMetric",
           "cloudwatch:DescribeAlarmHistory",
           "cloudwatch:DescribeAlarms",
-          "cloudwatch:ListMetrics", "cloudwatch:GetMetricData",
-          "cloudwatch:GetInsightRuleReport",
+          "cloudwatch:ListMetrics",
+          "cloudwatch:GetMetricData",
+          "cloudwatch:GetInsightRuleReport"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "AllowReadingLogsFromCloudWatch",
+        "Effect": "Allow",
+        "Action": [
+          "logs:DescribeLogGroups",
+          "logs:GetLogGroupFields",
+          "logs:StartQuery",
+          "logs:StopQuery",
+          "logs:GetQueryResults",
+          "logs:GetLogEvents"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "AllowReadingTagsInstancesRegionsFromEC2",
+        "Effect": "Allow",
+        "Action": [
           "ec2:DescribeTags",
           "ec2:DescribeInstances",
-          "ec2:DescribeRegions",
-          "tag:GetResources"
+          "ec2:DescribeRegions"
         ],
-        "Resource" : "*",
-        "Condition" = {
-          "StringEquals" = {
-            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:kube-prometheus-grafana"
-          }
-        }
+        "Resource": "*"
+      },
+      {
+        "Sid": "AllowReadingResourcesForTags",
+        "Effect": "Allow",
+        "Action": "tag:GetResources",
+        "Resource": "*"
       }
     ]
   })
