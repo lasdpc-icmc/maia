@@ -283,3 +283,35 @@ resource "aws_iam_group_membership" "read_only" {
 
   group = aws_iam_group.read_only.name
 }
+
+resource "aws_iam_role" "grafana_read_billing_role" {
+  assume_role_policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "AllowReadingMetricsFromCloudWatch",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Federated" : "arn:aws:iam::${data.aws_caller_identity.this.account_id}:oidc-provider/${var.oidc_provider}"
+        },
+        "Action" : [
+          "cloudwatch:DescribeAlarmsForMetric",
+          "cloudwatch:DescribeAlarmHistory",
+          "cloudwatch:DescribeAlarms",
+          "cloudwatch:ListMetrics", "cloudwatch:GetMetricData",
+          "cloudwatch:GetInsightRuleReport",
+          "ec2:DescribeTags",
+          "ec2:DescribeInstances",
+          "ec2:DescribeRegions",
+          "tag:GetResources"
+        ],
+        "Resource" : "*",
+        "Condition" = {
+          "StringEquals" = {
+            "${var.oidc_provider}:sub" = "system:serviceaccount:monitoring:kube-prometheus-grafana"
+          }
+        }
+      }
+    ]
+  })
+}

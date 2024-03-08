@@ -52,4 +52,3 @@ resource "aws_iam_role_policy_attachment" "locust-distributor-roleattach" {
   role       = aws_iam_role.locust-distributor-role.name
   policy_arn = aws_iam_policy.locust-distributor-policy.arn
 }
-
