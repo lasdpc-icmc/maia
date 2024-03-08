@@ -285,7 +285,57 @@ resource "aws_iam_group_membership" "read_only" {
 }
 
 resource "aws_iam_role" "grafana_read_billing_role" {
+  name = "grafana_read_billing_role"
+  
   assume_role_policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "grafana.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy" "cloudwatch_logs_read_policy" {
+  name        = "cloudwatch_logs_read_policy"
+  description = "Allows reading CloudWatch logs"
+  
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "AllowReadingLogsFromCloudWatch",
+        "Effect": "Allow",
+        "Action": [
+          "logs:DescribeLogGroups",
+          "logs:GetLogGroupFields",
+          "logs:StartQuery",
+          "logs:StopQuery",
+          "logs:GetQueryResults",
+          "logs:GetLogEvents"
+        ],
+        "Resource": "*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "cloudwatch_logs_read_attachment" {
+  name       = "cloudwatch_logs_read_attachment"
+  policy_arn = aws_iam_policy.cloudwatch_logs_read_policy.arn
+  roles      = [aws_iam_role.grafana_read_billing_role.name]
+}
+
+resource "aws_iam_policy" "ec2_cloudwatch_read_policy" {
+  name        = "ec2_cloudwatch_read_policy"
+  description = "Allows reading EC2 and CloudWatch metrics"
+  
+  policy = jsonencode({
     "Version": "2012-10-17",
     "Statement": [
       {
@@ -302,19 +352,6 @@ resource "aws_iam_role" "grafana_read_billing_role" {
         "Resource": "*"
       },
       {
-        "Sid": "AllowReadingLogsFromCloudWatch",
-        "Effect": "Allow",
-        "Action": [
-          "logs:DescribeLogGroups",
-          "logs:GetLogGroupFields",
-          "logs:StartQuery",
-          "logs:StopQuery",
-          "logs:GetQueryResults",
-          "logs:GetLogEvents"
-        ],
-        "Resource": "*"
-      },
-      {
         "Sid": "AllowReadingTagsInstancesRegionsFromEC2",
         "Effect": "Allow",
         "Action": [
@@ -323,7 +360,24 @@ resource "aws_iam_role" "grafana_read_billing_role" {
           "ec2:DescribeRegions"
         ],
         "Resource": "*"
-      },
+      }
+    ]
+  })
+}
+
+resource "aws_iam_policy_attachment" "ec2_cloudwatch_read_attachment" {
+  name       = "ec2_cloudwatch_read_attachment"
+  policy_arn = aws_iam_policy.ec2_cloudwatch_read_policy.arn
+  roles      = [aws_iam_role.grafana_read_billing_role.name]
+}
+
+resource "aws_iam_policy" "tag_read_policy" {
+  name        = "tag_read_policy"
+  description = "Allows reading tags"
+  
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
       {
         "Sid": "AllowReadingResourcesForTags",
         "Effect": "Allow",
@@ -332,4 +386,10 @@ resource "aws_iam_role" "grafana_read_billing_role" {
       }
     ]
   })
+}
+
+resource "aws_iam_policy_attachment" "tag_read_attachment" {
+  name       = "tag_read_attachment"
+  policy_arn = aws_iam_policy.tag_read_policy.arn
+  roles      = [aws_iam_role.grafana_read_billing_role.name]
 }
