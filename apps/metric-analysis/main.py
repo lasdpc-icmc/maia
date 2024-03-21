@@ -4,6 +4,7 @@ import logging
 import json
 import jsonschema
 import os
+import asyncio
 
 import failuregen
 import metricgather
@@ -16,11 +17,11 @@ options_schema = {
         "avg_failure_seconds": {"type": "number"},
         "std_failure_seconds": {"type": "number"},
         "failure_number": {"type": "number"},
-        "test_seconds": {"type":"number"},
+        "test_seconds": {"type": "number"},
         "test_namespace": {"type": "string"}
     },
     "required": [
-        "avg_failure_seconds", "std_failure_seconds", "failure_number", 
+        "avg_failure_seconds", "std_failure_seconds", "failure_number",
         "test_seconds", "test_namespace"
     ],
 }
@@ -40,11 +41,11 @@ if __name__ == "__main__":
         pass
 
     logging.basicConfig(format='%(asctime)s %(levelname)s %(message)s',
-            filename=os.path.join(execution_dir, 'out.log'), 
-            level=logging.INFO)
+                        filename=os.path.join(execution_dir, 'out.log'),
+                        level=logging.INFO)
     logger = logging.getLogger("main")
 
-    # dry run means a "mock" run, to simulate what would happen in an actual 
+    # dry run means a "mock" run, to simulate what would happen in an actual
     # test
     dry_run = False
     if len(sys.argv) > 2 and sys.argv[2] == "--dry-run":
@@ -60,30 +61,27 @@ if __name__ == "__main__":
 
     logger.info("generating failure timestamps")
     timestamps = failuregen.generateTimestamps(options)
-    
-    logger.info(f"(timestamps, durations): {timestamps}")
 
+    logger.info(f"(timestamps, durations): {timestamps}")
 
     logger.info("starting test execution")
     test_start = failuregen.executeTest(
-            timestamps, os.path.join(execution_dir, "failure.yaml"), 
-            dry_run, options)
+        timestamps, os.path.join(execution_dir, "failure.yaml"),
+        dry_run, options)
 
     logger.info("done with test execution")
 
-
     logger.info("obtaining prometheus metrics")
-    metrics = metricgather.getMetrics(
-            os.path.join(execution_dir, "metrics.csv"), test_start, 
-            dry_run, options)
+    metrics = asyncio.run(metricgather.getMetrics(
+        os.path.join(execution_dir, "metrics.csv"), test_start,
+        dry_run, options))
 
     f = open(os.path.join(execution_dir, "metrics_data.json"), "w")
     json.dump(metrics, f)
     f.close()
 
-
     logger.info("obtaining correlation")
-    correlation = metricanalysis.correlate(timestamps, metrics, 
+    correlation = metricanalysis.correlate(timestamps, metrics,
                                            options["test_seconds"])
 
     f = open(os.path.join(execution_dir, "correlation.json"), "w")

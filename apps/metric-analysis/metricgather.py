@@ -1,69 +1,83 @@
 import pandas as pd
 import requests
 import logging
+import asyncio
 
 
-def getMetrics(metrics_file, test_start, dry_run, options):
-    logger = logging.getLogger("metric_gather")
-
+async def getMetrics(metrics_file, test_start, dry_run, options):
     # add type of metric (counter or gauge) to table
     metrics = pd.read_csv(metrics_file)
 
-    values = {}
-    for _, (name, kind, mtype) in metrics.iterrows():  
-        if kind not in ["node-exporter", "cadvisor"]:
-            raise ValueError(f"invalid metric kind {kind}")
-        logger.info(f"getting metric {name}")
+    tasks = []
+    for _, (name, kind, source) in metrics.iterrows():
+        if source not in ["node_exporter", "cadvisor", "apm", "kube_state"]:
+            raise ValueError(f"invalid metric source {source}")
 
-        values[name] = getMetric(kind, mtype, name, test_start, dry_run, 
-                                 options)
+        tasks.append(getMetric(source, kind, name, test_start, dry_run,
+                               options))
+
+    done, _ = await asyncio.wait(tasks)
+
+    values = {}
+    for i in done:
+        name, value = i.result()
+        values[name] = value
 
     return values
 
-def getMetric(kind, mtype, metric_name, test_start, dry_run, options):
+
+async def getMetric(source, kind, metric_name, test_start, dry_run, options):
     data = None
     if dry_run:
-        data = getMockData(kind)
+        data = getMockData(source)
     else:
         query = ""
-        if mtype == "counter":
-            query += "rate("
+        if kind == "counter":
+            query += "irate("
 
         query += f'{metric_name}'
 
-        if kind == "cadvisor":
+        if source != "node_exporter":
             query += f'{{namespace="{options["test_namespace"]}"}}'
 
-        if mtype == "counter":
-            query += ")"
-        data = getPrometheusData(kind, query, test_start, 
-                                 options["test_seconds"])
+        if kind == "counter":
+            query += "[5m])"
+        data = await getPrometheusData(source, query, test_start,
+                                       options["test_seconds"])
 
-    return data
-    
-def getMockData(kind):
-    if kind == "node-exporter":
+    return metric_name, data
+
+
+def getMockData(source):
+    if source == "node_exporter":
         return {"ec2-0": [5, 4, 3, 2], "ec2-1": [1, 2, 3, 4]}
     else:
         return {"db": [1, 2, 3, 4], "rabbitmq": [3, 2, 5, 1]}
 
-def getPrometheusData(kind, query, test_start, test_duration):
-    res = requests.get(
-            "http://localhost:9090/api/v1/query_range", 
-            params={
-                "query":query, 
-                "start":test_start, 
-                "end":test_start + test_duration, 
-                "step":30})
+
+async def getPrometheusData(source, query, test_start, test_duration):
+    logger = logging.getLogger("metric_gather")
+
+    logger.info(f"starting query {query}")
+    res = await asyncio.to_thread(requests.get,
+                                  "http://localhost:9090/api/v1/query_range",
+                                  params={
+                                      "query": query,
+                                      "start": test_start,
+                                      "end": test_start + test_duration,
+                                      "step": 30},
+                                  )
+    logger.info(f"got query {query}")
 
     if res.status_code != 200:
         raise ValueError(
-                f"prometheus returned an error: {res.status_code}: " +
-                f"{res.json()}")
+            f"prometheus returned an error: {res.status_code}: " +
+            f"{res.json()}")
 
-    return formatData(kind, res.json()["data"]["result"])
+    return formatData(source, res.json()["data"]["result"])
 
-def formatData(kind, values):
+
+def formatData(source, values):
     data = {}
     for entry in values:
         ts_value = {}
@@ -72,8 +86,8 @@ def formatData(kind, values):
                 ts_value[value[0]] = 0
             ts_value[value[0]] += float(value[1])
 
-        instance_type = "pod" if kind == "cadvisor" else "instance"
+        instance_type = "instance" if source == "node_exporter" else "pod"
         data[entry["metric"][instance_type]] = [
-                v for _, v in sorted(ts_value.items())]
+            v for _, v in sorted(ts_value.items())]
 
     return data
