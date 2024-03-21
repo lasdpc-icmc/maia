@@ -74,10 +74,12 @@ async def getPrometheusData(source, query, test_start, test_duration):
             f"prometheus returned an error: {res.status_code}: " +
             f"{res.json()}")
 
-    return formatData(source, res.json()["data"]["result"])
+    return formatData(source, res.json()["data"]["result"], test_duration)
 
 
-def formatData(source, values):
+def formatData(source, values, test_duration):
+    logger = logging.getLogger("metric_gather")
+
     data = {}
     for entry in values:
         ts_value = {}
@@ -87,6 +89,11 @@ def formatData(source, values):
             ts_value[value[0]] += float(value[1])
 
         instance_type = "instance" if source == "node_exporter" else "pod"
+
+        if len(ts_value) != test_duration/30+1:
+            logger.warn(f"dropped one metric label gathered by {source}")
+            continue
+
         data[entry["metric"][instance_type]] = [
             v for _, v in sorted(ts_value.items())]
 
