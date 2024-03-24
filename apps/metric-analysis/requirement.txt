@@ -2,3 +2,5 @@ jsonschema
 numpy
 requests
 pandas
+scikit-learn
+statsmodels
