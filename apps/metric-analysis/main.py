@@ -80,12 +80,10 @@ if __name__ == "__main__":
     json.dump(metrics, f)
     f.close()
 
-    logger.info("obtaining correlation")
-    correlation = metricanalysis.correlate(timestamps, metrics,
-                                           options["test_seconds"])
+    logger.info("obtaining best metrics")
+    best_metrics = metricanalysis.best_metrics(timestamps, metrics,
+                                               options["test_seconds"])
 
-    f = open(os.path.join(execution_dir, "correlation.json"), "w")
-    json.dump(correlation, f)
-    f.close()
+    best_metrics.to_csv(os.path.join(execution_dir, "best_metrics.csv"))
 
     logger.info("done!")

@@ -1,9 +1,11 @@
 import pandas as pd
 import statsmodels.api as sm
+from sklearn.feature_selection import SequentialFeatureSelector
+from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
 
 
-def correlate(timestamps, metrics, test_seconds):
+def best_metrics(timestamps, metrics, test_seconds):
     failure_df = timestamps_to_df(timestamps, test_seconds)
 
     individual_metrics = pd.DataFrame()
@@ -14,11 +16,25 @@ def correlate(timestamps, metrics, test_seconds):
         drop_constants(metric)
         individual_metrics = pd.concat([individual_metrics, metric], axis=1)
 
-    metrics_scaled = StandardScaler().fit_transform(individual_metrics)
+    metrics_scaled = pd.DataFrame(StandardScaler().fit_transform(
+        individual_metrics), columns=individual_metrics.columns)
+
+    sfs = SequentialFeatureSelector(
+        LogisticRegression(), n_features_to_select=20)
+    sfs.fit(metrics_scaled, failure_df["value"])
+
+    chosen_metrics = pd.DataFrame()
+    for i, chosen in enumerate(sfs.get_support()):
+        if not chosen:
+            continue
+        name = metrics_scaled.columns[i]
+        chosen_metrics = pd.concat(
+            [chosen_metrics, metrics_scaled[name]], axis=1)
 
     regression = sm.Logit(failure_df["value"],
-                          metrics_scaled).fit(method="bfgs")
-    return regression.conf_int(0.05).reindex(individual_metrics.columns)
+                          sm.add_constant(chosen_metrics)).fit(method='bfgs')
+
+    return pd.concat([regression.params.rename('parameter'), regression.conf_int()], axis=1)
 
 
 def drop_constants(df):
