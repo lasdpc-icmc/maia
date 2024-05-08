@@ -58,12 +58,12 @@ server:
       name: tls-ca
 
   standalone:
-    enabled: false
+    enabled: true
 
   # Run Vault in "HA" mode.
   ha:
     enabled: true
-    replicas: 3
+    replicas: 1
     config: |
       ui = true
 

@@ -1,6 +1,6 @@
 provider "kubernetes" {
-  host                   = var.cluster_endpoint
-  cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+  host                   = data.aws_eks_cluster.icmc.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.icmc.certificate_authority[0].data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1alpha1"
@@ -12,8 +12,8 @@ provider "kubernetes" {
 
 provider "helm" {
   kubernetes {
-    host                   = var.cluster_endpoint
-    cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+    host                   = data.aws_eks_cluster.icmc.endpoint
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.icmc.certificate_authority[0].data)
     exec {
       api_version = "client.authentication.k8s.io/v1alpha1"
       command     = "aws"
@@ -24,8 +24,8 @@ provider "helm" {
 }
 
 provider "kubectl" {
-  host                   = var.cluster_endpoint
-  cluster_ca_certificate = base64decode(var.cluster_certificate_authority_data)
+  host                   = data.aws_eks_cluster.icmc.endpoint
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.icmc.certificate_authority[0].data)
 
   exec {
     api_version = "client.authentication.k8s.io/v1alpha1"

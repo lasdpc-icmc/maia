@@ -6,13 +6,6 @@ data "aws_eks_cluster" "cluster" {
 data "aws_eks_cluster_auth" "cluster" {
   name = module.aws_eks.cluster_id
 }
-provider "kubernetes" {
-  host                   = data.aws_eks_cluster.cluster.endpoint
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.cluster.certificate_authority.0.data)
-  token                  = data.aws_eks_cluster_auth.cluster.token
-  load_config_file       = false
-  version                = "1.11.1"
-}
 
 locals {
   auth_users = [
@@ -33,7 +26,6 @@ module "aws_eks" {
   cluster_version = var.cluster_version
   enable_irsa     = true
 
-
   worker_groups = [{
     asg_desired_capacity  = var.desired_capacity
     asg_max_size          = var.max_size
@@ -49,7 +41,29 @@ module "aws_eks" {
     subnets               = data.terraform_remote_state.vpc.outputs.priv_sn_id
   }]
 
+  node_groups = {
+    icmc-spot = {
+      desired_capacity = var.desired_capacity_spot
+      max_capacity     = var.max_size_spot
+      min_capacity     = var.min_size_spot
+
+      instance_types = [var.spot_instance_types]
+      capacity_type  = "SPOT"
+      k8s_labels = {
+        Environment = var.env
+        name        = var.resource_name
+        ec2_type    = "spot"
+      }
+      additional_tags = {
+        ec2_type = "spot"
+      }
+    }
+  }
+
   tags = local.common_tags
+
+  map_roles = var.map_roles
+
   map_users = concat([
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"

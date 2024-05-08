@@ -577,8 +577,6 @@ alertmanager:
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
     ##
-    podAntiAffinityTopologyKey: kubernetes.io/hostname
-
     ## Assign custom affinity rules to the alertmanager instance
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
     ##
@@ -2469,8 +2467,6 @@ prometheus:
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
     ##
-    podAntiAffinityTopologyKey: kubernetes.io/hostname
-
     ## Assign custom affinity rules to the prometheus instance
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
     ##
@@ -3149,8 +3145,6 @@ thanosRuler:
     ## If anti-affinity is enabled sets the topologyKey to use for anti-affinity.
     ## This can be changed to, for example, failure-domain.beta.kubernetes.io/zone
     ##
-    podAntiAffinityTopologyKey: kubernetes.io/hostname
-
     ## Assign custom affinity rules to the thanosRuler instance
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
     ##
