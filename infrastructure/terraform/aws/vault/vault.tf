@@ -12,7 +12,7 @@ resource "aws_iam_role" "vault-unseal" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:vault"
+            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub" : "system:serviceaccount:vault:vault"
           }
         }
       }
@@ -63,7 +63,7 @@ resource "aws_iam_role" "vault" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub": "system:serviceaccount:vault:boot-vault"
+            "oidc.eks.us-east-1.amazonaws.com/id/D24C5025164533C85B138C68071B5515:sub" : "system:serviceaccount:vault:boot-vault"
           }
         }
       }

@@ -25,6 +25,18 @@ variable "min_size" {
 variable "desired_capacity" {
   type = string
 }
+variable "spot_instance_types" {
+  type = string
+}
+variable "max_size_spot" {
+  type = string
+}
+variable "min_size_spot" {
+  type = string
+}
+variable "desired_capacity_spot" {
+  type = string
+}
 variable "root_volume_size" {
   type = string
 }
@@ -45,4 +57,20 @@ variable "workspace" {
 }
 variable "users" {
   type = list(string)
+}
+
+variable "map_roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap."
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = [
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/karpenter-controller"
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups   = ["system:bootstrappers", "system:nodes"]
+    }
+  ]
 }
