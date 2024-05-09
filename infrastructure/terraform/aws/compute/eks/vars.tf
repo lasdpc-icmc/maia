@@ -59,6 +59,10 @@ variable "users" {
   type = list(string)
 }
 
+variable "node_group_name" {
+  type = string 
+}
+
 variable "map_roles" {
   description = "Additional IAM roles to add to the aws-auth configmap."
   type = list(object({
