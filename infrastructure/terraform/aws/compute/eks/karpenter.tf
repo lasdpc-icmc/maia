@@ -144,6 +144,6 @@ resource "helm_release" "karpenter" {
 data "aws_launch_template" "eks-launch" {
   depends_on = [helm_release.karpenter]
   tags = {
-    "eks:nodegroup-name" = "prod-application-metrics-icmc-spot-humane-grubworm"
+    "eks:nodegroup-name" = var.node_group_name
   }
 }
