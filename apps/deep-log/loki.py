@@ -4,11 +4,7 @@ import time
 import os
 from datetime import timedelta
 
-LOKI_URL = os.environ["LOKI_URL"]
 APP_NAME = os.environ["APP_NAME"]
-AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
-AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
-LOKI_BATCH_SIZE = int(os.environ["LOKI_BATCH_SIZE"])
 
 def get_loki_logs(timestamp):
     end_time = timestamp + timedelta(minutes=LOKI_BATCH_SIZE)
