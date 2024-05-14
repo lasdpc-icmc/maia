@@ -10,7 +10,7 @@ data "aws_iam_policy_document" "usp-eks-deploy" {
   statement {
     sid       = "VisualEditor1"
     actions   = ["eks:*"]
-    resources = [module.aws_eks.cluster_arn]
+    resources = [module.eks.cluster_arn]
   }
   statement {
     sid       = "VisualEditor0"
