@@ -109,7 +109,7 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    "${var.resource_name}-${var.environment}-spot" = {
+    "${var.resource_name}-spot" = {
       min_size     = var.min_size_spot
       max_size     = var.max_size_spot
       desired_size = var.desired_size_spot

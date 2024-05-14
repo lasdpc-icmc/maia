@@ -119,12 +119,12 @@ variable "map_roles" {
 
 variable "workspace" {
   description = "VPC workspace name"
-  type = string
+  type        = string
 }
 
 variable "organization" {
   description = "Terraform Cloud organization name"
-  type = string
+  type        = string
 }
 
 variable "aws_auth_users" {
@@ -134,5 +134,23 @@ variable "aws_auth_users" {
     username = optional(string)
     groups   = optional(list(string))
   }))
-  default = []
+  default = [
+
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/AWSAdministratorAccess"
+      username = "system:admins"
+      groups   = ["system:masters"]
+    },
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/AWSReadOnlyAccess"
+      username = "system:read-only"
+      groups   = ["reader"]
+    },
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/vault"
+      username = "vault"
+      groups   = ["system:masters"]
+    }
+
+  ]
 }
