@@ -215,7 +215,6 @@ resource "aws_secretsmanager_secret" "vault-secret" {
 
 resource "aws_s3_bucket" "vault-scripts" {
   bucket = "lsdpc-icmc${var.environment}-k8s-vault-scripts"
-  acl    = "private"
 
   tags = {
     Name        = "Vault Scripts"
@@ -223,14 +222,14 @@ resource "aws_s3_bucket" "vault-scripts" {
   }
 }
 
-resource "aws_s3_bucket_object" "vault-script-bootstrap" {
+resource "aws_s3_object" "vault-script-bootstrap" {
   bucket = aws_s3_bucket.vault-scripts.id
   key    = "scripts/bootstrap.sh"
   source = "scripts/bootstrap.sh"
   etag   = filemd5("scripts/bootstrap.sh")
 }
 
-resource "aws_s3_bucket_object" "vault-script-certificates" {
+resource "aws_s3_object" "vault-script-certificates" {
   bucket = aws_s3_bucket.vault-scripts.id
   key    = "scripts/certificates.sh"
   source = "scripts/certificates.sh"
