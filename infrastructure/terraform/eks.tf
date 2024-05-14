@@ -181,7 +181,7 @@ module "eks_managed_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   version = "19.20.0"
 
-  name            = "${var.resource_name}-${var.environment}-ondemand"
+  name            = "${var.resource_name}-ondemand"
   cluster_name    = module.eks.cluster_name
   cluster_version = module.eks.cluster_version
   instance_types  = var.instance_types_on_demand
