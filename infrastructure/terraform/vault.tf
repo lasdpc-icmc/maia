@@ -390,26 +390,26 @@ resource "kubernetes_cluster_role_binding" "bootvault" {
   depends_on = [module.eks, kubernetes_namespace.vault]
 }
 
-# resource "kubernetes_manifest" "service_account" {
-#   manifest = {
-#     "apiVersion" = "v1"
-#     "kind"       = "ServiceAccount"
-#     "metadata" = {
-#       "namespace" = "vault"
-#       "name"      = "bootvault"
+resource "kubernetes_manifest" "service_account" {
+  manifest = {
+    "apiVersion" = "v1"
+    "kind"       = "ServiceAccount"
+    "metadata" = {
+      "namespace" = "vault"
+      "name"      = "bootvault"
 
-#       labels = {
-#         "app.kubernetes.io/name" = "bootvault"
-#       }
-#       annotations = {
-#         "eks.amazonaws.com/role-arn" = aws_iam_role.vault.arn
-#       }
-#     }
-#     "automountServiceAccountToken" = true
-#   }
-#   depends_on = [resource.kubernetes_cluster_role.bootvault, kubernetes_namespace.vault, module.eks]
+      labels = {
+        "app.kubernetes.io/name" = "bootvault"
+      }
+      annotations = {
+        "eks.amazonaws.com/role-arn" = aws_iam_role.vault.arn
+      }
+    }
+    "automountServiceAccountToken" = true
+  }
+  depends_on = [resource.kubernetes_cluster_role.bootvault, kubernetes_namespace.vault, module.eks]
 
-# }
+}
 
 resource "helm_release" "consul" {
   name             = "consul"

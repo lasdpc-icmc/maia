@@ -158,6 +158,12 @@ variable "aws_auth_users" {
       userarn  = "arn:aws:iam::326123346670:user/diego.pedroso"
       username = "diegopedroso"
       groups   = ["system:masters"]
+    },
+
+    {
+      userarn  = "arn:aws:iam::${data.aws_caller_identity.this.account_id}:user/aws-eks-circleci"
+      username = "circleci-deploy"
+      groups   = ["system:masters"]
     }
 
   ]
