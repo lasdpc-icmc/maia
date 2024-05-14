@@ -407,7 +407,7 @@ resource "kubernetes_manifest" "service_account" {
     }
     "automountServiceAccountToken" = true
   }
-  depends_on = [resource.kubernetes_cluster_role.bootvault, kubernetes_namespace.vault]
+  depends_on = [resource.kubernetes_cluster_role.bootvault, kubernetes_namespace.vault, module.eks]
 
 }
 
