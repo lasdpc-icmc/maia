@@ -115,6 +115,24 @@ variable "map_roles" {
     username = string
     groups   = list(string)
   }))
+  default = [
+
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/AWSAdministratorAccess"
+      username = "system:admins"
+      groups   = ["system:masters"]
+    },
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/AWSReadOnlyAccess"
+      username = "system:read-only"
+      groups   = ["reader"]
+    },
+    {
+      rolearn  = "arn:aws:iam::326123346670:role/vault"
+      username = "vault"
+      groups   = ["system:masters"]
+    }
+  ]
 }
 
 variable "workspace" {
@@ -137,18 +155,8 @@ variable "aws_auth_users" {
   default = [
 
     {
-      rolearn  = "arn:aws:iam::326123346670:role/AWSAdministratorAccess"
-      username = "system:admins"
-      groups   = ["system:masters"]
-    },
-    {
-      rolearn  = "arn:aws:iam::326123346670:role/AWSReadOnlyAccess"
-      username = "system:read-only"
-      groups   = ["reader"]
-    },
-    {
-      rolearn  = "arn:aws:iam::326123346670:role/vault"
-      username = "vault"
+      userarn  = "arn:aws:iam::326123346670:user/diego.pedroso"
+      username = "diegopedroso"
       groups   = ["system:masters"]
     }
 
