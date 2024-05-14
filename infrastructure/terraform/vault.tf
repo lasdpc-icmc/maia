@@ -295,7 +295,7 @@ resource "kubernetes_job" "vault-initialization" {
   depends_on = [
     kubernetes_job.vault-certificate,
     helm_release.vault,
-    aws_s3_bucket_object.vault-script-bootstrap,
+    aws_s3_object.vault-script-bootstrap,
     module.eks
   ]
 }
@@ -333,7 +333,7 @@ resource "kubernetes_job" "vault-certificate" {
     update = "10m"
   }
 
-  depends_on = [aws_s3_bucket_object.vault-script-certificates]
+  depends_on = [aws_s3_object.vault-script-certificates]
 }
 
 # Configure EKS RBAC
