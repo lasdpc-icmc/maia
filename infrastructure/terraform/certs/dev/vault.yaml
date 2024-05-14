@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-dev
+  namespace: vault
+spec:
+  dnsNames:
+  - vault-lasdpc.icmc.usp.br
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-dev
+  secretName: vault-tls-secret
+  duration: 8640h
+  renewBefore: 7440h
