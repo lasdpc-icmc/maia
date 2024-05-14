@@ -117,6 +117,16 @@ variable "map_roles" {
   }))
 }
 
+variable "workspace" {
+  description = "VPC workspace name"
+  type = string
+}
+
+variable "organization" {
+  description = "Terraform Cloud organization name"
+  type = string
+}
+
 variable "aws_auth_users" {
   description = "Additional usernames to add to the aws-auth configmap."
   type = list(object({
