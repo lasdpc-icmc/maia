@@ -140,10 +140,3 @@ resource "helm_release" "karpenter" {
   }
   depends_on = [aws_iam_instance_profile.karpenter]
 }
-
-data "aws_launch_template" "eks-launch" {
-  depends_on = [helm_release.karpenter]
-  tags = {
-    "eks:nodegroup-name" = var.node_group_name
-  }
-}
