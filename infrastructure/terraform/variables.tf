@@ -93,27 +93,6 @@ variable "role_arn" {
   description = "ARN of the IAM Role to assume."
 }
 
-variable "web_identity_token" {
-  type        = string
-  sensitive   = true
-  description = "Value of a web identity token from an OpenID Connect (OIDC) or OAuth provider."
-}
-
-variable "remote_state_address" {
-  type        = string
-  description = "Address information (e.g., IP address, DNS) for the resource."
-}
-
-variable "gitlab_username" {
-  type        = string
-  description = "Username for accessing the resource."
-}
-
-variable "gitlab_access_token" {
-  type        = string
-  description = "Password for accessing the resource."
-}
-
 variable "grafana_client_id" {
   type        = string
   description = "Grafana Client ID Token."
@@ -151,22 +130,4 @@ variable "aws_auth_users" {
     groups   = optional(list(string))
   }))
   default = []
-}
-
-variable "gitlab_token" {
-  type        = string
-  sensitive   = true
-  description = "Token to use to authenticate against the GitLab API. It requires api and read_repository permissions."
-}
-
-variable "argocd_client_id" {
-  type        = string
-  sensitive   = true
-  description = "Client to be used to config the ArgoCD SSO integration"
-}
-
-variable "argocd_client_secret" {
-  type        = string
-  sensitive   = true
-  description = "Client Secret to be used to config the ArgoCD SSO integration"
 }
