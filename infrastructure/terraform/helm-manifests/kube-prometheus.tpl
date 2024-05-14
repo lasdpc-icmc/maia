@@ -930,13 +930,17 @@ grafana:
       disable_login_form: true
     users:
     editors_can_admin: true
-    auth.google:
+    auth.github:
       enabled: true
+      auto_login: false
       client_id: ${client_id}
       client_secret: ${client_secret}
-      scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email openid
-      auth_url: https://accounts.google.com/o/oauth2/auth
-      token_url: https://accounts.google.com/o/oauth2/token
+      scopes: user:email, read:org
+      auth_url: https://github.com/login/oauth/authorize
+      token_url: https://github.com/login/oauth/access_token
+      api_url: https://api.github.com/user
+      allowed_organizations: lasdpc-icmc
+      allow_sign_up: true
       allowed_domains: usp.br
   persistence:
     enabled: true

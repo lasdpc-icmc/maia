@@ -88,11 +88,6 @@ variable "aws_account_id" {
   description = "AWS account ID."
 }
 
-variable "role_arn" {
-  type        = string
-  description = "ARN of the IAM Role to assume."
-}
-
 variable "grafana_client_id" {
   type        = string
   description = "Grafana Client ID Token."
