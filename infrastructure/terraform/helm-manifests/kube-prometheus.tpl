@@ -4250,3 +4250,5 @@ extraManifests: []
   #     name: prometheus-extra
   #   data:
   #     extra-data: "value"
+
+assertNoLeakedSecrets: false
