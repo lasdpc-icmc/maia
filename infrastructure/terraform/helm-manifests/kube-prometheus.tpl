@@ -1096,7 +1096,7 @@ grafana:
   additionalDataSources:
     - name: Loki
       type: loki
-      isDefault: true
+      isDefault: false
       editable: true
       readOnly: false
       access: proxy

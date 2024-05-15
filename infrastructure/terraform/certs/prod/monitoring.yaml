@@ -1,14 +1,14 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: monitoring-dev
+  name: monitoring-prod
   namespace: monitoring
 spec:
   dnsNames:
   - grafana-lasdpc.icmc.usp.br
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-dev
+    name: letsencrypt-prod
   secretName: grafana-tls
   duration: 8640h
   renewBefore: 7440h
