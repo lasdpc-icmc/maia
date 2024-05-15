@@ -1,5 +1,5 @@
 region                   = "us-east-1"
-resource_name            = "application-metrics"
+resource_name            = "lasdpc-icmc"
 environment              = "prod"
 addon_version            = "v1.18.0-eksbuild.1"
 instance_types_on_demand = ["c5.large", "c5.xlarge"]

@@ -13,7 +13,7 @@ module "velero" {
   version                     = "1.2.0"
   namespace_deploy            = true
   app_deploy                  = true
-  cluster_name                = "${var.resource_name}-${var.environment}"
+  cluster_name                = "${var.resource_name}"
   openid_connect_provider_uri = replace(module.eks.oidc_provider, "https://", "")
   bucket                      = module.s3_bucket.s3_bucket_id
 
