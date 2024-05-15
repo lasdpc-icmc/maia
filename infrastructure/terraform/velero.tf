@@ -45,7 +45,7 @@ module "velero" {
             server:
               name: velero-server
               annotations: 
-                eks.amazonaws.com/role-arn: arn:aws:iam::${var.aws_account_id}:role/lsdpc-icmc-eks-${var.environment}-velero
+                eks.amazonaws.com/role-arn: arn:aws:iam::${var.aws_account_id}:role/lasdpc-icmc-${var.environment}-velero
           resources:
             requests:
               cpu: 100m
