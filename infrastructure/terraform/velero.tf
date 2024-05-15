@@ -52,8 +52,11 @@ module "velero" {
               memory: 32Mi
             limits:
               cpu: 100m
-              memory: 128Mi 
- 
+              memory: 128Mi
+          kubectl:
+                image:
+                  repository: docker.io/bitnami/kubectl
+                  tag: 1.26.14-debian-11-r6
     EOF
   ]
 }
