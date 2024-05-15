@@ -11,6 +11,6 @@ resource "helm_release" "kube_prometheus" {
   values = [templatefile("helm-manifests/kube-prometheus.tpl", {
     environment   = var.environment,
     client_id     = var.grafana_client_id,
-    client_secret = var.grafana_client_secret,
+    client_secret = var.grafana_client_secret
   })]
 }
