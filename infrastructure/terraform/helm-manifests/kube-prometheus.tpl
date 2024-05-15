@@ -941,7 +941,6 @@ grafana:
       api_url: https://api.github.com/user
       allowed_organizations: lasdpc-icmc
       allow_sign_up: true
-      allowed_domains: usp.br
   persistence:
     enabled: true
     type: pvc
