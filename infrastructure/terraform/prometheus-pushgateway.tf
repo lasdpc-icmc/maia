@@ -9,6 +9,6 @@ resource "helm_release" "prometheus_pushgateway" {
   dependency_update = true
   depends_on        = [module.eks]
   values = [templatefile("helm-manifests/push-gateway.tpl", {
-    environment   = var.environment,
+    environment = var.environment,
   })]
 }
