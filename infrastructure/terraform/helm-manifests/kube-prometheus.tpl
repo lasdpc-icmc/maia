@@ -933,8 +933,8 @@ grafana:
     auth.github:
       enabled: true
       auto_login: false
-      client_id: ${client_id}
-      client_secret: ${client_secret}
+      client_id: "${client_id}"
+      client_secret: "${client_secret}"
       scopes: user:email, read:org
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
