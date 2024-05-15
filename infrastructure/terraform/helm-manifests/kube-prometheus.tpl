@@ -930,6 +930,7 @@ grafana:
       disable_login_form: true
     users:
     editors_can_admin: true
+    auto_assign_org_role: Admin
     auth.github:
       enabled: true
       auto_login: false
@@ -1093,6 +1094,13 @@ grafana:
   ## Configure additional grafana datasources (passed through tpl)
   ## ref: http://docs.grafana.org/administration/provisioning/#datasources
   additionalDataSources:
+    - name: Tempo
+      type: tempo
+      isDefault: false
+      editable: true
+      readOnly: false
+      access: proxy
+      url: http://tempo.istio-system.svc.cluster.local:3100
     - name: Loki
       type: loki
       isDefault: false
@@ -1101,6 +1109,11 @@ grafana:
       access: proxy
       url: http://loki.monitoring.svc.cluster.local:3100
       version: 1
+    - name: Node Graph API
+      type: hamedkarbasi93-nodegraphapi-datasource
+      isDefault: false
+      access: proxy
+      url: http://nodegraph-generator.monitoring.svc.cluster.local
 
   ## Passed to grafana subchart and used by servicemonitor below
   ##
