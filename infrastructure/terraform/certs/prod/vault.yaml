@@ -5,7 +5,7 @@ metadata:
   namespace: vault
 spec:
   dnsNames:
-  - vault.lasdpc.icmc.usp.br
+  - vault-lasdpc.icmc.usp.br
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
