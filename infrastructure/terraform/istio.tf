@@ -5,7 +5,7 @@ resource "helm_release" "istio" {
   version           = "1.22.0"
   timeout           = "600"
   dependency_update = true
-  values            = [templatefile("helm-manifests/loki.tpl", { environment = var.environment })]
+  values            = [templatefile("helm-manifests/istio.tpl", { environment = var.environment })]
   namespace         = "istio-system"
   create_namespace  = true
   depends_on        = [module.eks]
