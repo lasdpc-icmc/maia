@@ -43,9 +43,6 @@ loki:
      replicas: 2
   read:
     replicas: 1
-  serviceAccount:
-    annotations:
-      eks.amazonaws.com/role-arn:  
 
 minio:
     enabled: true
