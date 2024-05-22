@@ -1,29 +1,51 @@
-test_pod:
-  enabled: true
-  image: bats/bats:1.8.2
-  pullPolicy: IfNotPresent
+serviceAccount:
+      create: true
+      name: loki-service-account
+      annotations:
+        eks.amazonaws.com/role-arn: "arn:aws:iam::326123346670:role/loki-role"
 
 loki:
-  enabled: true
   auth_enabled: false
-  isDefault: true
-  url: http://{{(include "loki.serviceName" .)}}:{{ .Values.loki.service.port }}
-  readinessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 90
-  livenessProbe:
-    httpGet:
-      path: /ready
-      port: http-metrics
-    initialDelaySeconds: 90
+  commonConfig:
+    path_prefix: /var/loki
+    replication_factor: 1
+  compactor:
+    apply_retention_interval: 1h
+    compaction_interval: 5m
+    retention_delete_worker_count: 500
+    retention_enabled: true
+    shared_store: s3
+    working_directory: /data/compactor
   limits_config:
     retention_period: 365d
     max_entries_limit_per_query: 5000000
-  datasource:
-    jsonData: "{}"
-    uid: ""
+
+  config:
+      schema_config:
+        configs:
+        - from: 2020-05-15
+          store: boltdb-shipper
+          object_store: s3
+          schema: v11
+          index:
+            period: 24h
+            prefix: loki_index_
+        
+      storage_config:
+        aws:
+          region: us-east-1
+          bucketnames: lasdpc-loki-logs
+          s3forcepathstyle: false
+        boltdb_shipper:
+          shared_store: s3
+          cache_ttl: 24h
+  write:
+     replicas: 2
+  read:
+    replicas: 1
+  serviceAccount:
+    annotations:
+      eks.amazonaws.com/role-arn:  
 
 minio:
     enabled: true
