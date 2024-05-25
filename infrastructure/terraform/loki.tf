@@ -21,7 +21,7 @@ resource "aws_iam_role" "loki_role" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-            "${replace(module.eks.oidc_provider, "https://", "")}:sub" : "system:serviceaccount:monitoring:loki"
+            "${replace(module.eks.oidc_provider, "https://", "")}:sub" : "system:serviceaccount:monitoring:loki-service"
           }
         }
       }
