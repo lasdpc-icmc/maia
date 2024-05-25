@@ -20,18 +20,24 @@ loki:
     retention_period: 365d
     max_entries_limit_per_query: 5000000
 
-  storage:
-    bucketNames:
-      chunks: lasdpc-loki-logs
-      ruler: lasdpc-loki-logs
-      admin: lasdpc-loki-logs
-    type: 's3'
-    s3:
-      endpoint: s3.us-east-1.amazonaws.com
-      region: us-east-1
-      s3ForcePathStyle: true
-      insecure: false
-
+  storage_config:
+    tsdb_shipper:
+      active_index_directory: /loki/index
+      cache_location: /loki/index_cache
+      cache_ttl: 24h
+    aws:
+      s3: s3://us-east-1
+      bucketnames: lasdpc-loki-logs
+  schemaConfig:
+    configs:
+      - from: 2020-07-01
+        store: tsdb
+        object_store: aws
+        schema: v13
+        index:
+          prefix: index_
+          period: 24h
+  
 promtail:
   enabled: true
   config:
