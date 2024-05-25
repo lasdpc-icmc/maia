@@ -1,8 +1,8 @@
 serviceAccount:
-      create: true
-      name: loki-service-account
-      annotations:
-        eks.amazonaws.com/role-arn: "arn:aws:iam::326123346670:role/loki-role"
+  create: true
+  name: loki
+  annotations:
+    eks.amazonaws.com/role-arn: "${role_arn}"
 
 loki:
   auth_enabled: false
@@ -20,32 +20,15 @@ loki:
     retention_period: 365d
     max_entries_limit_per_query: 5000000
 
-  config:
-      schema_config:
-        configs:
-        - from: 2020-05-15
-          store: boltdb-shipper
-          object_store: s3
-          schema: v11
-          index:
-            period: 24h
-            prefix: loki_index_
-        
-      storage_config:
-        aws:
-          region: us-east-1
-          bucketnames: lasdpc-loki-logs
-          s3forcepathstyle: false
-        boltdb_shipper:
-          shared_store: s3
-          cache_ttl: 24h
-  write:
-     replicas: 2
-  read:
-    replicas: 1
-
-minio:
-    enabled: true
+  storage:
+    bucketNames:
+      chunks: lasdpc-loki-logs
+    type: 's3'
+    s3:
+      endpoint: s3.us-east-1.amazonaws.com
+      region: us-east-1
+      s3ForcePathStyle: true
+      insecure: false
 
 promtail:
   enabled: true
