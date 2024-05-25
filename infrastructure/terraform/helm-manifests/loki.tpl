@@ -23,6 +23,8 @@ loki:
   storage:
     bucketNames:
       chunks: lasdpc-loki-logs
+      ruler: lasdpc-loki-logs
+      admin: lasdpc-loki-logs
     type: 's3'
     s3:
       endpoint: s3.us-east-1.amazonaws.com
