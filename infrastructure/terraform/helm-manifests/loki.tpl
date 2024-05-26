@@ -35,18 +35,10 @@ loki:
 
   serviceAccount:
     create: true
-    name: loki
+    name: loki-service
     annotations:
        eks.amazonaws.com/role-arn: "${role_arn}"
   write:
      replicas: 2
   read:
     replicas: 1
-
-promtail:
-  enabled: true
-  config:
-    logLevel: info
-    serverPort: 3101
-    clients:
-      - url: http://{{ .Release.Name }}:3100/loki/api/v1/push
