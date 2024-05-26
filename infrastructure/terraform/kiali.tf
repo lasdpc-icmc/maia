@@ -7,5 +7,5 @@ resource "helm_release" "kiali" {
   dependency_update = true
   values            = [templatefile("helm-manifests/kiali.tpl", { environment = var.environment })]
   namespace         = "istio-system"
-  depends_on        = [module.eks]
+  depends_on        = [module.eks, helm_release.istio_base]
 }
