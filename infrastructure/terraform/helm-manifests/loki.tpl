@@ -1,9 +1,3 @@
-serviceAccount:
-  create: true
-  name: loki
-  annotations:
-    eks.amazonaws.com/role-arn: "${role_arn}"
-
 loki:
   auth_enabled: false
   commonConfig:
@@ -19,25 +13,36 @@ loki:
   limits_config:
     retention_period: 365d
     max_entries_limit_per_query: 5000000
+  config:
+    schema_config:
+      configs:
+      - from: 2020-05-15
+        store: boltdb-shipper
+        object_store: s3
+        schema: v11
+        index:
+          period: 24h
+          prefix: loki_index_
 
   storage_config:
-    tsdb_shipper:
-      active_index_directory: /loki/index
-      cache_location: /loki/index_cache
-      cache_ttl: 24h
     aws:
-      s3: s3://us-east-1
+      region: us-east-1
       bucketnames: lasdpc-loki-logs
-  schemaConfig:
-    configs:
-      - from: 2020-07-01
-        store: tsdb
-        object_store: aws
-        schema: v13
-        index:
-          prefix: index_
-          period: 24h
-  
+      s3forcepathstyle: false
+    boltdb_shipper:
+      shared_store: s3
+      cache_ttl: 24h
+
+  serviceAccount:
+    create: true
+    name: loki
+    annotations:
+       eks.amazonaws.com/role-arn: "${role_arn}"
+  write:
+     replicas: 2
+  read:
+    replicas: 1
+
 promtail:
   enabled: true
   config:
