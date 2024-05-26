@@ -24,14 +24,14 @@ loki:
           period: 24h
           prefix: loki_index_
 
-  storage_config:
-    aws:
-      region: us-east-1
-      bucketnames: lasdpc-loki-logs
-      s3forcepathstyle: false
-    boltdb_shipper:
-      shared_store: s3
-      cache_ttl: 24h
+    storage_config:
+      aws:
+        region: us-east-1
+        bucketnames: lasdpc-loki-logs
+        s3forcepathstyle: false
+      boltdb_shipper:
+        shared_store: s3
+        cache_ttl: 24h
 
   serviceAccount:
     create: true
