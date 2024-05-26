@@ -58,7 +58,7 @@ resource "helm_release" "loki" {
   name              = "loki"
   chart             = "loki-stack"
   repository        = "https://grafana.github.io/helm-charts"
-  version           = "2.9.11"
+  version           = "2.10.2"
   timeout           = "600"
   dependency_update = true
   values            = [
