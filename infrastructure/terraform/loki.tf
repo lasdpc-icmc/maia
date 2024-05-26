@@ -37,15 +37,15 @@ resource "aws_iam_role_policy" "loki_policy" {
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Effect": "Allow",
-        "Action": [
+        "Effect" : "Allow",
+        "Action" : [
           "s3:PutObject",
           "s3:GetObject",
           "s3:ListBucket",
           "s3:ListBucketMultipartUploads",
           "s3:DeleteObject"
         ],
-        "Resource": [
+        "Resource" : [
           "${aws_s3_bucket.loki_logs.arn}",
           "${aws_s3_bucket.loki_logs.arn}/*"
         ]
@@ -61,14 +61,14 @@ resource "helm_release" "loki" {
   version           = "2.10.2"
   timeout           = "600"
   dependency_update = true
-  values            = [
+  values = [
     templatefile("helm-manifests/loki.tpl", {
       environment = var.environment,
-      role_arn = aws_iam_role.loki_role.arn
+      role_arn    = aws_iam_role.loki_role.arn
     })
   ]
-  namespace         = "monitoring"
-  depends_on        = [helm_release.kube_prometheus]
+  namespace  = "monitoring"
+  depends_on = [helm_release.kube_prometheus]
 }
 
 output "loki_role_arn" {

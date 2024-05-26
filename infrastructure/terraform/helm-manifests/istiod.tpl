@@ -30,7 +30,7 @@ defaults:
 
     # Whether to use an existing CNI installation
     cni:
-      enabled: true
+      enabled: false
       provider: default
 
     # Additional container arguments
@@ -505,4 +505,3 @@ defaults:
     # `chained` has been deprecated and will be removed in a future release. use `provider` instead
     chained: true
     provider: default
-
