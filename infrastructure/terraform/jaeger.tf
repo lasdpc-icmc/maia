@@ -7,5 +7,5 @@ resource "helm_release" "jaeger" {
   dependency_update = true
   values            = [templatefile("helm-manifests/jaeger.tpl", { environment = var.environment })]
   namespace         = "istio-system"
-  depends_on        = [module.eks]
+  depends_on        = [module.eks, helm_release.istio_base]
 }
