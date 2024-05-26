@@ -1,5 +1,5 @@
-resource "helm_release" "istio_crds" {
-  name              = "istio-crds"
+resource "helm_release" "istio_base" {
+  name              = "istio-base"
   chart             = "base"
   repository        = "https://istio-release.storage.googleapis.com/charts"
   version           = "1.22.0"
@@ -19,9 +19,8 @@ resource "helm_release" "istio" {
   version           = "1.22.0"
   timeout           = "600"
   dependency_update = true
-  values            = [templatefile("helm-manifests/istio.tpl", { environment = var.environment })]
+  values            = [templatefile("helm-manifests/istiod.tpl", { environment = var.environment })]
   namespace         = "istio-system"
-  create_namespace  = true
-  depends_on        = [module.eks, helm_release.istio_crds]
+  depends_on        = [module.eks, helm_release.istio_base]
 }
 
