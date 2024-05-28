@@ -11,18 +11,19 @@ resource "helm_release" "chaos_mesh" {
   depends_on        = [module.eks]
 }
 
-resource "kubernetes_service_account" "account_sock_shop_manager_ispal" {
+
+
+
+resource "kubernetes_service_account" "account-sock-shop-manager-ispal" {
   metadata {
-    name      = "account-sock-shop-manager-ispal"
-    namespace = "sock-shop"
+    name = "account-sock-shop-manager-ispal"
   }
 }
 
-resource "kubernetes_secret" "account_sock_shop_manager_ispal_secret" {
+resource "kubernetes_secret" "account-sock-shop-manager-ispal" {
   metadata {
-    namespace = "sock-shop"
     annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account.account_sock_shop_manager_ispal.metadata[0].name
+      "kubernetes.io/service-account.name" = kubernetes_service_account.account-sock-shop-manager-ispal.metadata.0.name
     }
 
     generate_name = "account-sock-shop-manager-ispal-"
@@ -31,6 +32,8 @@ resource "kubernetes_secret" "account_sock_shop_manager_ispal_secret" {
   type                           = "kubernetes.io/service-account-token"
   wait_for_service_account_token = true
 }
+
+
 resource "kubernetes_role" "role_sock_shop_manager_ispal" {
   metadata {
     name      = "role-sock-shop-manager-ispal"
