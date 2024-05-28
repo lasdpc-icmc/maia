@@ -16,9 +16,21 @@ resource "kubernetes_service_account" "account_sock_shop_manager_ispal" {
     name      = "account-sock-shop-manager-ispal"
     namespace = "sock-shop"
   }
-  depends_on = [helm_release.chaos_mesh]
 }
 
+resource "kubernetes_secret" "account_sock_shop_manager_ispal_secret" {
+  metadata {
+    namespace = "sock-shop"
+    annotations = {
+      "kubernetes.io/service-account.name" = kubernetes_service_account.account_sock_shop_manager_ispal.metadata[0].name
+    }
+
+    generate_name = "account-sock-shop-manager-ispal-"
+  }
+
+  type                           = "kubernetes.io/service-account-token"
+  wait_for_service_account_token = true
+}
 resource "kubernetes_role" "role_sock_shop_manager_ispal" {
   metadata {
     name      = "role-sock-shop-manager-ispal"
@@ -58,5 +70,4 @@ resource "kubernetes_role_binding" "bind_sock_shop_manager_ispal" {
     api_group = "rbac.authorization.k8s.io"
   }
   depends_on = [helm_release.chaos_mesh]
-
 }
