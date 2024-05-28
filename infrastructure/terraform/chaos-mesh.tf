@@ -11,25 +11,18 @@ resource "helm_release" "chaos_mesh" {
   depends_on        = [module.eks]
 }
 
-resource "kubernetes_service_account" "account-sock-shop-manager-ispal" {
-  metadata {
-    name      = "account-sock-shop-manager-ispal"
-    namespace = "sock-shop"
-  }
-  automount_service_account_token = true
-}
 
-resource "kubernetes_secret" "account-sock-shop-manager-ispal" {
-  metadata {
-    annotations = {
-      "kubernetes.io/service-account.name" = kubernetes_service_account.account-sock-shop-manager-ispal.metadata[0].name
+resource "kubernetes_manifest" "service_account" {
+  manifest = {
+    "apiVersion" = "v1"
+    "kind"       = "ServiceAccount"
+    "metadata" = {
+      "namespace" = "sock-shop"
+      "name"      = "account-sock-shop-manager-ispal"
     }
-    generate_name = "account-sock-shop-manager-ispal-"
-    namespace     = "sock-shop"
-  }
 
-  type = "kubernetes.io/service-account-token"
-  depends_on = [kubernetes_service_account.account-sock-shop-manager-ispal]
+    "automountServiceAccountToken" = true
+  }
 }
 
 resource "kubernetes_role" "role_sock_shop_manager_ispal" {
