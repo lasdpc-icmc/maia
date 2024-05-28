@@ -16,6 +16,7 @@ resource "kubernetes_service_account" "account-sock-shop-manager-ispal" {
     name      = "account-sock-shop-manager-ispal"
     namespace = "sock-shop"
   }
+  automount_service_account_token = true
 }
 
 resource "kubernetes_secret" "account-sock-shop-manager-ispal" {
