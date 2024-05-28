@@ -30,10 +30,6 @@ O Amazon Elastic Kubernetes Service (Amazon EKS) é um serviço gerenciado de co
   
 - [Kube Prometheus + Loki](https://github.com/prometheus-operator/kube-prometheus) ✅ - Esta stack é destinada ao monitoramento do cluster, sendo pré-configurada para coletar métricas de todos os componentes do Kubernetes. Além disso, oferece um conjunto padrão de dashboards e regras de alerta. Muitos dos painéis e alertas úteis vêm do projeto kubernetes-mixin, semelhante a este projeto, que fornece jsonnet componível como uma biblioteca para usuários personalizarem conforme necessário.
   
-- [Kube Ops](https://github.com/hjacobs/kube-ops-view) - É uma stack de monitoramento dos componentes do EKS. O objetivo do kube-ops é fornecer uma imagem operacional comum para vários clusters Kubernetes, mostrando a capacidade do nó, renderizando nós e indicando seu status geral.
-  
 - [OpenCost](https://www.opencost.io/) ✅ - É uma solução de monitoramento de custos em níveis extremamente granulares (até o nível de custo do pod), para que possamos medir os custos de acordo com as cargas de trabalho, tags, componentes e sistemas.
-  
-- [Kube-Bench](https://blog.aquasec.com/announcing-kube-bench-an-open-source-tool-for-running-kubernetes-cis-benchmark-tests) - É uma ferramenta que verifica se o Kubernetes está implantado com segurança, executando as verificações documentadas no CIS Kubernetes Benchmark.
   
 - [Prometheus BlackBox](https://github.com/prometheus/blackbox_exporter) - O blackbox exporter permite a sondagem de pontos de extremidade por meio de HTTP, HTTPS, DNS, TCP, ICMP e gRPC. Usamos como uma solução externa de monitoramento para atingir todos os serviços públicos, como Vault e Kubecost.
