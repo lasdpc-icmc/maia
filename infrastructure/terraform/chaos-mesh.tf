@@ -11,9 +11,6 @@ resource "helm_release" "chaos_mesh" {
   depends_on        = [module.eks]
 }
 
-
-
-
 resource "kubernetes_service_account" "account-sock-shop-manager-ispal" {
   metadata {
     name = "account-sock-shop-manager-ispal"
@@ -29,8 +26,8 @@ resource "kubernetes_secret" "account-sock-shop-manager-ispal" {
     generate_name = "account-sock-shop-manager-ispal-"
   }
 
-  type                           = "kubernetes.io/service-account-token"
-  wait_for_service_account_token = true
+  type = "kubernetes.io/service-account-token"
+
 }
 
 
