@@ -12,7 +12,7 @@ resource "helm_release" "tempo" {
 
 resource "kubernetes_service" "tempo_zipkin_service" {
   metadata {
-    name = "zipkin"
+    name      = "zipkin"
     namespace = "istio-system"
   }
   spec {
