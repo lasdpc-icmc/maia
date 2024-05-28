@@ -42,7 +42,7 @@ resource "kubernetes_role" "role_sock_shop_manager_ispal" {
     resources  = ["*"]
     verbs      = ["get", "list", "watch", "create", "delete", "patch", "update"]
   }
-  depends_on = [helm_release.chaos_mesh, kubernetes_service_account.account-sock-shop-manager-ispal]
+  depends_on = [helm_release.chaos_mesh]
 }
 
 resource "kubernetes_role_binding" "bind_sock_shop_manager_ispal" {
@@ -62,5 +62,5 @@ resource "kubernetes_role_binding" "bind_sock_shop_manager_ispal" {
     name      = "role-sock-shop-manager-ispal"
     api_group = "rbac.authorization.k8s.io"
   }
-  depends_on = [helm_release.chaos_mesh, kubernetes_service_account.account-sock-shop-manager-ispal, kubernetes_role.role_sock_shop_manager_ispal]
+  depends_on = [helm_release.chaos_mesh, kubernetes_role.role_sock_shop_manager_ispal]
 }
