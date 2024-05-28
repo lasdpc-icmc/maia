@@ -12,7 +12,7 @@ resource "helm_release" "chaos_mesh" {
 }
 
 
-resource "kubernetes_manifest" "service_account" {
+resource "kubernetes_manifest" "service_account_sock_shop" {
   manifest = {
     "apiVersion" = "v1"
     "kind"       = "ServiceAccount"
