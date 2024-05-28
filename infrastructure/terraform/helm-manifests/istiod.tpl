@@ -17,7 +17,7 @@ defaults:
 
     # Can be a full hub/image:tag
     image: pilot
-    traceSampling: 1.0
+    traceSampling: 100.0
 
     # Resources for a small pilot install
     resources:
@@ -368,7 +368,7 @@ defaults:
 
       # Specify which tracer to use. One of: zipkin, lightstep, datadog, stackdriver, none.
       # If using stackdriver tracer outside GCP, set env GOOGLE_APPLICATION_CREDENTIALS to the GCP credential file.
-      tracer: "none"
+      tracer: "zipkin"
 
     proxy_init:
       # Base name for the proxy_init container, used to configure iptables.
