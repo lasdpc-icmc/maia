@@ -80,7 +80,7 @@ defaults:
     autoscaleBehavior: {}
 
   # Pod environment variables
-  env: ${environment}
+  env: {}
 
   # Labels to apply to all resources
   labels: {}
