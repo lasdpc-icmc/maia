@@ -31,7 +31,7 @@ if [ $APP == "deep-log" ]; then
     kubectl_run delete job deep-log-training -n $APP | sh 2>&1 >/dev/null || true
     kubectl_run apply -f apps/$APP/kubernetes/applications/
     #check if all deploys were successfull\
-    kubectl_run annotate es external-secrets-$APP force-sync=$(date +%s) --overwrite -n $APP
+    kubectl_run annotate es external-secrets-$APP force-sync=$(date +%s) --overwrite -n $APP || true
     
     exit 0
 fi
@@ -41,7 +41,7 @@ sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/values.yaml
 kubectl_run apply -f apps/$APP/kubernetes/values.yaml
 
 # Force sync with Vault Secrets
-kubectl_run annotate es external-secrets-$APP force-sync=$(date +%s) --overwrite -n $APP
+kubectl_run annotate es external-secrets-$APP force-sync=$(date +%s) --overwrite -n $APP || true
 
 #check if all deploys were successfull
 kubectl get deploy -o name -n $APP | xargs -n1 -t kubectl rollout status -n $APP
