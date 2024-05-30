@@ -529,3 +529,31 @@ resource "kubernetes_secret_v1" "vault_cert_secret" {
     "tls.crt" : tls_self_signed_cert.vault_crt.cert_pem
   }
 }
+
+resource "kubernetes_manifest" "vault_prod_certificate" {
+  manifest = {
+    apiVersion = "cert-manager.io/v1"
+    kind       = "Certificate"
+
+    metadata = {
+      name      = "vault-prod"
+      namespace = "vault"
+    }
+
+    spec = {
+      dnsNames = ["vault-lasdpc.icmc.usp.br"]
+
+      issuerRef = {
+        kind = "ClusterIssuer"
+        name = "letsencrypt-prod"
+      }
+
+      secretName  = "vault-tls-secret"
+      duration    = "8640h"
+      renewBefore = "7440h"
+    }
+  }
+
+  computed_fields = ["spec.duration", "spec.renewBefore"]
+  depends_on      = [helm_release.vault]
+}

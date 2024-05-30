@@ -14,3 +14,31 @@ resource "helm_release" "kube_prometheus" {
     client_secret = var.grafana_client_secret
   })]
 }
+
+resource "kubernetes_manifest" "monitoring_prod_certificate" {
+  manifest = {
+    apiVersion = "cert-manager.io/v1"
+    kind       = "Certificate"
+
+    metadata = {
+      name      = "monitoring-prod"
+      namespace = "monitoring"
+    }
+
+    spec = {
+      dnsNames = ["grafana-lasdpc.icmc.usp.br"]
+
+      issuerRef = {
+        kind = "ClusterIssuer"
+        name = "letsencrypt-prod"
+      }
+
+      secretName  = "grafana-tls"
+      duration    = "8640h"
+      renewBefore = "7440h"
+    }
+  }
+
+  computed_fields = ["spec.duration", "spec.renewBefore"]
+  depends_on      = [helm_release.kube_prometheus]
+}
