@@ -267,11 +267,11 @@ serviceMonitor:
   # scrapeTimeout: 10s
 
 persistence:
-  enabled: false
-  # storageClassName: local-path
+  enabled: true
+  storageClassName: gp2
   accessModes:
     - ReadWriteOnce
-  size: 10Gi
+  size: 50Gi
 
 # -- Pod Annotations
 podAnnotations: {}
