@@ -936,7 +936,7 @@ grafana:
       auto_login: false
       client_id: "${client_id}"
       client_secret: "${client_secret}"
-      role_attribute_path = [login=='octocat'][0] && 'GrafanaAdmin' || 'Admin'
+      role_attribute_path: [login=='octocat'][0] && 'GrafanaAdmin' || 'Admin'
       scopes: user:email, read:org
       auth_url: https://github.com/login/oauth/authorize
       token_url: https://github.com/login/oauth/access_token
