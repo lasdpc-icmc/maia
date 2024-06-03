@@ -17,6 +17,12 @@ resource "aws_iam_group" "read_only" {
   path = "/users/"
 }
 
+resource "aws_iam_group" "admin" {
+  name = "admin"
+  path = "/users/"
+}
+
+
 resource "aws_iam_user" "users" {
   for_each = local.users_and_groups.users
 

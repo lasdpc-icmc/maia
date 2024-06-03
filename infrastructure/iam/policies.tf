@@ -1,3 +1,16 @@
+locals {
+  policies = [
+    "arn:aws:iam::aws:policy/AdministratorAccess",
+    "arn:aws:iam::aws:policy/Billing"
+  ]
+}
+
+resource "aws_iam_group_policy_attachment" "admin_policies" {
+  for_each   = toset(local.policies)
+  group      = aws_iam_group.admin.name
+  policy_arn = each.value
+}
+
 resource "aws_iam_group_policy" "general_iam_group_policy" {
   name  = "GeneralIAMPolicy"
   group = aws_iam_group.general.name
