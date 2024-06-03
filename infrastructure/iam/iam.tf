@@ -1,7 +1,3 @@
-locals {
-  users_and_groups = jsondecode(file("${path.module}/users_and_groups.json"))
-}
-
 resource "aws_iam_group" "general" {
   name = "general"
   path = "/users/"
@@ -22,6 +18,9 @@ resource "aws_iam_group" "admin" {
   path = "/users/"
 }
 
+locals {
+  users_and_groups = jsondecode(file("${path.module}/users_and_groups.json"))
+}
 
 resource "aws_iam_user" "users" {
   for_each = local.users_and_groups.users

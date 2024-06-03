@@ -1,7 +1,8 @@
 locals {
   policies = [
     "arn:aws:iam::aws:policy/AdministratorAccess",
-    "arn:aws:iam::aws:policy/AWSBillingConductorFullAccess"
+    "arn:aws:iam::aws:policy/AWSBillingConductorFullAccess",
+    "arn:aws:iam::aws:policy/IAMFullAccess"
   ]
 }
 
