@@ -120,14 +120,6 @@ module "eks" {
         type = "spot"
       }
 
-      taints = {
-        dedicated = {
-          key    = "dedicated"
-          value  = "gpuGroup"
-          effect = "NO_SCHEDULE"
-        }
-      }
-
       block_device_mappings = {
         xvda = {
           device_name = "/dev/xvda"
