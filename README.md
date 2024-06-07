@@ -1,4 +1,4 @@
-# Automatic root cause analysis of incidents in multi-cloud environments using Bayesian networks
+# MAIA (Multi-Cloud Analytics with Integrated AI)
 
 
 1. Conceptual and comparative application metrics analysis in native cloud microservices
