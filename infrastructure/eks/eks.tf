@@ -108,92 +108,45 @@ module "eks" {
     }
   }
 
-  eks_managed_node_groups = {
-    "${var.resource_name}-spot" = {
-      min_size     = var.min_size_spot
-      max_size     = var.max_size_spot
-      desired_size = var.desired_size_spot
-
+  self_managed_node_groups = {
+    spot = {
       instance_types = var.instance_types_spot
-      subnet_ids     = [data.terraform_remote_state.vpc.outputs.priv_sn_id[0], data.terraform_remote_state.vpc.outputs.priv_sn_id[1], data.terraform_remote_state.vpc.outputs.priv_sn_id[2]]
-      capacity_type  = "SPOT"
-      labels = {
-        type = "spot"
+      min_size       = var.min_size_spot
+      max_size       = var.max_size_spot
+      desired_size   = var.desired_size_spot
+      instance_market_options = {
+        market_type = "spot"
       }
+      bootstrap_extra_args = "--kubelet-extra-args '--node-labels=node.kubernetes.io/lifecycle=spot'"
 
-      block_device_mappings = {
-        xvda = {
-          device_name = "/dev/xvda"
-          ebs = {
-            volume_size           = var.volume_size
-            volume_type           = var.volume_type
-            iops                  = var.iops
-            throughput            = var.throughput
-            delete_on_termination = true
-          }
-        }
-      }
-
-      update_config = {
-        max_unavailable_percentage = 33
-      }
-
-      tags = {
-        type = "spot"
-      }
-    }
-
-    "${var.resource_name}-ondemand" = {
-      min_size     = var.min_size_ondemand
-      max_size     = var.max_size_ondemand
-      desired_size = var.desired_size_ondemand
-
-      instance_types = var.instance_types_on_demand
-      subnet_ids     = [data.terraform_remote_state.vpc.outputs.priv_sn_id[0], data.terraform_remote_state.vpc.outputs.priv_sn_id[1], data.terraform_remote_state.vpc.outputs.priv_sn_id[2]]
-      capacity_type  = "ON_DEMAND"
-      labels = {
-        type = "ondemand"
-      }
-
-      block_device_mappings = {
-        xvda = {
-          device_name = "/dev/xvda"
-          ebs = {
-            volume_size           = var.volume_size
-            volume_type           = var.volume_type
-            iops                  = var.iops
-            throughput            = var.throughput
-            delete_on_termination = true
-          }
-        }
-      }
-
-      update_config = {
-        max_unavailable_percentage = 33
-      }
-
-      tags = {
-        type = "ondemand"
-      }
     }
   }
 
   manage_aws_auth_configmap = true
 
-  # aws_auth_node_iam_role_arns_non_windows = [
-  #   module.eks_managed_node_group.iam_role_arn
-  # ]
+  aws_auth_node_iam_role_arns_non_windows = [
+    module.eks_managed_node_group.iam_role_arn,
+    module.self_managed_node_group.iam_role_arn,
+  ]
 
-  # aws_auth_roles = concat([
-  #   {
-  #     rolearn  = module.eks_managed_node_group.iam_role_arn
-  #     username = "system:node:{{EC2PrivateDNSName}}"
-  #     groups = [
-  #       "system:bootstrappers",
-  #       "system:nodes",
-  #     ]
-  #   }
-  # ], var.map_roles)
+  aws_auth_roles = concat([
+    {
+      rolearn  = module.eks_managed_node_group.iam_role_arn
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups = [
+        "system:bootstrappers",
+        "system:nodes",
+      ]
+    },
+    {
+      rolearn  = module.self_managed_node_group.iam_role_arn
+      username = "system:node:{{EC2PrivateDNSName}}"
+      groups = [
+        "system:bootstrappers",
+        "system:nodes",
+      ]
+    },
+  ], var.map_roles)
 
   aws_auth_users = var.aws_auth_users
 
@@ -202,6 +155,44 @@ module "eks" {
   ]
 
   tags = local.tags
+}
+
+module "eks_managed_node_group" {
+  source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  version = "19.20.0"
+
+  name            = "${var.resource_name}-ondemand"
+  cluster_name    = module.eks.cluster_name
+  cluster_version = module.eks.cluster_version
+  instance_types  = var.instance_types_on_demand
+  capacity_type   = "ON_DEMAND"
+  min_size        = var.min_size_ondemand
+  max_size        = var.max_size_ondemand
+  desired_size    = var.desired_size_ondemand
+
+
+  subnet_ids                        = [data.terraform_remote_state.vpc.outputs.priv_sn_id[0], data.terraform_remote_state.vpc.outputs.priv_sn_id[1], data.terraform_remote_state.vpc.outputs.priv_sn_id[2]]
+  cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
+
+  vpc_security_group_ids = [
+    module.eks.cluster_security_group_id,
+  ]
+
+  ami_type = "BOTTLEROCKET_x86_64"
+  platform = "bottlerocket"
+
+  bootstrap_extra_args = <<-EOT
+    # extra args added
+    [settings.kernel]
+    lockdown = "integrity"
+
+    [settings.kubernetes.node-labels]
+    "type" = "on-demand"
+    "env"  = "${var.environment}"
+
+  EOT
+
+  tags = merge(local.tags, { Separate = "eks-managed-node-group" })
 }
 
 resource "aws_security_group" "additional" {
