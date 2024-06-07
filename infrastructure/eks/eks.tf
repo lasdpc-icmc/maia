@@ -150,7 +150,7 @@ module "eks" {
 
       instance_types = var.instance_types_on_demand
       subnet_ids     = [data.terraform_remote_state.vpc.outputs.priv_sn_id[0], data.terraform_remote_state.vpc.outputs.priv_sn_id[1], data.terraform_remote_state.vpc.outputs.priv_sn_id[2]]
-      capacity_type  = "ONDEMAND"
+      capacity_type  = "ON_DEMAND"
       labels = {
         type = "ondemand"
       }
