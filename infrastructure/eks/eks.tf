@@ -115,6 +115,7 @@ module "eks" {
       desired_size = var.desired_size_spot
 
       instance_types = var.instance_types_spot
+      subnet_ids     = [data.terraform_remote_state.vpc.outputs.priv_sn_id[0], data.terraform_remote_state.vpc.outputs.priv_sn_id[1], data.terraform_remote_state.vpc.outputs.priv_sn_id[2]]
       capacity_type  = "SPOT"
       labels = {
         type = "spot"
