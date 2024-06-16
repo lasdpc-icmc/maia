@@ -112,4 +112,15 @@ resource "helm_release" "karpenter" {
   namespace         = "karpenter"
   create_namespace  = true
   depends_on        = [aws_iam_instance_profile.karpenter]
+
+  set {
+    name  = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
+    value = aws_iam_role.karpenter_controller.arn
+  }
+
+  set {
+    name  = "settings.clusterName"
+    value = module.eks.cluster_name
+  }
+
 }
