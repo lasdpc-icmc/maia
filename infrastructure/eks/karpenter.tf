@@ -20,9 +20,8 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${replace(module.eks.cluster_oidc_issuer_url.eks.url, "https://", "")}:sub"
-
-      values = ["system:serviceaccount:karpenter:karpenter"]
+      variable = "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:sub"
+      values   = ["system:serviceaccount:karpenter:karpenter"]
     }
 
     principals {
@@ -31,6 +30,7 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
     }
   }
 }
+
 
 resource "aws_iam_role" "karpenter_controller" {
   assume_role_policy = data.aws_iam_policy_document.karpenter_controller_assume_role_policy.json
