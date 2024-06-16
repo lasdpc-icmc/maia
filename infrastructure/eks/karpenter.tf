@@ -101,3 +101,15 @@ resource "aws_iam_instance_profile" "karpenter" {
 ## Helm karpenter ##
 ####################
 
+resource "helm_release" "karpenter" {
+  name              = "karpenter"
+  chart             = "karpenter"
+  repository        = "oci://public.ecr.aws/karpenter"
+  version           = "0.37.0"
+  timeout           = "600"
+  dependency_update = true
+  values            = [templatefile("helm-manifests/karpenter.tpl", { environment = var.environment })]
+  namespace         = "karpenter"
+  create_namespace  = true
+  depends_on        = [resouce.aws_iam_instance_profile.karpenter]
+}
