@@ -20,8 +20,9 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
 
     condition {
       test     = "StringEquals"
-      variable = "${module.eks.cluster_oidc_issuer_url}:sub"
-      values   = ["system:serviceaccount:karpenter:karpenter"]
+      variable = "${replace(module.eks.cluster_oidc_issuer_url.eks.url, "https://", "")}:sub"
+
+      values = ["system:serviceaccount:karpenter:karpenter"]
     }
 
     principals {
@@ -60,6 +61,7 @@ resource "aws_iam_policy" "karpenter_controller" {
         "ec2:DescribeSpotPriceHistory",
         "ec2:TerminateInstances",
         "pricing:GetProducts",
+        "eks:DescribeCluster",
       ],
       "Effect" : "Allow",
       "Resource" : "*",
