@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "karpenter_controller_assume_role_policy" {
     }
 
     principals {
-      identifiers = [module.aws_eks.oidc_provider_arn]
+      identifiers = [module.eks.oidc_provider_arn]
       type        = "Federated"
     }
   }
