@@ -111,5 +111,5 @@ resource "helm_release" "karpenter" {
   values            = [templatefile("helm-manifests/karpenter.tpl", { environment = var.environment })]
   namespace         = "karpenter"
   create_namespace  = true
-  depends_on        = [resouce.aws_iam_instance_profile.karpenter]
+  depends_on        = [aws_iam_instance_profile.karpenter]
 }
