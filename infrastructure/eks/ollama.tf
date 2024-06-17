@@ -1,5 +1,5 @@
 resource "helm_release" "ollama" {
-  name              = "maia-ollama"
+  name              = "open-webui"
   chart             = "open-webui"
   repository        = "https://helm.openwebui.com"
   version           = "3.0.4"
