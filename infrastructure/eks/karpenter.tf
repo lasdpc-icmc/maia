@@ -47,6 +47,7 @@ resource "aws_iam_policy" "karpenter_controller" {
         "ssm:GetParameter",
         "iam:PassRole",
         "iam:GetInstanceProfile",
+        "iam:RemoveRoleFromInstanceProfile",
         "iam:CreateInstanceProfile",
         "iam:TagInstanceProfile",
         "iam:AddRoleToInstanceProfile",
@@ -110,7 +111,7 @@ resource "helm_release" "karpenter" {
   name              = "karpenter"
   chart             = "karpenter"
   repository        = "oci://public.ecr.aws/karpenter"
-  version           = "0.36.2"
+  version           = "0.37.0"
   timeout           = "600"
   dependency_update = true
   values            = [templatefile("helm-manifests/karpenter.tpl", { environment = var.environment })]
