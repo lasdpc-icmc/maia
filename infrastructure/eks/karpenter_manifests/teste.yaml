@@ -11,22 +11,25 @@ spec:
       requirements:
         - key: karpenter.sh/capacity-type
           operator: In
-          values: ["spot"]
-        - key: kubernetes.io/os
-          operator: In
-          values: ["linux"]
+          values: ["spot", "on-demand"]
         - key: karpenter.k8s.aws/instance-category
           operator: In
-          values: ["t", "c"]
+          values: ["c", "m", "r", "t"]
       nodeClassRef:
         apiVersion: karpenter.k8s.aws/v1beta1
         kind: EC2NodeClass
-        name: default
+        name: karpenter-spot
+  limits:
+    cpu: 15
+    memory: 20Gi
+  disruption:
+    consolidationPolicy: WhenUnderutilized
+    expireAfter: 720h # 30 * 24h = 720h
 ---
 apiVersion: karpenter.k8s.aws/v1beta1
 kind: EC2NodeClass
 metadata:
-  name: default
+  name: karpenter-spot
   annotations:
     kubernetes.io/description: "General purpose EC2NodeClass for running Amazon Linux 2 nodes"
 spec:
@@ -34,7 +37,7 @@ spec:
   role: "karpenter-controller" # replace with your cluster name
   subnetSelectorTerms:
     - tags:
-        team: "icmc" # replace with your cluster name
+        project: "platform" # replace with your cluster name
   securityGroupSelectorTerms:
     - tags:
-        aws:eks:cluster-name: "lasdpc-icmc" # replace with your cluster name
+        Env: "prod" # replace with your cluster name
