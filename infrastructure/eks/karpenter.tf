@@ -110,7 +110,7 @@ resource "helm_release" "karpenter" {
   name              = "karpenter"
   chart             = "karpenter"
   repository        = "oci://public.ecr.aws/karpenter"
-  version           = "0.37.0"
+  version           = "0.36.2"
   timeout           = "600"
   dependency_update = true
   values            = [templatefile("helm-manifests/karpenter.tpl", { environment = var.environment })]
