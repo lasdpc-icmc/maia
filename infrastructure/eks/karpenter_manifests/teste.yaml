@@ -38,3 +38,6 @@ spec:
   securityGroupSelectorTerms:
     - tags:
         Env: "prod"
+tags:
+managed-by: karpenter
+Name: karpenter-lasdpc-icmc-spot
