@@ -31,10 +31,10 @@ metadata:
     kubernetes.io/description: "General purpose EC2NodeClass for running Amazon Linux 2 nodes"
 spec:
   amiFamily: AL2 # Amazon Linux 2
-  role: "karpenter-controller" # replace with your cluster name
+  role: "lasdpc-icmc-spot-eks-node-group-20240514211505414700000001"
   subnetSelectorTerms:
     - tags:
-        team: "icmc" # replace with your cluster name
+        team: "icmc"
   securityGroupSelectorTerms:
     - tags:
-        Env: "prod" # replace with your cluster name
+        Env: "prod"
