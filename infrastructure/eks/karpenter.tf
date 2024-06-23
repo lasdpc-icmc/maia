@@ -56,6 +56,7 @@ resource "aws_iam_policy" "karpenter_controller" {
         "ec2:DescribeSecurityGroups",
         "ec2:DescribeLaunchTemplates",
         "ec2:DescribeInstances",
+        "ec2:TerminateInstances",
         "ec2:DescribeInstanceTypes",
         "ec2:DescribeInstanceTypeOfferings",
         "ec2:DescribeAvailabilityZones",
