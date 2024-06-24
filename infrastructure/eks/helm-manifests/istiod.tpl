@@ -396,7 +396,7 @@ defaults:
     configCluster: false
 
     # configValidation enables the validation webhook for Istio configuration.
-    configValidation: true
+    configValidation: false
 
     # Mesh ID means Mesh Identifier. It should be unique within the scope where
     # meshes will interact with each other, but it is not required to be
