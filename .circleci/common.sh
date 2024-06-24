@@ -69,10 +69,18 @@ git_config () {
 }
 
 install_awscli_kubectl() {
-  sudo apt-get update
-  sudo apt-get install awscli
+  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  unzip awscliv2.zip
+  sudo ./aws/install
+  aws --version
 
-  curl -o kubectl https://storage.googleapis.com/kubernetes-release/release/v1.27.2/bin/linux/amd64/kubectl
+
+  curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.30.0/2023-03-23/bin/linux/amd64/aws-iam-authenticator
+  chmod +x aws-iam-authenticator
+  sudo mv aws-iam-authenticator /usr/local/bin/
+
+
+  curl -o kubectl https://storage.googleapis.com/kubernetes-release/release/v1.30.2/bin/linux/amd64/kubectl
   chmod +x "kubectl" && sudo mv "kubectl" /usr/local/bin/
   curl -L https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
