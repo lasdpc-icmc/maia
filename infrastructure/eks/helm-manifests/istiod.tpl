@@ -17,7 +17,7 @@ defaults:
 
     # Can be a full hub/image:tag
     image: pilot
-    traceSampling: 100.0
+    traceSampling: 1.0
 
     # Resources for a small pilot install
     resources:
@@ -234,7 +234,7 @@ defaults:
     # Dev builds from prow are on gcr.io
     hub: docker.io/istio
     # Default tag for Istio images.
-    tag: 1.22.0
+    tag: 1.22.1
     # Variant of the image to use.
     # Currently supported are: [debug, distroless]
     variant: ""
@@ -368,7 +368,7 @@ defaults:
 
       # Specify which tracer to use. One of: zipkin, lightstep, datadog, stackdriver, none.
       # If using stackdriver tracer outside GCP, set env GOOGLE_APPLICATION_CREDENTIALS to the GCP credential file.
-      tracer: "zipkin"
+      tracer: "none"
 
     proxy_init:
       # Base name for the proxy_init container, used to configure iptables.
