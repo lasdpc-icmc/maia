@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 LOKI_URL = os.environ["LOKI_URL"]
 APP_NAME = os.environ["APP_NAME"]
-LOKI_BATCH_SIZE = int(os.environ["LOKI_BATCH_SIZE"])
+LOKI_BATCH_SIZE = 1440
 LINES_PER_FILE = 10000
 REQUEST_TIMEOUT = 600
 MAX_RETRIES = 30
@@ -49,7 +49,7 @@ def get_loki_logs(start_time):
                 print(f"Retrying in {RETRY_DELAY} seconds...")
                 time.sleep(RETRY_DELAY)
             else:
-                print("Max retries exceeded. Exiting.")
+                print("Max retries exceeded")
                 exit(-1)
         except requests.exceptions.HTTPError as e:
             print(f"HTTP error occurred: {e}")
@@ -72,7 +72,7 @@ def write_logs_to_file(logs, timestamp, file_index):
                 message = entry[1]
                 f.write(f"{stream} {entry_timestamp} {message}\n")
     
-    print(f"Written {len(logs)} streams to {file_name}")
+    print(f"Written {len(logs)} streams {file_name}")
     return file_name
 
 def fetch_and_save_logs():
@@ -81,23 +81,26 @@ def fetch_and_save_logs():
     current_time = start_time
     file_index = 0
     log_lines = []
+    logs_collected = []
 
     while current_time < end_time:
         logs = get_loki_logs(current_time)
         current_time += timedelta(minutes=LOKI_BATCH_SIZE)
         
         if logs:
+            logs_collected.extend(logs)
             for log in logs:
                 log_lines.extend(log["values"])
             
             if len(log_lines) >= LINES_PER_FILE:
-                write_logs_to_file(logs, current_time, file_index)
+                write_logs_to_file(logs_collected, current_time, file_index)
                 log_lines = []
+                logs_collected = []
                 file_index += 1
 
     if log_lines:
-        write_logs_to_file(log_lines, current_time, file_index)
+        write_logs_to_file(logs_collected, current_time, file_index)
 
 if __name__ == "__main__":
     fetch_and_save_logs()
-    print("Log fetching and writing completed.")
+    print("Logs OK")
