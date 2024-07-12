@@ -42,3 +42,17 @@ loki:
      replicas: 2
   read:
     replicas: 1
+
+promtail:
+  enabled: true
+  config:
+    logLevel: info
+    serverPort: 3101
+    clients:
+      - url: http://loki.monitoring:3100/loki/api/v1/push
+    snippets:
+      pipelineStages:
+        - cri: {}
+        - multiline:
+            firstline: '^\S'
+            max_lines: 2048
