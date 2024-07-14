@@ -8,11 +8,14 @@ locals {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.20.0"
+  version = "20.17.2"
 
-  cluster_name                   = var.resource_name
-  cluster_endpoint_public_access = true
-  cluster_version                = var.cluster_version
+  cluster_name                           = var.resource_name
+  cluster_endpoint_public_access         = true
+  cluster_version                        = var.cluster_version
+  cloudwatch_log_group_class             = "INFREQUENT_ACCESS"
+  cloudwatch_log_group_retention_in_days = 1
+  create_cloudwatch_log_group            = false
 
   cluster_addons = {
 
@@ -195,17 +198,35 @@ module "eks" {
     }
   }
 
-  manage_aws_auth_configmap = true
-
-  aws_auth_roles = concat([
-
-  ], var.map_roles)
-
-  aws_auth_users = var.aws_auth_users
-
-  aws_auth_accounts = [
-    "${var.aws_account_id}"
-  ]
+  authentication_mode = "API_AND_CONFIG_MAP"
+  access_entries = {
+    lasdpc = {
+      kubernetes_groups = []
+      principal_arn     = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/eks-admin-role"
+      policy_associations = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type       = "cluster"
+          }
+        }
+      }
+    }
+    circleci = {
+      kubernetes_groups = []
+      principal_arn     = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/aws-eks-circleci"
+      policy_associations = {
+        admin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type       = "cluster"
+          }
+        }
+      }
+    }
+  }
 
   tags = local.tags
 }
