@@ -113,7 +113,7 @@ EOF
   vault write auth/kubernetes/config token_reviewer_jwt="${tr_account_token}" kubernetes_host="https://${k8s_host}:${k8s_port}" kubernetes_ca_cert="${k8s_cacert}"
   disable_issuer_verification=true
 
-  vault_secret_name="$(kubectl get secrets -n $APP | grep $APP-token | awk {'print $1'})"
+  vault_secret_name="$(kubectl get secrets -n $APP | grep $APP-secret | awk {'print $1'})"
   vault_account_token="$(kubectl get secret ${vault_secret_name} -n $APP -o jsonpath="{.data.token}" | base64 --decode; echo)"
 
   vault write auth/kubernetes/role/role-$APP \
