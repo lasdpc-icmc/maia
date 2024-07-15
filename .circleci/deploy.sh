@@ -21,7 +21,9 @@ then
     echo "namespace already exists"
 else
    kubectl_run create namespace $APP
-   kubectl_run create sa $APP -n $APP | sh 2>&1 >/dev/null || true
+   kubectl_run create serviceaccount $APP --namespace=$APP | sh 2>&1 >/dev/null || true && \
+   kubectl_run create secret generic $APP-secret --namespace=$APP --from-literal=token=$(kubectl create token $APP --namespace=$APP -o jsonpath='{.status.token}') && \
+   kubectl_run patch serviceaccount $APP -n $APP -p '{"secrets": [{"name": "$APP-secret"}]}'
    vault_set_permissions
 fi
 
