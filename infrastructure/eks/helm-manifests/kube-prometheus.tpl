@@ -1112,6 +1112,7 @@ grafana:
       version: 1
     - name: Node Graph API
       type: hamedkarbasi93-nodegraphapi-datasource
+      editable: true
       isDefault: false
       access: proxy
       url: http://nodegraph-generator.nodegraph-generator.svc.cluster.local
