@@ -1114,7 +1114,7 @@ grafana:
       type: hamedkarbasi93-nodegraphapi-datasource
       isDefault: false
       access: proxy
-      url: http://nodegraph-generator.monitoring.svc.cluster.local
+      url: http://nodegraph-generator.nodegraph-generator.svc.cluster.local
 
   ## Passed to grafana subchart and used by servicemonitor below
   ##
