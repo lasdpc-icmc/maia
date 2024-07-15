@@ -172,6 +172,7 @@ cython_debug/
 /tempfile_train.txt
 /tempfile_predict.txt
 apps/deep-log/.env
+apps/baynet/.baynet
 
 
 # Local .terraform directories
