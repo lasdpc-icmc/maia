@@ -1,0 +1,5 @@
+numpy<1.22.0
+torch==1.10.2
+pgmpy==0.1.21
+pandas==1.4.0
+scipy==1.8.1
