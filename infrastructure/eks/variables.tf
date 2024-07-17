@@ -169,3 +169,9 @@ variable "aws_auth_users" {
 
   ]
 }
+
+variable "cluster_enabled_log_types" {
+  description = "List of log types to enable for the cluster."
+  type        = list(string)
+  default     = []
+}
