@@ -14,7 +14,7 @@ module "eks" {
   cluster_endpoint_public_access         = true
   cluster_version                        = var.cluster_version
   cloudwatch_log_group_class             = "INFREQUENT_ACCESS"
-  cloudwatch_log_group_retention_in_days = 1
+  cloudwatch_log_group_retention_in_days = 0
   create_cloudwatch_log_group            = false
   cluster_enabled_log_types              = var.cluster_enabled_log_types
 
