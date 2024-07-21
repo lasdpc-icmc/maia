@@ -1,0 +1,172 @@
+{
+  "batches": [
+    {
+      "resource": {
+        "attributes": [
+          {
+            "key": "service.name",
+            "value": {
+              "stringValue": "catalogue.sock-shop"
+            }
+          }
+        ]
+      },
+      "scopeSpans": [
+        {
+          "scope": {},
+          "spans": [
+            {
+              "traceId": "YWi+aG7Ch2i0N+fqMZoZaA==",
+              "spanId": "tDfn6jGaGWg=",
+              "name": "catalogue.sock-shop.svc.cluster.local:80/*",
+              "kind": "SPAN_KIND_SERVER",
+              "startTimeUnixNano": "1721592072708124000",
+              "endTimeUnixNano": "1721592072711006000",
+              "attributes": [
+                {
+                  "key": "istio.cluster_id",
+                  "value": {
+                    "stringValue": "Kubernetes"
+                  }
+                },
+                {
+                  "key": "response_size",
+                  "value": {
+                    "stringValue": "1850"
+                  }
+                },
+                {
+                  "key": "upstream_cluster.name",
+                  "value": {
+                    "stringValue": "inbound|80||"
+                  }
+                },
+                {
+                  "key": "guid:x-request-id",
+                  "value": {
+                    "stringValue": "3f60abe1-b1de-9976-b203-a21748b47dd5"
+                  }
+                },
+                {
+                  "key": "istio.canonical_service",
+                  "value": {
+                    "stringValue": "catalogue"
+                  }
+                },
+                {
+                  "key": "http.status_code",
+                  "value": {
+                    "stringValue": "200"
+                  }
+                },
+                {
+                  "key": "upstream_cluster",
+                  "value": {
+                    "stringValue": "inbound|80||"
+                  }
+                },
+                {
+                  "key": "user_agent",
+                  "value": {
+                    "stringValue": "Prometheus/2.48.0"
+                  }
+                },
+                {
+                  "key": "node_id",
+                  "value": {
+                    "stringValue": "sidecar~172.20.100.70~catalogue-68db79f496-7lnqd.sock-shop~sock-shop.svc.cluster.local"
+                  }
+                },
+                {
+                  "key": "http.protocol",
+                  "value": {
+                    "stringValue": "HTTP/1.1"
+                  }
+                },
+                {
+                  "key": "istio.namespace",
+                  "value": {
+                    "stringValue": "sock-shop"
+                  }
+                },
+                {
+                  "key": "downstream_cluster",
+                  "value": {
+                    "stringValue": "-"
+                  }
+                },
+                {
+                  "key": "component",
+                  "value": {
+                    "stringValue": "proxy"
+                  }
+                },
+                {
+                  "key": "istio.mesh_id",
+                  "value": {
+                    "stringValue": "cluster.local"
+                  }
+                },
+                {
+                  "key": "request_size",
+                  "value": {
+                    "stringValue": "0"
+                  }
+                },
+                {
+                  "key": "istio.canonical_revision",
+                  "value": {
+                    "stringValue": "v1"
+                  }
+                },
+                {
+                  "key": "response_flags",
+                  "value": {
+                    "stringValue": "-"
+                  }
+                },
+                {
+                  "key": "peer.address",
+                  "value": {
+                    "stringValue": "172.20.90.135"
+                  }
+                },
+                {
+                  "key": "zone",
+                  "value": {
+                    "stringValue": "us-east-1c"
+                  }
+                },
+                {
+                  "key": "net.host.ip",
+                  "value": {
+                    "stringValue": "172.20.100.70"
+                  }
+                },
+                {
+                  "key": "http.method",
+                  "value": {
+                    "stringValue": "GET"
+                  }
+                },
+                {
+                  "key": "http.url",
+                  "value": {
+                    "stringValue": "http://172.20.100.70:80/metrics"
+                  }
+                }
+              ],
+              "events": [
+                {
+                  "timeUnixNano": "1721592072711100000",
+                  "name": "ss"
+                }
+              ],
+              "status": {}
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
