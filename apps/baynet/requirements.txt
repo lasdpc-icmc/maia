@@ -1,6 +1,6 @@
-numpy<1.22.0
-torch==1.10.2
-pgmpy==0.1.21
-pandas==1.4.0
-scipy==1.8.1
+numpy==1.23.0
 requests==2.32.3
+causalnex==0.12.1
+scikit-learn==1.5.1
+matplotlib==3.9.1
+seaborn==0.13.2

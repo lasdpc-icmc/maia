@@ -1,0 +1,9 @@
+spanID,startTime,durationNanos,istio.canonical_service,request_size,node_id,http.status_code,downstream_cluster,response_size,response_flags,net.host.ip,istio.canonical_revision,http.method,http.url,istio.mesh_id,peer.address,user_agent,component,zone,istio.namespace,upstream_cluster,guid:x-request-id,istio.cluster_id,http.protocol,upstream_cluster.name
+0,1722286047.582956,2598000,payment,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,front-end,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,catalog,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,carts,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,orders,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,shipping,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,user,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,1722286047.582956,2598000,orders,0,0,200,0,1492,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
