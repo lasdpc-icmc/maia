@@ -93,6 +93,8 @@ external_services:
     enabled: true
   istio:
     root_namespace: ""
+  prometheus:
+    url: http://kube-prometheus-kube-prome-prometheus.monitoring.svc.cluster.local:9090
 
 identity: {}
   #cert_file:
