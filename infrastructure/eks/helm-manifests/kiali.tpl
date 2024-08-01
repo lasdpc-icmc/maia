@@ -28,7 +28,7 @@ istio_namespace: "" # default is where Kiali is installed
 auth:
   openid: {}
   openshift: {}
-  strategy: ""
+  strategy: anonymous
 
 clustering:
   autodetect_secrets:
