@@ -5,7 +5,7 @@ import os
 import csv
 
 BASE_URL = os.environ["BASE_URL"]
-TRACE_TIME_RANGE_MINUTES = int(os.environ["TRACE_TIME_RANGE_MINUTES"])
+TIME_WINDOW = int(os.environ["TIME_WINDOW"])
 SAVE_DIRECTORY = os.environ["SAVE_DIRECTORY"]
 SERVICE_NAME = os.environ["SERVICE_NAME"]
 
@@ -106,8 +106,8 @@ def save_traces_to_csv(trace_data_list):
 
 if __name__ == "__main__":
     service_name = SERVICE_NAME
-    trace_ids = get_trace_ids_from_last_n_minutes_for_service(service_name, TRACE_TIME_RANGE_MINUTES)
-    print(f"Trace IDs from the last {TRACE_TIME_RANGE_MINUTES} minutes for service '{service_name}':")
+    trace_ids = get_trace_ids_from_last_n_minutes_for_service(service_name, TIME_WINDOW)
+    print(f"Trace IDs from the last {TIME_WINDOW} minutes for service '{service_name}':")
     
     all_span_info_list = []
     for trace_id in trace_ids:

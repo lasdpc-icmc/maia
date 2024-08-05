@@ -15,4 +15,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY . .
 
-CMD ["bash"]
+RUN pip install Flask
+
+EXPOSE 80
+
+CMD ["python", "render.py"]
