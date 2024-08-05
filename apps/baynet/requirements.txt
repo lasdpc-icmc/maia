@@ -4,3 +4,4 @@ causalnex==0.12.1
 scikit-learn==1.5.1
 matplotlib==3.9.1
 seaborn==0.13.2
+flask==3.0.3
