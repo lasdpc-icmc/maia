@@ -10,7 +10,7 @@ metadata:
   name: baynet-deployment
   namespace: baynet
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: baynet
@@ -58,6 +58,30 @@ spec:
             name: baynet-service
             port:
               number: 80
+  tls:
+  - hosts:
+    - maia-lasdpc.icmc.usp.br
+    secretName: baynet-tls-secret
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kiali-ingress
+  namespace: istio-system
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: maia-lasdpc.icmc.usp.br
+    http:
+      paths:
+      - path: /kiali
+        pathType: Prefix
+        backend:
+          service:
+            name: kiali
+            port:
+              number: 20001
   tls:
   - hosts:
     - maia-lasdpc.icmc.usp.br
