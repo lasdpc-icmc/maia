@@ -26,9 +26,14 @@ additional_display_details:
 istio_namespace: "" # default is where Kiali is installed
 
 auth:
-  openid: {}
-  openshift: {}
-  strategy: anonymous
+  strategy: "openid"
+  openid:
+    client_id: ${client_id}
+    client_secret: ${client_secret}
+    disable_rbac: true
+    issuer_uri: "https://accounts.google.com"
+    scopes: ["openid", "email"]
+    username_claim: "email"
 
 clustering:
   autodetect_secrets:
@@ -58,6 +63,7 @@ deployment:
   image_pull_secrets: []
   image_version: v1.84.0 # version like "v1.39" (see: https://quay.io/repository/kiali/kiali?tab=tags) or a digest hash
   ingress:
+    class_name: "nginx"
     additional_labels: {}
     class_name: "nginx"
     #enabled:
