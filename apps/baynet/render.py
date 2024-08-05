@@ -2,7 +2,7 @@ from flask import Flask, send_from_directory
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/baynet')
 def serve_html():
     return send_from_directory('.', 'structure_plot.html')
 
