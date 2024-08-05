@@ -175,3 +175,15 @@ variable "cluster_enabled_log_types" {
   type        = list(string)
   default     = []
 }
+
+variable "kiali_google_client_id" {
+  type        = string
+  sensitive   = true
+  description = "Kiali ID Token."
+}
+
+variable "kiali_google_client_secret" {
+  type        = string
+  sensitive   = true
+  description = "Kiali Secret ID Token."
+}
