@@ -1,10 +1,11 @@
 import requests
 import json
-import csv, os
+import csv
+import os
 from datetime import datetime, timedelta
 
-BASE_URL = os.environ["BASE_URL"]
-PROMETHEUS_URL = os.environ ["PROMETHEUS_URL"]
+TEMPO_BASE_URL = os.environ["TEMPO_BASE_URL"]
+PROMETHEUS_URL = os.environ["PROMETHEUS_URL"]
 METRIC = os.environ["METRIC"]
 SAMPLE = os.environ["SAMPLE"]
 CSV_FILE = os.environ["CSV_FILE"]
@@ -12,22 +13,27 @@ CSV_FILE = os.environ["CSV_FILE"]
 END_TIME = datetime.now()
 START_TIME = END_TIME - timedelta(hours=1)
 
-
-def fetch_prometheus_data(url, query, start, end, sample):
+def fetch_prometheus_data(url, query, start, end, step):
     params = {
         'query': query,
         'start': start.timestamp(),
         'end': end.timestamp(),
-        'sample': sample
+        'step': step
     }
     try:
         response = requests.get(url, params=params)
+        print(f"Request URL: {response.url}")
+        print(f"Response Status Code: {response.status_code}")
+        print(f"Response Content: {response.text[:2000]}")  # Print first 2000 characters
         response.raise_for_status()
         data = response.json()
         print("Raw data from Prometheus:", json.dumps(data, indent=2))
         return data.get('data', {}).get('result', [])
     except requests.exceptions.RequestException as e:
         print(f"Error fetching data from Prometheus: {e}")
+        return []
+    except ValueError as e:
+        print(f"Error decoding JSON: {e}")
         return []
 
 def extract_service_relations(metric_data):
@@ -43,7 +49,6 @@ def extract_service_relations(metric_data):
     return relations
 
 def remove_duplicates(relations):
-    # Remove duplicates by converting list of tuples to a set of tuples
     return list(set(relations))
 
 def export_to_csv(relations, filename):
@@ -65,7 +70,7 @@ def main():
     
     relations = extract_service_relations(metric_data)
     unique_relations = remove_duplicates(relations)
-    export_to_csv(unique_relations, CSV_FILE)
+    export_to_csv(unique_relations, f"{CSV_FILE}/service_relations.csv")
 
 if __name__ == '__main__':
     main()
