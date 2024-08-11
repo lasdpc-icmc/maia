@@ -1,13 +1,64 @@
 import requests
 from datetime import datetime, timedelta, timezone
-import json
 import os
 import csv
 
-BASE_URL = os.environ["BASE_URL"]
-TIME_WINDOW = int(os.environ["TIME_WINDOW"])
-SAVE_DIRECTORY = os.environ["SAVE_DIRECTORY"]
-SERVICE_NAME = os.environ["SERVICE_NAME"]
+PROMETHEUS_URL = os.environ.get("PROMETHEUS_URL", "http://localhost:9090/api/v1/query_range")
+TIME_WINDOW = int(os.environ.get("TIME_WINDOW", "30"))
+SERVICE_NAME = os.environ.get("SERVICE_NAME", "payment")
+SERVICE_SUFFIX = ".sock-shop.svc.cluster.local"
+SAVE_DIRECTORY = os.environ.get("SAVE_DIRECTORY", "traces.csv")
+BASE_URL = os.environ.get("BASE_URL", "http://localhost:3100")
+
+def query_prometheus(service_name):
+    full_service_name = f"{service_name}{SERVICE_SUFFIX}"
+    query = f"""
+    sum(irate(istio_requests_total{{reporter=~"destination",destination_service=~"{full_service_name}",response_code!~"5.*"}}[5m])) /
+    (sum(irate(istio_requests_total{{reporter=~"destination",destination_service=~"{full_service_name}"}}[5m])) or on () vector(1))
+    """
+
+    end_time = datetime.now(timezone.utc).timestamp()
+    start_time = end_time - TIME_WINDOW * 60  # Adjust the time range
+
+    params = {
+        "query": query.strip(),
+        "start": start_time,
+        "end": end_time,
+        "step": "60s"
+    }
+
+    try:
+        response = requests.get(PROMETHEUS_URL, params=params)
+        print(f"Prometheus Query URL: {response.url}")
+        print(f"Query Parameters: {params}")
+
+        response.raise_for_status()
+        print(f"Response Status Code: {response.status_code}")
+
+        print(f"Response Text: {response.text[:1000]}")
+
+        if response.text.strip() == "":
+            print("Empty response from Prometheus.")
+            return None
+
+        data = response.json()
+        if data["status"] == "success":
+            result = data["data"]["result"]
+            if result:
+                print(f"Metric Values: {result}")
+                return result
+            else:
+                print(f"No data returned for service {full_service_name}")
+                return None
+        else:
+            print(f"Query failed: {data['error']}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
+        return None
+    except ValueError as e:
+        print(f"Failed to decode JSON response: {e}")
+        return None
 
 def get_trace_ids_from_last_n_minutes_for_service(service_name, minutes):
     end_time = datetime.now(timezone.utc)
@@ -25,16 +76,19 @@ def get_trace_ids_from_last_n_minutes_for_service(service_name, minutes):
         "limit": 100
     }
 
-    response = requests.get(f"{BASE_URL}/api/search", params=params)
+    try:
+        response = requests.get(f"{BASE_URL}/api/search", params=params)
+        print(f"Request URL: {response.url}")
 
-    print(f"Request URL: {response.url}")
-
-    if response.status_code == 200:
-        data = response.json()
-        trace_ids = [trace["traceID"] for trace in data.get("traces", [])]
-        return trace_ids
-    else:
-        print(f"Failed to retrieve data: {response.status_code} - {response.text}")
+        if response.status_code == 200:
+            data = response.json()
+            trace_ids = [trace["traceID"] for trace in data.get("traces", [])]
+            return trace_ids
+        else:
+            print(f"Failed to retrieve data: {response.status_code} - {response.text}")
+            return []
+    except requests.exceptions.RequestException as e:
+        print(f"Request failed: {e}")
         return []
 
 def get_trace_details(trace_id):
@@ -76,20 +130,24 @@ def generate_span_list(trace_data):
 
     return span_info_list
 
-def save_traces_to_csv(trace_data_list):
+def save_traces_to_csv(trace_data_list, metric_values):
     os.makedirs(SAVE_DIRECTORY, exist_ok=True)
 
     file_path = os.path.join(SAVE_DIRECTORY, "traces.csv")
 
-    # Get all KV from traces
     all_keys = set()
     for span_info_list in trace_data_list:
         for span in span_info_list:
             all_keys.update(span["attributes"].keys())
 
+    metric_value = "N/A"
+    if metric_values:
+        if metric_values[0]["values"]:
+            metric_value = metric_values[0]["values"][0][1]
+
     with open(file_path, 'w', newline='') as file:
         writer = csv.writer(file)
-        header = ["spanID", "startTime", "durationNanos"] + list(all_keys)
+        header = ["spanID", "startTime", "durationNanos", "2xx_rate"] + list(all_keys)
         writer.writerow(header)
 
         for span_info_list in trace_data_list:
@@ -97,15 +155,18 @@ def save_traces_to_csv(trace_data_list):
                 row = [
                     span.get("spanID"),
                     span.get("startTime"),
-                    span.get("durationNanos")
+                    span.get("durationNanos"),
+                    metric_value 
                 ]
                 for key in all_keys:
                     row.append(span["attributes"].get(key))
                 writer.writerow(row)
-    print(f"Saved trace on {file_path}")
+    print(f"Saved trace and metric data on {file_path}")
+
 
 if __name__ == "__main__":
     service_name = SERVICE_NAME
+    metric_values = query_prometheus(service_name)
     trace_ids = get_trace_ids_from_last_n_minutes_for_service(service_name, TIME_WINDOW)
     print(f"Trace IDs from the last {TIME_WINDOW} minutes for service '{service_name}':")
     
@@ -118,4 +179,4 @@ if __name__ == "__main__":
             all_span_info_list.append(span_info_list)
     
     if all_span_info_list:
-        save_traces_to_csv(all_span_info_list)
+        save_traces_to_csv(all_span_info_list, metric_values)
