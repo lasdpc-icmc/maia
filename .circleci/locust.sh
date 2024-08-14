@@ -29,7 +29,7 @@ run_locust() {
         --autostart --autoquit 0                \
         --config apps/$APP/loadtest/locust.conf \
         --exit-code-on-error 0                  \
-        -f $1 -t "96h"
+        -f $1 -t "5m"
 }
 
 apply_chaos_after_sleep() {
@@ -70,10 +70,22 @@ then
   apply_chaos_after_sleep &
 fi
 
+START_TIME=$(date +%s)
+
 #run all tests
 run_locust $all_files
 
-#kill background metrics sending process
+# start a port-forward to get loki logs for the period of the test
+# TODO: this is not a good solution, but any other would be time consuming
+kubectl_run port-forward -n monitoring loki-0 3100:3100 &
+
+END_TIME=$(date +%s)
+
+#get logs from loki and store them in s3
+curl "localhost:3100/loki/api/v1/query_range?query=\{namespace=\"$APP\"\}&start=$START_TIME&end=$END_TIME&limit=10000" > logs.json
+aws_run s3 cp logs.json "s3://lasdpc-locust-results/$APP/logs-$START_TIME.json"
+
+#kill background metrics sending process and the local port-forward
 kill $(jobs -p)
 
 #set the metrics to zero before we exit to ensure no metrics linger with values
