@@ -70,12 +70,12 @@ then
   apply_chaos_after_sleep &
 fi
 
-START_TIME=$(date +%s)
+START_TIME=$(($(date +%s) - 3600))
 
 #run all tests
 run_locust $all_files
 
-END_TIME=$(date +%s)
+END_TIME=$(($(date +%s) - 3600))
 
 # start a port-forward to get loki logs for the period of the test
 # TODO: this is not a good solution, but any other would be time consuming
