@@ -13,6 +13,7 @@ loki:
   limits_config:
     retention_period: 365d
     max_entries_limit_per_query: 5000000
+    limit: 5000000
   config:
     schema_config:
       configs:
