@@ -12,8 +12,8 @@ loki:
     working_directory: /data/compactor
   limits_config:
     retention_period: 365d
-    max_entries_limit_per_query: 5000000
-    limit: 5000000
+    max_entries_limit_per_query: 50000
+    limit: 50000
   config:
     schema_config:
       configs:
