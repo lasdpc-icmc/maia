@@ -1,11 +1,15 @@
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
+kind: NetworkChaos
 metadata:
-  name: shipping-failure
+  name: shipping-delay
   namespace: sock-shop
 spec:
-  action: pod-failure
+  action: delay
   mode: all
+  delay:
+    latency: '200ms'
+    correlation: '75'
+    jitter: '15ms'
   duration: '10m'
   selector:
     labelSelectors:
