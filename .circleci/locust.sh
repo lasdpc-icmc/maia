@@ -29,13 +29,13 @@ run_locust() {
         --autostart --autoquit 0                \
         --config apps/$APP/loadtest/locust.conf \
         --exit-code-on-error 0                  \
-        -f $1 -t "5m"
+        -f $1 -t "10m"
 }
 
 apply_chaos_after_sleep() {
-    sleep 15m
+    sleep 10m
     kubectl_run apply -f apps/$APP/errors/$CHAOS.yaml
-    sleep 5m
+    sleep 10m
     kubectl_run delete -f apps/$APP/erros/$CHAOS.yaml
 }
 

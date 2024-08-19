@@ -1,10 +1,14 @@
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
+kind: HTTPChaos
 metadata:
-  name: shipping-failure
+  name: shipping-http
   namespace: sock-shop
 spec:
-  action: pod-failure
+  target: Request
+  port: 80
+  method: GET
+  path: /
+  abort: true
   mode: all
   duration: '10m'
   selector:

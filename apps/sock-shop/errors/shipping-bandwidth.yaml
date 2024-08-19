@@ -1,11 +1,15 @@
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
+kind: NetworkChaos
 metadata:
-  name: shipping-failure
+  name: shipping-bandwidth
   namespace: sock-shop
 spec:
-  action: pod-failure
+  action: bandwidth
   mode: all
+  bandwidth:
+    rate: '200kbps'
+    limit: 20971520
+    buffer: 10000
   duration: '10m'
   selector:
     labelSelectors:
