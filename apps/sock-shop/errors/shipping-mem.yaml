@@ -1,12 +1,16 @@
 apiVersion: chaos-mesh.org/v1alpha1
-kind: PodChaos
+kind: StressChaos
 metadata:
-  name: shipping-failure
+  name: shipping-mem
   namespace: sock-shop
 spec:
-  action: pod-failure
+  stressors:
+    memory:
+      workers: 4
+      size: '512MB'
   mode: all
   duration: '10m'
   selector:
     labelSelectors:
       name: 'shipping'
+
