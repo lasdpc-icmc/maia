@@ -31,7 +31,8 @@ pipelines:
   extraEnvVars: []
 
 # -- A list of Ollama API endpoints. These can be added in lieu of automatically installing the Ollama Helm chart, or in addition to it.
-ollamaUrls: []
+ollamaUrls:
+  - http://200.18.99.63:9003
 
 # -- Value of cluster domain
 clusterDomain: cluster.local
