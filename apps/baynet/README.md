@@ -20,3 +20,20 @@ A seguir vamos explicar como vai funcionar a dinâmica do sistema;
 
 Ao final o sistema vai ser de fornecer uma inferência bayesiana que foi gerada de forma dinâmica de acordo com o comportamento efêmero de um sistema distribuído.
 
+
+## Endpoints
+
+[Bayesian Networks](structe_plot.html) 
+
+```bash
+https://maia-lasdpc.icmc.usp.br/baynet
+```
+
+```bash
+https://maia-lasdpc.icmc.usp.br/kiali
+```
+
+![stats](images/kiali.png)
+
+
+[Istio Dashboard](https://grafana-lasdpc.icmc.usp.br/d/b5ee5ce8-c0fe-4bd8-a4c9-4230885558e0/istio-service-dashboard?orgId=1&refresh=1m&var-datasource=prometheus&var-service=payment.sock-shop.svc.cluster.local&var-qrep=source&var-qrep=destination&var-srccluster=All&var-srcns=All&var-srcwl=All&var-dstcluster=All&var-dstns=All&var-dstwl=All&from=now-1h&to=now)

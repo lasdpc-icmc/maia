@@ -20,7 +20,7 @@ def read_service_relations(filename):
 
 df_traces = pd.read_csv('traces/preprocessed_traces.csv')
 
-relations = read_service_relations('service_relation.csv')
+relations = read_service_relations('traces/service_relations.csv')
 sm = StructureModel()
 for source, destination in relations:
     sm.add_edge(source, destination)
