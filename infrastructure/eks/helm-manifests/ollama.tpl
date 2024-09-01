@@ -11,8 +11,6 @@ ollama:
       enabled: false
       type: 'nvidia'
       number: 1
-    models:
-      - pedrosodiego/maia:saul-goodman
   persistentVolume:
     enabled: true
 
