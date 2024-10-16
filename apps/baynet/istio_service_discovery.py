@@ -44,8 +44,12 @@ def extract_service_relations(metric_data):
         source = entry['metric'].get('source_canonical_service', 'unknown_source')
         destination = entry['metric'].get('destination_canonical_service', 'unknown_destination')
 
-        if source != 'unknown_source' and destination != 'unknown_destination':
-            relations.append((source, destination))
+        if source == 'unknown':
+            source = 'prometheus'
+        if destination == 'unknown':
+            destination = 'prometheus'
+
+        relations.append((source, destination))
     
     return relations
 
