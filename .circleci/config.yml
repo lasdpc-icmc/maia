@@ -7,7 +7,7 @@ defaults:
 
   - &generic
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:2024.08.1
 
   - &locust
     docker:
