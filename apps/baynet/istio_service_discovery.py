@@ -49,9 +49,11 @@ def extract_service_relations(metric_data):
         if destination == 'unknown':
             destination = 'prometheus'
 
-        relations.append((source, destination))
+        if source != 'prometheus' and destination != 'prometheus':
+            relations.append((source, destination))
     
     return relations
+
 
 def remove_duplicates(relations):
     return list(set(relations))
