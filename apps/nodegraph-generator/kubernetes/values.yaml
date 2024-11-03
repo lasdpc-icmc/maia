@@ -42,4 +42,4 @@ spec:
         - containerPort: 8080
         env:
         - name: PROMETHEUS_URL
-          value: "http://prometheus.istio-system:9090"
+          value: "http://kube-prometheus-kube-prome-prometheus.monitoring:9090"
