@@ -38,8 +38,9 @@ def genGraph(raw_metrics):
         if value <= 0:
             continue
 
-        source_id = getNodeID(metric['metric']['source_workload'])
-        dest_id = getNodeID(metric['metric']['destination_workload'])
+        # Corrected function calls with app_name
+        source_id = getNodeID(node_names, metric['metric']['source_workload'])
+        dest_id = getNodeID(node_names, metric['metric']['destination_workload'])
 
         edges.append({
             'id': len(edges) + 1,
@@ -69,6 +70,7 @@ def genGraph(raw_metrics):
         })
 
     return {"nodes": nodes, "edges": edges}
+
 
 @app.route('/api/graph/fields')
 def graphFields():
