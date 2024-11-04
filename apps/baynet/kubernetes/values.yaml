@@ -4,16 +4,12 @@ kind: Namespace
 metadata:
   name: baynet
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: baynet-prediction
   namespace: baynet
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: baynet-prediction
   template:
     metadata:
       labels:
@@ -28,6 +24,7 @@ spec:
         env:
         - name: REDIS_URL
           value: redis-service.nodegraph-generator.svc.cluster.local
+      restartPolicy: OnFailure
 ---
 apiVersion: apps/v1
 kind: Deployment
