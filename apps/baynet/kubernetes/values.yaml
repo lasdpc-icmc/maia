@@ -24,6 +24,9 @@ spec:
         image: diegopedroso/baynet:CIRCLE_TAG_REPLACE
         ports:
         - containerPort: 80
+        env:
+        - name: REDIS_URL
+          value: redis-service.nodegraph-generator.svc.cluster.local
 ---
 apiVersion: v1
 kind: Service

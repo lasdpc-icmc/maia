@@ -1,3 +1,3 @@
 istio.canonical_service,down_probability
+front-end,0.3
 carts,0.0
-front-end,0.5
