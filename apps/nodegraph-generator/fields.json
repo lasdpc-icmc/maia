@@ -25,6 +25,14 @@
     {
       "field_name": "title",
       "type": "string"
+    },
+    {
+      "field_name": "down_probability",
+      "type": "number"
+    },
+    {
+      "field_name": "color",
+      "type": "string"
     }
   ]
 }
