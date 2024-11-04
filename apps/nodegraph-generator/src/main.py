@@ -8,7 +8,7 @@ import redis
 app = flask.Flask('nodegraph-generator')
 
 # Configure Redis connection
-redis_host = os.environ.get('REDIS_URL', 'localhost')
+redis_host = os.environ.get('REDIS_URL')
 redis_port = os.environ.get('REDIS_PORT', 6379)
 redis_client = redis.StrictRedis(host=redis_host, port=redis_port, decode_responses=True)
 
