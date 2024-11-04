@@ -4,24 +4,47 @@ kind: Namespace
 metadata:
   name: baynet
 ---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: baynet-prediction
+  namespace: baynet
+spec:
+  template:
+    metadata:
+      labels:
+        app: baynet-prediction
+    spec:
+      containers:
+      - name: baynet-container
+        image: diegopedroso/baynet:CIRCLE_TAG_REPLACE
+        command: ["python", "baynet_prediction.py"]
+        ports:
+        - containerPort: 80
+        env:
+        - name: REDIS_URL
+          value: redis-service.nodegraph-generator.svc.cluster.local
+      restartPolicy: OnFailure
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: baynet-deployment
+  name: baynet-render
   namespace: baynet
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: baynet
+      app: baynet-render
   template:
     metadata:
       labels:
-        app: baynet
+        app: baynet-render
     spec:
       containers:
       - name: baynet-container
         image: diegopedroso/baynet:CIRCLE_TAG_REPLACE
+        command: ["sh", "-c", "python render.py"]
         ports:
         - containerPort: 80
 ---
@@ -32,7 +55,7 @@ metadata:
   namespace: baynet
 spec:
   selector:
-    app: baynet
+    app: baynet-render
   ports:
   - protocol: TCP
     port: 80

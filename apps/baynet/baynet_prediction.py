@@ -1,99 +1,77 @@
 import pandas as pd
-import networkx as nx
-from sklearn.preprocessing import LabelEncoder
-from causalnex.network import BayesianNetwork
-from causalnex.structure import StructureModel
-from causalnex.structure.notears import from_pandas
-import seaborn as sns
-import matplotlib.pyplot as plt
-from causalnex.plots import plot_structure, NODE_STYLE, EDGE_STYLE
-
-def read_service_relations(filename):
-    relations = []
-    df_relations = pd.read_csv(filename)
-    for _, row in df_relations.iterrows():
-        source = row['Source'].strip()
-        destination = row['Destination'].strip()
-        if source and destination:
-            relations.append((source, destination))
-    return relations
-
-df_traces = pd.read_csv('traces/preprocessed_traces.csv')
-
-relations = read_service_relations('traces/service_relations.csv')
-sm = StructureModel()
-for source, destination in relations:
-    sm.add_edge(source, destination)
-
-print("Nodes in the Bayesian Network:")
-print(sm.nodes)
-print("Edges in the Bayesian Network:")
-print(sm.edges)
-
-if nx.number_weakly_connected_components(sm) > 1:
-    largest_cc = max(nx.weakly_connected_components(sm), key=len)
-    nodes_to_connect = set(sm.nodes) - largest_cc
-    for node in nodes_to_connect:
-        sm.add_edge(node, next(iter(largest_cc)))
-
-viz = plot_structure(
-    sm,
-    all_node_attributes=NODE_STYLE.WEAK,
-    all_edge_attributes=EDGE_STYLE.WEAK,
-)
-viz.show('structure_plot.html')
+import redis, os
+from pgmpy.models import BayesianNetwork
+from pgmpy.factors.discrete import TabularCPD
+from pgmpy.inference import VariableElimination
 
 
-columns_of_interest = [
-    'spanID', 'startTime', 'durationNanos',
-    'istio.canonical_service', 'request_size', 'node_id',
-    'http.status_code', 'downstream_cluster', 'response_size',
-    'response_flags', 'net.host.ip', 'istio.canonical_revision',
-    'http.method', 'http.url', 'istio.mesh_id', 'peer.address',
-    'user_agent', 'component', 'zone', 'istio.namespace',
-    'upstream_cluster', 'guid:x-request-id', 'istio.cluster_id',
-    'http.protocol', 'upstream_cluster.name'
-]
-df_filtered = df_traces[columns_of_interest].fillna('unknown')
+REDIS = os.environ["REDIS_URL"]
 
-missing_nodes = set(sm.nodes) - set(df_filtered['istio.canonical_service'].unique())
-if missing_nodes:
-    print(f"Warning: The following nodes are missing in the dataset: {missing_nodes}")
+# Load service relationships
+relations_df = pd.read_csv('traces/service_relations.csv')
+relations_df.columns = ['Source', 'Destination']
 
-label_encoders = {}
-for column in df_filtered.select_dtypes(include=['object']).columns:
-    le = LabelEncoder()
-    df_filtered[column] = le.fit_transform(df_filtered[column])
-    label_encoders[column] = le
+# Load service health scores
+scores_df = pd.read_csv('traces/service_scores.csv')
+scores_df.columns = ['istio.canonical_service', 'score']
 
-common_nodes = list(set(sm.nodes).intersection(df_filtered.columns))
-df_filtered_common = df_filtered[common_nodes]
+average_scores_df = scores_df.groupby('istio.canonical_service').mean().reset_index()
 
-bn = BayesianNetwork(sm)
+model = BayesianNetwork()
 
+services_with_scores = set(average_scores_df['istio.canonical_service'])
+
+# Add edges based on service relationships only for services with scores
+for _, row in relations_df.iterrows():
+    source = row['Source']
+    destination = row['Destination']
+    
+    if source in services_with_scores and destination in services_with_scores:
+        model.add_edge(source, destination)
+
+# Define CPDs (Conditional Probability Distributions) for each service with an average score
+for service in services_with_scores:
+    avg_score = average_scores_df[average_scores_df['istio.canonical_service'] == service]['score'].values[0]
+
+    if len(model.get_parents(service)) == 0:
+        cpd = TabularCPD(variable=service, variable_card=2, 
+                         values=[[1 - avg_score], [avg_score]])  # Unhealthy, Healthy
+    
+    # If the service has parents, use conditional probabilities based on the average score
+    else:
+        parent_count = len(model.get_parents(service))
+        # The probability of being "Healthy" for each parent configuration
+        values = [[1 - avg_score] * 2**parent_count, [avg_score] * 2**parent_count]
+        cpd = TabularCPD(variable=service, variable_card=2, values=values,
+                         evidence=model.get_parents(service),
+                         evidence_card=[2] * parent_count)
+    
+    model.add_cpds(cpd)
+
+# Validate the model structure
 try:
-    bn = bn.fit_node_states_and_cpds(df_filtered_common)
+    assert model.check_model(), "Model structure is invalid"
 except Exception as e:
-    print(f"Error fitting the Bayesian Network: {e}")
+    print(f"Model check error: {e}")
 
-node_of_interest = 'istio.canonical_service'
-if node_of_interest in df_filtered_common.columns:
-    predictions = bn.predict_probability(df_filtered_common, node=node_of_interest)
-    print(predictions.head())
+inference = VariableElimination(model)
 
-    df_filtered_common['predicted_service_status'] = predictions.idxmax(axis=1)
-    df_filtered_common['predicted_service_status'] = df_filtered_common['predicted_service_status'].apply(
-        lambda x: label_encoders[node_of_interest].inverse_transform([int(x.split('_')[-1])])[0]
-    )
+probabilities = {}
 
-    df_filtered_common['actual_service_status'] = df_filtered_common[node_of_interest].apply(
-        lambda x: label_encoders[node_of_interest].inverse_transform([x])[0]
-    )
+# Example inference: Check the probability of each service being down (0) and up (1)
+for service in services_with_scores:
+    if service in model.nodes():
+        prob = inference.query(variables=[service])
+        probabilities[service] = prob.values[0]  # Probability of being down (index 0)
 
-    print(df_filtered_common[['actual_service_status', 'predicted_service_status']].head())
+probabilities_df = pd.DataFrame(list(probabilities.items()), columns=['istio.canonical_service', 'down_probability'])
 
-    mis_predictions = df_filtered_common[df_filtered_common['actual_service_status'] != df_filtered_common['predicted_service_status']]
-    print("Potential issues (mispredictions):")
-    print(mis_predictions[['actual_service_status', 'predicted_service_status']])
-else:
-    print(f"Node of interest '{node_of_interest}' is not present in the dataset.")
+probabilities_df.to_csv('traces/service_down_probabilities.csv', index=False)
+
+redis_client = redis.Redis(host=REDIS, port=6379, db=0)
+
+for index, row in probabilities_df.iterrows():
+    key = f"down_probability:{row['istio.canonical_service']}"  # Updated key pattern
+    redis_client.set(key, row['down_probability'])
+
+print("Service down probabilities saved to 'traces/service_down_probabilities.csv' and stored in Redis.")
