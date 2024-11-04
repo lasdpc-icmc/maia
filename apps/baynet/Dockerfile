@@ -18,5 +18,3 @@ COPY . .
 RUN pip install Flask
 
 EXPOSE 80
-
-CMD ["sh", "-c", "python render.py & python baynet_prediction.py"]
