@@ -74,14 +74,72 @@ def genGraph(raw_metrics, outage_data):
         elif down_probability > 0.6:
             color = "red"
 
+        # Add node information with outage data
         nodes.append({
-            'id': details['id'], 
-            'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
+            'id': details['id'],
+            'title': name,  # Display just the name as the title
+            'outage_data': down_probability,  # Add outage_data as its own field
             'down_probability': down_probability,
             'color': color
         })
 
     return {"nodes": nodes, "edges": edges}
+
+
+# def genGraph(raw_metrics, outage_data):
+#     '''
+#     genGraph generates a json-like dictionary in the specification requested by
+#     the Node Graph API grafana data source containing a graph of apps based on
+#     the raw_metrics dictionary.
+#     '''
+
+#     node_names = {}
+#     edges = []
+
+#     for metric in raw_metrics:
+#         value = int(float(metric['value'][1]))
+
+#         # ignore all source destination pairs that haven't seen new requests
+#         if value <= 0:
+#             continue
+
+#         source_name = metric['metric']['source_workload']
+#         dest_name = metric['metric']['destination_workload']
+
+#         # Add nodes if not already present
+#         if source_name not in node_names:
+#             node_names[source_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
+#         if dest_name not in node_names:
+#             node_names[dest_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
+
+#         # Update edges
+#         edges.append({'id': len(edges) + 1, 
+#                       'source': node_names[source_name]['id'], 
+#                       'target': node_names[dest_name]['id'], 
+#                       'mainStat': value})
+
+#     # Add outage percentages and colors
+#     nodes = []
+#     for name, details in node_names.items():
+#         down_probability = outage_data.get(name, 0.0)
+#         color = "green"  # Default color
+
+#         # Determine color based on down probability
+#         if down_probability < 0.45:
+#             color = "green"
+#         elif 0.45 <= down_probability <= 0.6:
+#             color = "yellow"
+#         elif down_probability > 0.6:
+#             color = "red"
+
+#         nodes.append({
+#             'id': details['id'], 
+#             'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
+#             'down_probability': down_probability,
+#             'color': color
+#         })
+
+#     return {"nodes": nodes, "edges": edges}
 
 @app.route('/api/graph/fields')
 def graphFields():
