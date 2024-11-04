@@ -67,17 +67,19 @@ def genGraph(raw_metrics, outage_data):
         color = "green"  # Default color
 
         # Determine color based on down probability
-        if down_probability <= 0.450:
+        if down_probability < 0.45:
             color = "green"
-        elif 0.600 <= down_probability <= 0.750:
+        elif 0.45 <= down_probability <= 0.6:
             color = "yellow"
-        elif down_probability > 0.750:
+        elif down_probability > 0.6:
             color = "red"
 
-        nodes.append({'id': details['id'], 
-                      'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
-                      'down_probability': down_probability,
-                      'color': color})
+        nodes.append({
+            'id': details['id'], 
+            'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
+            'down_probability': down_probability,
+            'color': color
+        })
 
     return {"nodes": nodes, "edges": edges}
 
