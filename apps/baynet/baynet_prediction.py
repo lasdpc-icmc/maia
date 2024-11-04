@@ -9,7 +9,7 @@ REDIS = os.environ["REDIS_URL"]
 
 # Load service relationships
 relations_df = pd.read_csv('traces/service_relations.csv')
-relations_df.columns = ['Source', 'Destination']  # Ensure correct column names
+relations_df.columns = ['Source', 'Destination']
 
 # Load service health scores
 scores_df = pd.read_csv('traces/service_scores.csv')

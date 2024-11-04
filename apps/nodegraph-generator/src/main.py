@@ -17,8 +17,7 @@ def load_outage_data():
     Load outage data from Redis into a dictionary.
     '''
     outage_map = {}
-    # Assuming you have keys formatted as 'down_probability:{service_name}'
-    keys = redis_client.keys('down_probability:*')  # Adjust the pattern as needed
+    keys = redis_client.keys('down_probability:*')
     for key in keys:
         service_name = key.split(':')[-1]  # Extract the service name from the key
         down_probability = float(redis_client.get(key))
@@ -63,7 +62,6 @@ def genGraph(raw_metrics, outage_data):
         if dest_name not in node_names:
             node_names[dest_name] = {'id': len(node_names) + 1}
 
-        # Update edges
         edges.append({
             'id': len(edges) + 1, 
             'source': node_names[source_name]['id'], 
@@ -77,7 +75,6 @@ def genGraph(raw_metrics, outage_data):
         down_probability = outage_data.get(name, 0.0)
         color = "green"  # Default color
 
-        # Determine color based on down probability
         if down_probability < 0.45:
             color = "green"
         elif 0.45 <= down_probability <= 0.6:
@@ -88,9 +85,9 @@ def genGraph(raw_metrics, outage_data):
         # Include mainStat for node display text
         nodes.append({
             'id': details['id'],
-            'title': name,  # Title is the node name
-            'mainStat': f"{down_probability * 100:.2f}%",  # Display down_probability as percentage
-            'down_probability': down_probability,  # Down probability as its own field
+            'title': name, 
+            'mainStat': f"{down_probability * 100:.2f}%",
+            'down_probability': down_probability,
             'color': color
         })
 
@@ -151,5 +148,4 @@ def checkHealth():
     '''
     return 'Healthy'
 
-# Start the server with Waitress
 waitress.serve(app, host='0.0.0.0', port=8080)
