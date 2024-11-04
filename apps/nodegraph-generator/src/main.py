@@ -3,18 +3,27 @@ import requests
 import waitress
 import os
 import pandas as pd
+import redis
 
 app = flask.Flask('nodegraph-generator')
 
-def load_outage_data(file_path):
+# Configure Redis connection
+redis_host = os.environ.get('REDIS_URL', 'localhost')
+redis_port = os.environ.get('REDIS_PORT', 6379)
+redis_client = redis.StrictRedis(host=redis_host, port=redis_port, decode_responses=True)
+
+def load_outage_data():
     '''
-    Load outage data from a CSV file into a dictionary.
+    Load outage data from Redis into a dictionary.
     '''
-    
-# Load outage data from CSV
-    outage_data = pd.read_csv('traces/data.csv')  # Update the path to your CSV file
-    outage_map = dict(zip(outage_data['istio.canonical_service'], outage_data['down_probability']))
-    return dict(zip(outage_data['istio.canonical_service'], outage_data['down_probability']))
+    outage_map = {}
+    # Assuming you have keys formatted as 'down_probability:{service_name}'
+    keys = redis_client.keys('down_probability:*')  # Adjust the pattern as needed
+    for key in keys:
+        service_name = key.split(':')[-1]  # Extract the service name from the key
+        down_probability = float(redis_client.get(key))
+        outage_map[service_name] = down_probability
+    return outage_map
 
 def getNodeID(node_names, app_name):
     '''
@@ -87,62 +96,6 @@ def genGraph(raw_metrics, outage_data):
 
     return {"nodes": nodes, "edges": edges}
 
-
-# def genGraph(raw_metrics, outage_data):
-#     '''
-#     genGraph generates a json-like dictionary in the specification requested by
-#     the Node Graph API grafana data source containing a graph of apps based on
-#     the raw_metrics dictionary.
-#     '''
-
-#     node_names = {}
-#     edges = []
-
-#     for metric in raw_metrics:
-#         value = int(float(metric['value'][1]))
-
-#         # ignore all source destination pairs that haven't seen new requests
-#         if value <= 0:
-#             continue
-
-#         source_name = metric['metric']['source_workload']
-#         dest_name = metric['metric']['destination_workload']
-
-#         # Add nodes if not already present
-#         if source_name not in node_names:
-#             node_names[source_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
-#         if dest_name not in node_names:
-#             node_names[dest_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
-
-#         # Update edges
-#         edges.append({'id': len(edges) + 1, 
-#                       'source': node_names[source_name]['id'], 
-#                       'target': node_names[dest_name]['id'], 
-#                       'mainStat': value})
-
-#     # Add outage percentages and colors
-#     nodes = []
-#     for name, details in node_names.items():
-#         down_probability = outage_data.get(name, 0.0)
-#         color = "green"  # Default color
-
-#         # Determine color based on down probability
-#         if down_probability < 0.45:
-#             color = "green"
-#         elif 0.45 <= down_probability <= 0.6:
-#             color = "yellow"
-#         elif down_probability > 0.6:
-#             color = "red"
-
-#         nodes.append({
-#             'id': details['id'], 
-#             'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
-#             'down_probability': down_probability,
-#             'color': color
-#         })
-
-#     return {"nodes": nodes, "edges": edges}
-
 @app.route('/api/graph/fields')
 def graphFields():
     '''
@@ -184,8 +137,8 @@ def graphData():
         if data['data']['resultType'] != 'vector':
             return flask.Response('Expected vector as query response', 500)
 
-        # Load outage data before generating the graph
-        outage_data = load_outage_data('traces/data.csv')  # Update the path to your CSV file
+        # Load outage data from Redis before generating the graph
+        outage_data = load_outage_data()  # No need to pass a file path now
         return flask.jsonify(genGraph(data['data']['result'], outage_data))
 
     except Exception as e:

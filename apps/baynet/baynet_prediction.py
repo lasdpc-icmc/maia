@@ -1,7 +1,11 @@
 import pandas as pd
+import redis, os
 from pgmpy.models import BayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
+
+
+REDIS = os.environ["REDIS_URL"]
 
 # Load service relationships
 relations_df = pd.read_csv('traces/service_relations.csv')
@@ -52,7 +56,6 @@ except Exception as e:
 
 inference = VariableElimination(model)
 
-# Store probabilities in a dictionary
 probabilities = {}
 
 # Example inference: Check the probability of each service being down (0) and up (1)
@@ -61,10 +64,14 @@ for service in services_with_scores:
         prob = inference.query(variables=[service])
         probabilities[service] = prob.values[0]  # Probability of being down (index 0)
 
-# Create a DataFrame from the probabilities dictionary
 probabilities_df = pd.DataFrame(list(probabilities.items()), columns=['istio.canonical_service', 'down_probability'])
 
-# Save probabilities to a CSV file
 probabilities_df.to_csv('traces/service_down_probabilities.csv', index=False)
 
-print("Service down probabilities saved to 'traces/service_down_probabilities.csv'.")
+redis_client = redis.Redis(host=REDIS, port=6379, db=0)
+
+for index, row in probabilities_df.iterrows():
+    key = f"down_probability:{row['istio.canonical_service']}"  # Updated key pattern
+    redis_client.set(key, row['down_probability'])
+
+print("Service down probabilities saved to 'traces/service_down_probabilities.csv' and stored in Redis.")

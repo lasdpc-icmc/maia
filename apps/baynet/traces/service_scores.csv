@@ -1,3 +1,5 @@
 istio.canonical_service,score
-front-end,0.5
+front-end,0.2
 carts,1.0
+catalogue, 0.9
+user, 1.0
