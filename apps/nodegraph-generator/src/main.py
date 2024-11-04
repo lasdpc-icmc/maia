@@ -41,7 +41,7 @@ def genGraph(raw_metrics, outage_data):
     for metric in raw_metrics:
         value = int(float(metric['value'][1]))
 
-        # ignore all source destination pairs that haven't seen new requests
+        # Ignore all source-destination pairs that haven't seen new requests
         if value <= 0:
             continue
 
@@ -50,15 +50,17 @@ def genGraph(raw_metrics, outage_data):
 
         # Add nodes if not already present
         if source_name not in node_names:
-            node_names[source_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
+            node_names[source_name] = {'id': len(node_names) + 1}
         if dest_name not in node_names:
-            node_names[dest_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
+            node_names[dest_name] = {'id': len(node_names) + 1}
 
         # Update edges
-        edges.append({'id': len(edges) + 1, 
-                      'source': node_names[source_name]['id'], 
-                      'target': node_names[dest_name]['id'], 
-                      'mainStat': value})
+        edges.append({
+            'id': len(edges) + 1, 
+            'source': node_names[source_name]['id'], 
+            'target': node_names[dest_name]['id'], 
+            'mainStat': value
+        })
 
     # Add outage percentages and colors
     nodes = []
@@ -74,12 +76,11 @@ def genGraph(raw_metrics, outage_data):
         elif down_probability > 0.6:
             color = "red"
 
-        # Add node information with outage data
+        # Add node information with down_probability as its own field
         nodes.append({
             'id': details['id'],
-            'title': name,  # Display just the name as the title
-            'outage_data': down_probability,  # Add outage_data as its own field
-            'down_probability': down_probability,
+            'title': name,  # Title is only the name
+            'down_probability': down_probability,  # Down probability as its own field
             'color': color
         })
 
