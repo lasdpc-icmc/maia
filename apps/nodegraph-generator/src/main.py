@@ -6,9 +6,15 @@ import pandas as pd
 
 app = flask.Flask('nodegraph-generator')
 
+def load_outage_data(file_path):
+    '''
+    Load outage data from a CSV file into a dictionary.
+    '''
+    
 # Load outage data from CSV
-outage_data = pd.read_csv('traces/data.csv')  # Update the path to your CSV file
-outage_map = dict(zip(outage_data['istio.canonical_service'], outage_data['down_probability']))
+    outage_data = pd.read_csv('traces/data.csv')  # Update the path to your CSV file
+    outage_map = dict(zip(outage_data['istio.canonical_service'], outage_data['down_probability']))
+    return dict(zip(outage_data['istio.canonical_service'], outage_data['down_probability']))
 
 def getNodeID(node_names, app_name):
     '''
@@ -22,60 +28,63 @@ def getNodeID(node_names, app_name):
         node_names.append(app_name)
         return newid
 
-def genGraph(raw_metrics):
+def genGraph(raw_metrics, outage_data):
     '''
     genGraph generates a json-like dictionary in the specification requested by
     the Node Graph API grafana data source containing a graph of apps based on
     the raw_metrics dictionary.
     '''
-    node_names = []
+
+    node_names = {}
     edges = []
 
     for metric in raw_metrics:
         value = int(float(metric['value'][1]))
 
-        # Ignore all source destination pairs that haven't seen new requests
+        # ignore all source destination pairs that haven't seen new requests
         if value <= 0:
             continue
 
-        # Corrected function calls with app_name
-        source_id = getNodeID(node_names, metric['metric']['source_workload'])
-        dest_id = getNodeID(node_names, metric['metric']['destination_workload'])
+        source_name = metric['metric']['source_workload']
+        dest_name = metric['metric']['destination_workload']
 
-        edges.append({
-            'id': len(edges) + 1,
-            'source': source_id,
-            'target': dest_id,
-            'mainStat': value
-        })
+        # Add nodes if not already present
+        if source_name not in node_names:
+            node_names[source_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
+        if dest_name not in node_names:
+            node_names[dest_name] = {'id': len(node_names) + 1, 'down_probability': 0.0}
 
+        # Update edges
+        edges.append({'id': len(edges) + 1, 
+                      'source': node_names[source_name]['id'], 
+                      'target': node_names[dest_name]['id'], 
+                      'mainStat': value})
+
+    # Add outage percentages and colors
     nodes = []
-    for i, name in enumerate(node_names):
-        # Retrieve the down_probability, default to 0 if not found
-        down_probability = outage_map.get(name, 0.0)
+    for name, details in node_names.items():
+        down_probability = outage_data.get(name, 0.0)
+        color = "green"  # Default color
 
-        # Determine the color based on down_probability
+        # Determine color based on down probability
         if down_probability <= 0.5:
             color = "green"
         elif 0.6 <= down_probability <= 0.75:
             color = "yellow"
-        else:  # down_probability > 0.75
+        elif down_probability > 0.75:
             color = "red"
 
-        nodes.append({
-            'id': i + 1,
-            'title': name,
-            'down_probability': down_probability,
-            'color': color  # Add color attribute
-        })
+        nodes.append({'id': details['id'], 
+                      'title': f"{name} ({down_probability * 100:.2f}%)",  # Show percentage in title
+                      'down_probability': down_probability,
+                      'color': color})
 
     return {"nodes": nodes, "edges": edges}
-
 
 @app.route('/api/graph/fields')
 def graphFields():
     '''
-    graphFields handles the graph description api endpoint for Node Graph API.
+    graphFields handles the graph description API endpoint for Node Graph API.
     '''
     return flask.send_file('fields.json')
 
@@ -83,7 +92,7 @@ def graphFields():
 def graphData():
     '''
     graphData handles the graph data endpoint for the Node Graph API. It makes
-    a query in a prometheus database that has istio metrics and generates the
+    a query in a Prometheus database that has Istio metrics and generates the
     graph of apps that connect to each other in the period of time specified.
     '''
     raw_query = flask.request.args.get('query')
@@ -113,7 +122,9 @@ def graphData():
         if data['data']['resultType'] != 'vector':
             return flask.Response('Expected vector as query response', 500)
 
-        return flask.jsonify(genGraph(data['data']['result']))
+        # Load outage data before generating the graph
+        outage_data = load_outage_data('traces/data.csv')  # Update the path to your CSV file
+        return flask.jsonify(genGraph(data['data']['result'], outage_data))
 
     except Exception as e:
         return flask.Response(f'{type(e).__name__}: {e}', 500)
@@ -121,7 +132,7 @@ def graphData():
 @app.route('/api/health')
 def checkHealth():
     '''
-    checkHealth handles the healthchecking endpoint for the Node Graph API.
+    checkHealth handles the health-checking endpoint for the Node Graph API.
     '''
     return 'Healthy'
 
