@@ -67,9 +67,9 @@ def genGraph(raw_metrics, outage_data):
         color = "green"  # Default color
 
         # Determine color based on down probability
-        if down_probability <= 0.500:
+        if down_probability <= 0.450:
             color = "green"
-        elif 0.6 <= down_probability <= 0.750:
+        elif 0.600 <= down_probability <= 0.750:
             color = "yellow"
         elif down_probability > 0.750:
             color = "red"
