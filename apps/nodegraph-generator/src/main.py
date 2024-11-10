@@ -73,14 +73,20 @@ def genGraph(raw_metrics, outage_data):
     nodes = []
     for name, details in node_names.items():
         down_probability = outage_data.get(name, 0.0)
-        color = "green"  # Default color
-
-        if down_probability < 0.45:
+        
+        # Set node color based on the down_probability value
+        if down_probability < 0.3:
             color = "green"
-        elif 0.45 <= down_probability <= 0.6:
+            status = "Healthy"
+        elif 0.3 <= down_probability < 0.45:
             color = "yellow"
-        elif down_probability > 0.6:
+            status = "Warning"
+        elif 0.45 <= down_probability <= 0.6:
+            color = "orange"
+            status = "Moderate"
+        else:
             color = "red"
+            status = "Critical"
 
         # Include mainStat for node display text
         nodes.append({
@@ -88,7 +94,8 @@ def genGraph(raw_metrics, outage_data):
             'title': name, 
             'mainStat': f"{down_probability * 100:.2f}%",
             'down_probability': down_probability,
-            'color': color
+            'color': color,
+            'status': status  # Added to help in identifying legend categories
         })
 
     return {"nodes": nodes, "edges": edges}
