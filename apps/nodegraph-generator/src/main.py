@@ -97,6 +97,16 @@ def genGraph(raw_metrics, outage_data):
             'color': color
         })
 
+    # Add legend nodes
+    legend_nodes = [
+        {'id': len(node_names) + 1, 'title': 'Legend: Healthy', 'mainStat': '0% - 30%', 'color': 'green'},
+        {'id': len(node_names) + 2, 'title': 'Legend: Warning', 'mainStat': '30% - 45%', 'color': 'yellow'},
+        {'id': len(node_names) + 3, 'title': 'Legend: Moderate', 'mainStat': '45% - 60%', 'color': 'orange'},
+        {'id': len(node_names) + 4, 'title': 'Legend: Critical', 'mainStat': '60% - 100%', 'color': 'red'}
+    ]
+    
+    nodes.extend(legend_nodes)
+
     return {"nodes": nodes, "edges": edges}
 
 
