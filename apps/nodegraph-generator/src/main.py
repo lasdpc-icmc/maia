@@ -24,105 +24,74 @@ def load_outage_data():
         outage_map[service_name] = down_probability
     return outage_map
 
+def getNodeID(node_names, app_name):
+    '''
+    getNodeID gets the index of an app in the node_names list. If the app
+    wasn't seen before it appends the new app into the list.
+    '''
+    try:
+        return node_names.index(app_name) + 1
+    except ValueError:
+        newid = len(node_names) + 1
+        node_names.append(app_name)
+        return newid
+
 def genGraph(raw_metrics, outage_data):
     '''
     genGraph generates a json-like dictionary in the specification requested by
-    the Node Graph API Grafana data source containing a graph of apps based on
+    the Node Graph API grafana data source containing a graph of apps based on
     the raw_metrics dictionary.
     '''
 
     node_names = {}
     edges = []
-    arc_sections = []
-
-    # Track the number of apps in each status category for arc sections
-    healthy_count = 0
-    warning_count = 0
-    critical_count = 0
 
     for metric in raw_metrics:
-        try:
-            value = int(float(metric['value'][1]))
+        value = int(float(metric['value'][1]))
 
-            # Ignore all source-destination pairs that haven't seen new requests
-            if value <= 0:
-                continue
-
-            source_name = metric['metric']['source_workload']
-            dest_name = metric['metric']['destination_workload']
-
-            # Add nodes if not already present
-            if source_name not in node_names:
-                node_names[source_name] = {'id': len(node_names) + 1}
-            if dest_name not in node_names:
-                node_names[dest_name] = {'id': len(node_names) + 1}
-
-            edges.append({
-                'id': len(edges) + 1, 
-                'source': node_names[source_name]['id'], 
-                'target': node_names[dest_name]['id'], 
-                'arc__outage': value  # Replaced 'mainStat' with 'arc__outage'
-            })
-        except Exception as e:
-            # Log or handle the error gracefully if the metric is not formatted as expected
-            print(f"Error processing metric: {e}")
+        # Ignore all source-destination pairs that haven't seen new requests
+        if value <= 0:
             continue
+
+        source_name = metric['metric']['source_workload']
+        dest_name = metric['metric']['destination_workload']
+
+        # Add nodes if not already present
+        if source_name not in node_names:
+            node_names[source_name] = {'id': len(node_names) + 1}
+        if dest_name not in node_names:
+            node_names[dest_name] = {'id': len(node_names) + 1}
+
+        edges.append({
+            'id': len(edges) + 1, 
+            'source': node_names[source_name]['id'], 
+            'target': node_names[dest_name]['id'], 
+            'mainStat': value
+        })
 
     # Add outage percentages, colors, and display text
     nodes = []
     for name, details in node_names.items():
         down_probability = outage_data.get(name, 0.0)
-        status = "Healthy"
-        arc__color = "green"  # Default color
+        color = "green"  # Default color
 
         if down_probability < 0.45:
-            arc__color = "green"
-            status = "Healthy"
-            healthy_count += 1
+            color = "green"
         elif 0.45 <= down_probability <= 0.6:
-            arc__color = "yellow"
-            status = "Warning"
-            warning_count += 1
+            color = "yellow"
         elif down_probability > 0.6:
-            arc__color = "red"
-            status = "Critical"
-            critical_count += 1
+            color = "red"
 
-        # Include arc__outage for node display text
+        # Include mainStat for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'arc__outage': f"{down_probability * 100:.2f}%",  # Replaced 'mainStat' with 'arc__outage'
+            'mainStat': f"{down_probability * 100:.2f}%",
             'down_probability': down_probability,
-            'arc__color': arc__color,  # Replaced 'color' with 'arc__color'
-            'status': status  # Status to be used in the legend
+            'color': color
         })
 
-    # Add arc sections as metrics with the 'arc_' prefix for Grafana to recognize them
-    arc_sections = [
-        {
-            'name': 'arc_Healthy',
-            'arc__color': 'green',
-            'arc__outage': healthy_count
-        },
-        {
-            'name': 'arc_Warning',
-            'arc__color': 'yellow',
-            'arc__outage': warning_count
-        },
-        {
-            'name': 'arc_Critical',
-            'arc__color': 'red',
-            'arc__outage': critical_count
-        }
-    ]
-
-    return {
-        "nodes": nodes,
-        "edges": edges,
-        "arcSections": arc_sections  # Provide the arc sections for the legend
-    }
-
+    return {"nodes": nodes, "edges": edges}
 
 @app.route('/api/graph/fields')
 def graphFields():
