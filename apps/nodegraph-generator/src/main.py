@@ -17,11 +17,11 @@ def load_outage_data():
     Load outage data from Redis into a dictionary.
     '''
     outage_map = {}
-    keys = redis_client.keys('down_probability:*')
+    keys = redis_client.keys('arc__down_probability:*')
     for key in keys:
         service_name = key.split(':')[-1]  # Extract the service name from the key
-        down_probability = float(redis_client.get(key))
-        outage_map[service_name] = down_probability
+        arc__down_probability = float(redis_client.get(key))
+        outage_map[service_name] = arc__down_probability
     return outage_map
 
 def getNodeID(node_names, app_name):
@@ -72,22 +72,22 @@ def genGraph(raw_metrics, outage_data):
     # Add outage percentages, colors, and display text
     nodes = []
     for name, details in node_names.items():
-        down_probability = outage_data.get(name, 0.0)
+        arc__down_probability = outage_data.get(name, 0.0)
         color = "green"  # Default color
 
-        if down_probability < 0.45:
+        if arc__down_probability < 0.45:
             color = "green"
-        elif 0.45 <= down_probability <= 0.6:
+        elif 0.45 <= arc__down_probability <= 0.6:
             color = "yellow"
-        elif down_probability > 0.6:
+        elif arc__down_probability > 0.6:
             color = "red"
 
         # Include mainStat for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'mainStat': f"{down_probability * 100:.2f}%",
-            'down_probability': down_probability,
+            'mainStat': f"{arc__down_probability * 100:.2f}%",
+            'arc__down_probability': arc__down_probability,
             'color': color
         })
 

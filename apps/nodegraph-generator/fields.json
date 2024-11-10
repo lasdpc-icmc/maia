@@ -31,7 +31,7 @@
       "type": "string"
     },
     {
-      "field_name": "down_probability",
+      "field_name": "arc__down_probability",
       "type": "number"
     },
     {
