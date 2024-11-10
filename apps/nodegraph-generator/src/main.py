@@ -92,13 +92,13 @@ def genGraph(raw_metrics, outage_data):
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'mainStat': f"{down_probability * 100:.2f}%",
+            'mainStat': f"{down_probability * 100:.2f}% - {status}",
             'down_probability': down_probability,
-            'color': color,
-            'status': status  # Added to help in identifying legend categories
+            'color': color
         })
 
     return {"nodes": nodes, "edges": edges}
+
 
 @app.route('/api/graph/fields')
 def graphFields():
