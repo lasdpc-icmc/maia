@@ -61,7 +61,7 @@ def genGraph(raw_metrics, outage_data):
                 'id': len(edges) + 1, 
                 'source': node_names[source_name]['id'], 
                 'target': node_names[dest_name]['id'], 
-                'arc_outage': value  # Replaced 'mainStat' with 'arc_outage'
+                'arc__outage': value  # Replaced 'mainStat' with 'arc__outage'
             })
         except Exception as e:
             # Log or handle the error gracefully if the metric is not formatted as expected
@@ -73,28 +73,28 @@ def genGraph(raw_metrics, outage_data):
     for name, details in node_names.items():
         down_probability = outage_data.get(name, 0.0)
         status = "Healthy"
-        arc_color = "green"  # Default color
+        arc__color = "green"  # Default color
 
         if down_probability < 0.45:
-            arc_color = "green"
+            arc__color = "green"
             status = "Healthy"
             healthy_count += 1
         elif 0.45 <= down_probability <= 0.6:
-            arc_color = "yellow"
+            arc__color = "yellow"
             status = "Warning"
             warning_count += 1
         elif down_probability > 0.6:
-            arc_color = "red"
+            arc__color = "red"
             status = "Critical"
             critical_count += 1
 
-        # Include arc_outage for node display text
+        # Include arc__outage for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'arc_outage': f"{down_probability * 100:.2f}%",  # Replaced 'mainStat' with 'arc_outage'
+            'arc__outage': f"{down_probability * 100:.2f}%",  # Replaced 'mainStat' with 'arc__outage'
             'down_probability': down_probability,
-            'arc_color': arc_color,  # Replaced 'color' with 'arc_color'
+            'arc__color': arc__color,  # Replaced 'color' with 'arc__color'
             'status': status  # Status to be used in the legend
         })
 
@@ -102,18 +102,18 @@ def genGraph(raw_metrics, outage_data):
     arc_sections = [
         {
             'name': 'arc_Healthy',
-            'arc_color': 'green',
-            'arc_outage': healthy_count
+            'arc__color': 'green',
+            'arc__outage': healthy_count
         },
         {
             'name': 'arc_Warning',
-            'arc_color': 'yellow',
-            'arc_outage': warning_count
+            'arc__color': 'yellow',
+            'arc__outage': warning_count
         },
         {
             'name': 'arc_Critical',
-            'arc_color': 'red',
-            'arc_outage': critical_count
+            'arc__color': 'red',
+            'arc__outage': critical_count
         }
     ]
 
