@@ -24,27 +24,16 @@ def load_outage_data():
         outage_map[service_name] = down_probability
     return outage_map
 
-def getNodeID(node_names, app_name):
-    '''
-    getNodeID gets the index of an app in the node_names list. If the app
-    wasn't seen before it appends the new app into the list.
-    '''
-    try:
-        return node_names.index(app_name) + 1
-    except ValueError:
-        newid = len(node_names) + 1
-        node_names.append(app_name)
-        return newid
-
 def genGraph(raw_metrics, outage_data):
     '''
     genGraph generates a json-like dictionary in the specification requested by
-    the Node Graph API grafana data source containing a graph of apps based on
+    the Node Graph API Grafana data source containing a graph of apps based on
     the raw_metrics dictionary.
     '''
 
     node_names = {}
     edges = []
+    arc_sections = []
 
     for metric in raw_metrics:
         value = int(float(metric['value'][1]))
@@ -73,41 +62,41 @@ def genGraph(raw_metrics, outage_data):
     nodes = []
     for name, details in node_names.items():
         down_probability = outage_data.get(name, 0.0)
-        
-        # Set node color based on the down_probability value
-        if down_probability < 0.3:
+        color = "green"  # Default color
+        status = "Healthy"
+
+        if down_probability < 0.45:
             color = "green"
             status = "Healthy"
-        elif 0.3 <= down_probability < 0.45:
+        elif 0.45 <= down_probability <= 0.6:
             color = "yellow"
             status = "Warning"
-        elif 0.45 <= down_probability <= 0.6:
-            color = "orange"
-            status = "Moderate"
-        else:
+        elif down_probability > 0.6:
             color = "red"
             status = "Critical"
+
+        # Add arc section to describe status meaning
+        arc_sections.append({
+            'name': status,
+            'color': color,
+            'value': down_probability * 100  # Percentage for the arc
+        })
 
         # Include mainStat for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'mainStat': f"{down_probability * 100:.2f}% - {status}",
+            'mainStat': f"{down_probability * 100:.2f}%",
             'down_probability': down_probability,
-            'color': color
+            'color': color,
+            'status': status  # Status to be used in the legend
         })
 
-    # Add legend nodes
-    legend_nodes = [
-        {'id': len(node_names) + 1, 'title': 'Legend: Healthy', 'mainStat': '0% - 30%', 'color': 'green'},
-        {'id': len(node_names) + 2, 'title': 'Legend: Warning', 'mainStat': '30% - 45%', 'color': 'yellow'},
-        {'id': len(node_names) + 3, 'title': 'Legend: Moderate', 'mainStat': '45% - 60%', 'color': 'orange'},
-        {'id': len(node_names) + 4, 'title': 'Legend: Critical', 'mainStat': '60% - 100%', 'color': 'red'}
-    ]
-    
-    nodes.extend(legend_nodes)
-
-    return {"nodes": nodes, "edges": edges}
+    return {
+        "nodes": nodes,
+        "edges": edges,
+        "arcSections": arc_sections  # Provide the arc sections for the legend
+    }
 
 
 @app.route('/api/graph/fields')
