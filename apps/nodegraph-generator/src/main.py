@@ -41,27 +41,32 @@ def genGraph(raw_metrics, outage_data):
     critical_count = 0
 
     for metric in raw_metrics:
-        value = int(float(metric['value'][1]))
+        try:
+            value = int(float(metric['value'][1]))
 
-        # Ignore all source-destination pairs that haven't seen new requests
-        if value <= 0:
+            # Ignore all source-destination pairs that haven't seen new requests
+            if value <= 0:
+                continue
+
+            source_name = metric['metric']['source_workload']
+            dest_name = metric['metric']['destination_workload']
+
+            # Add nodes if not already present
+            if source_name not in node_names:
+                node_names[source_name] = {'id': len(node_names) + 1}
+            if dest_name not in node_names:
+                node_names[dest_name] = {'id': len(node_names) + 1}
+
+            edges.append({
+                'id': len(edges) + 1, 
+                'source': node_names[source_name]['id'], 
+                'target': node_names[dest_name]['id'], 
+                'arc_outage': value  # Replaced 'mainStat' with 'arc_outage'
+            })
+        except Exception as e:
+            # Log or handle the error gracefully if the metric is not formatted as expected
+            print(f"Error processing metric: {e}")
             continue
-
-        source_name = metric['metric']['source_workload']
-        dest_name = metric['metric']['destination_workload']
-
-        # Add nodes if not already present
-        if source_name not in node_names:
-            node_names[source_name] = {'id': len(node_names) + 1}
-        if dest_name not in node_names:
-            node_names[dest_name] = {'id': len(node_names) + 1}
-
-        edges.append({
-            'id': len(edges) + 1, 
-            'source': node_names[source_name]['id'], 
-            'target': node_names[dest_name]['id'], 
-            'arc_outage': value  # Replaced 'mainStat' with 'arc_outage'
-        })
 
     # Add outage percentages, colors, and display text
     nodes = []
@@ -117,7 +122,6 @@ def genGraph(raw_metrics, outage_data):
         "edges": edges,
         "arcSections": arc_sections  # Provide the arc sections for the legend
     }
-
 
 
 @app.route('/api/graph/fields')
