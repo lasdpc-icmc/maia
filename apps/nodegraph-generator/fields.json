@@ -13,7 +13,7 @@
       "type": "string"
     },
     {
-      "field_name": "mainStat",
+      "field_name": "arc_outage",
       "type": "number"
     }
   ],
@@ -27,7 +27,7 @@
       "type": "string"
     },
     {
-      "field_name": "mainStat",
+      "field_name": "arc_outage",
       "type": "string"
     },
     {
@@ -35,7 +35,7 @@
       "type": "number"
     },
     {
-      "field_name": "color",
+      "field_name": "arc_color",
       "type": "string"
     }
   ]
