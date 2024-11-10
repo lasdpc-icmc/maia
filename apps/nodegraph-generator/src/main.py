@@ -35,6 +35,11 @@ def genGraph(raw_metrics, outage_data):
     edges = []
     arc_sections = []
 
+    # Track the number of apps in each status category for arc sections
+    healthy_count = 0
+    warning_count = 0
+    critical_count = 0
+
     for metric in raw_metrics:
         value = int(float(metric['value'][1]))
 
@@ -55,48 +60,64 @@ def genGraph(raw_metrics, outage_data):
             'id': len(edges) + 1, 
             'source': node_names[source_name]['id'], 
             'target': node_names[dest_name]['id'], 
-            'mainStat': value
+            'arc_outage': value  # Replaced 'mainStat' with 'arc_outage'
         })
 
     # Add outage percentages, colors, and display text
     nodes = []
     for name, details in node_names.items():
         down_probability = outage_data.get(name, 0.0)
-        color = "green"  # Default color
         status = "Healthy"
+        arc_color = "green"  # Default color
 
         if down_probability < 0.45:
-            color = "green"
+            arc_color = "green"
             status = "Healthy"
+            healthy_count += 1
         elif 0.45 <= down_probability <= 0.6:
-            color = "yellow"
+            arc_color = "yellow"
             status = "Warning"
+            warning_count += 1
         elif down_probability > 0.6:
-            color = "red"
+            arc_color = "red"
             status = "Critical"
+            critical_count += 1
 
-        # Add arc section to describe status meaning
-        arc_sections.append({
-            'name': status,
-            'color': color,
-            'value': down_probability * 100  # Percentage for the arc
-        })
-
-        # Include mainStat for node display text
+        # Include arc_outage for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'mainStat': f"{down_probability * 100:.2f}%",
+            'arc_outage': f"{down_probability * 100:.2f}%",  # Replaced 'mainStat' with 'arc_outage'
             'down_probability': down_probability,
-            'color': color,
+            'arc_color': arc_color,  # Replaced 'color' with 'arc_color'
             'status': status  # Status to be used in the legend
         })
+
+    # Add arc sections as metrics with the 'arc_' prefix for Grafana to recognize them
+    arc_sections = [
+        {
+            'name': 'arc_Healthy',
+            'arc_color': 'green',
+            'arc_outage': healthy_count
+        },
+        {
+            'name': 'arc_Warning',
+            'arc_color': 'yellow',
+            'arc_outage': warning_count
+        },
+        {
+            'name': 'arc_Critical',
+            'arc_color': 'red',
+            'arc_outage': critical_count
+        }
+    ]
 
     return {
         "nodes": nodes,
         "edges": edges,
         "arcSections": arc_sections  # Provide the arc sections for the legend
     }
+
 
 
 @app.route('/api/graph/fields')
