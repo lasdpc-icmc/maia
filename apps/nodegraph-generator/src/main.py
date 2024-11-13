@@ -83,9 +83,13 @@ def genGraph(raw_metrics, outage_data):
 
         nodes.append({
             'id': details['id'],
-            'title': name, 
-            'down_probability': f"{down_probability * 100:.2f}%",
-            'color': color
+            'title': name,
+            'mainStat': f"{down_probability * 100:.2f}%",
+            'down_probability': down_probability,
+            'color': color,
+            'arc__subtitle': f"Outage Probability: {down_probability * 100:.2f}%",
+            'arc__tooltip': f"{name} has a {down_probability * 100:.2f}% chance of outage",
+            'arc__link': f"http://example.com/services/{name}"
         })
 
     return {"nodes": nodes, "edges": edges}

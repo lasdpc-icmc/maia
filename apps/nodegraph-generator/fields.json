@@ -13,8 +13,13 @@
       "type": "string"
     },
     {
-      "field_name": "down_probability",
+      "field_name": "mainStat",
       "type": "number"
+    },
+    {
+      "field_name": "arc__tooltip",
+      "type": "string",
+      "description": "Request rate between services"
     }
   ],
   "nodes_fields": [
@@ -27,7 +32,7 @@
       "type": "string"
     },
     {
-      "field_name": "down_probability",
+      "field_name": "mainStat",
       "type": "string"
     },
     {
@@ -37,6 +42,21 @@
     {
       "field_name": "color",
       "type": "string"
+    },
+    {
+      "field_name": "arc__subtitle",
+      "type": "string",
+      "description": "Probability of service outage"
+    },
+    {
+      "field_name": "arc__tooltip",
+      "type": "string",
+      "description": "Detailed information about the node's health"
+    },
+    {
+      "field_name": "arc__link",
+      "type": "string",
+      "description": "URL to access more details about the node"
     }
   ]
 }
