@@ -13,7 +13,7 @@
       "type": "string"
     },
     {
-      "field_name": "mainStat",
+      "field_name": "down_probability",
       "type": "number"
     }
   ],
@@ -27,19 +27,8 @@
       "type": "string"
     },
     {
-      "field_name": "mainStat",
-      "type": "string",
-      "description": "Subtitle indicating health status: 'Health - 65%', 'Warning - 40%', or 'Potential Error - 10%'"
-    },
-    {
       "field_name": "down_probability",
-      "type": "number",
-      "description": "Probability of downtime, used to determine color and health subtitle"
-    },
-    {
-      "field_name": "color",
-      "type": "string",
-      "description": "Color representing node health status: green, yellow, or red"
+      "type": "number"
     }
   ]
 }
