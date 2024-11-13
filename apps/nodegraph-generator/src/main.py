@@ -66,7 +66,6 @@ def genGraph(raw_metrics, outage_data):
             'id': len(edges) + 1, 
             'source': node_names[source_name]['id'], 
             'target': node_names[dest_name]['id'], 
-            'mainStat': value
         })
 
     # Add outage percentages, colors, and display text
@@ -82,12 +81,10 @@ def genGraph(raw_metrics, outage_data):
         elif down_probability > 0.6:
             color = "red"
 
-        # Include mainStat for node display text
         nodes.append({
             'id': details['id'],
             'title': name, 
-            'mainStat': f"{down_probability * 100:.2f}%",
-            'down_probability': down_probability,
+            'down_probability': f"{down_probability * 100:.2f}%",
             'color': color
         })
 
