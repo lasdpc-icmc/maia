@@ -13,7 +13,7 @@
       "type": "string"
     },
     {
-      "field_name": "down_probability",
+      "field_name": "mainStat",
       "type": "number"
     }
   ],
@@ -24,6 +24,10 @@
     },
     {
       "field_name": "title",
+      "type": "string"
+    },
+    {
+      "field_name": "mainStat",
       "type": "string"
     },
     {
