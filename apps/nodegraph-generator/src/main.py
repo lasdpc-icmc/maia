@@ -2,14 +2,13 @@ import flask
 import requests
 import waitress
 import os
-import pandas as pd
 import redis
 
 app = flask.Flask('nodegraph-generator')
 
 # Configure Redis connection
-redis_host = os.environ.get('REDIS_URL')
-redis_port = os.environ.get('REDIS_PORT', 6379)
+redis_host = os.environ.get('REDIS_URL', 'localhost')
+redis_port = int(os.environ.get('REDIS_PORT', 6379))
 redis_client = redis.StrictRedis(host=redis_host, port=redis_port, decode_responses=True)
 
 def load_outage_data():
@@ -20,72 +19,64 @@ def load_outage_data():
     keys = redis_client.keys('down_probability:*')
     for key in keys:
         service_name = key.split(':')[-1]  # Extract the service name from the key
-        down_probability = float(redis_client.get(key))
-        outage_map[service_name] = down_probability
+        try:
+            down_probability = float(redis_client.get(key))
+            outage_map[service_name] = down_probability
+        except (ValueError, TypeError):
+            pass  # Ignore invalid or missing values
     return outage_map
 
 def getNodeID(node_names, app_name):
     '''
-    getNodeID gets the index of an app in the node_names list. If the app
-    wasn't seen before it appends the new app into the list.
+    Get the ID of a node, adding it to the list if not already present.
     '''
-    try:
-        return node_names.index(app_name) + 1
-    except ValueError:
-        newid = len(node_names) + 1
-        node_names.append(app_name)
-        return newid
+    if app_name not in node_names:
+        node_names[app_name] = len(node_names) + 1
+    return node_names[app_name]
 
 def genGraph(raw_metrics, outage_data):
     '''
-    genGraph generates a json-like dictionary in the specification requested by
-    the Node Graph API grafana data source containing a graph of apps based on
-    the raw_metrics dictionary.
+    Generate a JSON-like dictionary for the Node Graph API containing a graph
+    of apps based on the raw_metrics dictionary.
     '''
-
     node_names = {}
     edges = []
 
     for metric in raw_metrics:
-        value = int(float(metric['value'][1]))
+        try:
+            value = int(float(metric['value'][1]))
 
-        # Ignore all source-destination pairs that haven't seen new requests
-        if value <= 0:
-            continue
+            if value <= 0:
+                continue
 
-        source_name = metric['metric']['source_workload']
-        dest_name = metric['metric']['destination_workload']
+            source_name = metric['metric'].get('source_workload', 'unknown')
+            dest_name = metric['metric'].get('destination_workload', 'unknown')
 
-        # Add nodes if not already present
-        if source_name not in node_names:
-            node_names[source_name] = {'id': len(node_names) + 1}
-        if dest_name not in node_names:
-            node_names[dest_name] = {'id': len(node_names) + 1}
+            source_id = getNodeID(node_names, source_name)
+            dest_id = getNodeID(node_names, dest_name)
 
-        edges.append({
-            'id': len(edges) + 1, 
-            'source': node_names[source_name]['id'], 
-            'target': node_names[dest_name]['id'], 
-            'mainStat': value
-        })
+            edges.append({
+                'id': len(edges) + 1,
+                'source': source_id,
+                'target': dest_id,
+                'mainStat': value
+            })
+        except (KeyError, ValueError):
+            continue  # Skip metrics with missing or invalid data
 
-    # Add outage percentages, colors, and display text
     nodes = []
-    for name, details in node_names.items():
+    for name, node_id in node_names.items():
         down_probability = outage_data.get(name, 0.0)
-        color = "green"  # Default color
-
         if down_probability < 0.45:
             color = "green"
         elif 0.45 <= down_probability <= 0.6:
             color = "yellow"
-        elif down_probability > 0.6:
+        else:
             color = "red"
 
-        # Include mainStat for node display text
         nodes.append({
-            'id': details['id'],
-            'title': name, 
+            'id': node_id,
+            'title': name,
             'mainStat': f"{down_probability * 100:.2f}%",
             'down_probability': down_probability,
             'color': color
@@ -96,47 +87,52 @@ def genGraph(raw_metrics, outage_data):
 @app.route('/api/graph/fields')
 def graphFields():
     '''
-    graphFields handles the graph description API endpoint for Node Graph API.
+    Handle the graph description API endpoint for Node Graph API.
     '''
-    return flask.send_file('fields.json')
+    try:
+        return flask.send_file('fields.json')
+    except Exception as e:
+        return flask.Response(f'{type(e).__name__}: {e}', 500)
 
 @app.route('/api/graph/data')
 def graphData():
     '''
-    graphData handles the graph data endpoint for the Node Graph API. It makes
-    a query in a Prometheus database that has Istio metrics and generates the
-    graph of apps that connect to each other in the period of time specified.
+    Handle the graph data endpoint for Node Graph API.
     '''
     raw_query = flask.request.args.get('query')
-    if raw_query is None:
-        return flask.Response('Bad request', 400)
-    raw_query = raw_query.split(' ')
-    if len(raw_query) < 2:
-        return flask.Response('Bad request', 400)
+    if not raw_query:
+        return flask.Response('Bad request: query parameter missing', 400)
 
-    namespace = raw_query[0]
-    interval = raw_query[1]
-    offset = None if len(raw_query) < 3 else raw_query[2]
+    raw_query_parts = raw_query.split(' ')
+    if len(raw_query_parts) < 2:
+        return flask.Response('Bad request: query format invalid', 400)
+
+    namespace = raw_query_parts[0]
+    interval = raw_query_parts[1]
+    offset = raw_query_parts[2] if len(raw_query_parts) > 2 else None
 
     query = f'''
     sum by (source_workload, destination_workload) (increase(
         istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-        {f"offset {offset}" if offset is not None else ""}
+        {f"offset {offset}" if offset else ""}
     ))
     '''
 
     try:
-        data = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query',
-                            {'query': query}).json()
+        prometheus_url = os.environ.get("PROMETHEUS_URL", "http://localhost:9090")
+        response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': query})
+        data = response.json()
 
-        if data['status'] != 'success':
-            return flask.Response('Prometheus failed', 500)
-        if data['data']['resultType'] != 'vector':
+        if data.get('status') != 'success':
+            return flask.Response('Prometheus query failed', 500)
+
+        result_type = data['data'].get('resultType')
+        if result_type != 'vector':
             return flask.Response('Expected vector as query response', 500)
 
-        # Load outage data from Redis before generating the graph
-        outage_data = load_outage_data()  # No need to pass a file path now
-        return flask.jsonify(genGraph(data['data']['result'], outage_data))
+        outage_data = load_outage_data()
+        graph = genGraph(data['data']['result'], outage_data)
+        return flask.jsonify(graph)
 
     except Exception as e:
         return flask.Response(f'{type(e).__name__}: {e}', 500)
@@ -144,8 +140,9 @@ def graphData():
 @app.route('/api/health')
 def checkHealth():
     '''
-    checkHealth handles the health-checking endpoint for the Node Graph API.
+    Handle the health-checking endpoint for the Node Graph API.
     '''
     return 'Healthy'
 
-waitress.serve(app, host='0.0.0.0', port=8080)
+if __name__ == '__main__':
+    waitress.serve(app, host='0.0.0.0', port=8080)
