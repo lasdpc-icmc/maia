@@ -109,7 +109,7 @@ def genGraph(raw_http_metrics, raw_tcp_metrics, outage_data):
 @app.route('/api/graph/data')
 def graphData():
     '''
-    Handle the graph data endpoint for Node Graph API.
+    Handle the graph data endpoint for Node Graph API, including HTTP and TCP metrics.
     '''
     raw_query = flask.request.args.get('query')
     if not raw_query:
@@ -123,46 +123,48 @@ def graphData():
     interval = raw_query_parts[1]
     offset = raw_query_parts[2] if len(raw_query_parts) > 2 else None
 
-    http_query = f'''
-    sum by (source_workload, destination_workload) (increase(
-        istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-        {f"offset {offset}" if offset else ""}
-    ))
-    '''
-    tcp_query = f'''
-    sum by (source_workload, destination_workload) (increase(
-        istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-        {f"offset {offset}" if offset else ""}
-    ))
-    '''
-
     try:
-        prometheus_url = os.environ.get("PROMETHEUS_URL", "http://localhost:9090")
+        prometheus_url = os.environ.get("PROMETHEUS_URL", "kube-prometheus-kube-prome-prometheus.monitoring.svc.cluster.local:9090")
 
-        # Fetch HTTP metrics
+        # HTTP Metrics Query
+        http_query = f'''
+        sum by (source_workload, destination_workload) (increase(
+            istio_requests_total{{source_workload_namespace="{namespace}"}}[{interval}]
+            {f"offset {offset}" if offset else ""}
+        ))
+        '''
+
+        # TCP Metrics Query
+        tcp_query = f'''
+        sum by (source_workload, destination_workload) (increase(
+            istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}"}}[{interval}]
+            {f"offset {offset}" if offset else ""}
+        ))
+        '''
+
+        # Query Prometheus
         http_response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': http_query})
-        http_data = http_response.json()
-
-        if http_data.get('status') != 'success':
-            return flask.Response('Prometheus HTTP query failed', 500)
-
-        # Fetch TCP metrics
         tcp_response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': tcp_query})
-        tcp_data = tcp_response.json()
 
-        if tcp_data.get('status') != 'success':
-            return flask.Response('Prometheus TCP query failed', 500)
+        http_data = http_response.json().get('data', {}).get('result', [])
+        tcp_data = tcp_response.json().get('data', {}).get('result', [])
 
-        # Validate result types
-        if http_data['data'].get('resultType') != 'vector' or tcp_data['data'].get('resultType') != 'vector':
-            return flask.Response('Expected vector as query response', 500)
+        if not http_response.ok or not tcp_response.ok or not http_data and not tcp_data:
+            return flask.Response('No metrics found or Prometheus query failed', 500)
 
+        # Merge HTTP and TCP metrics
+        combined_metrics = http_data + tcp_data
+
+        # Load outage data from Redis
         outage_data = load_outage_data()
-        graph = genGraph(http_data['data']['result'], tcp_data['data']['result'], outage_data)
+
+        # Generate the graph
+        graph = genGraph(combined_metrics, outage_data)
         return flask.jsonify(graph)
 
     except Exception as e:
         return flask.Response(f'{type(e).__name__}: {e}', 500)
+
 
 @app.route('/api/health')
 def checkHealth():
