@@ -104,8 +104,8 @@ def graphFields():
 def graphData():
     '''
     graphData handles the graph data endpoint for the Node Graph API. It makes
-    a query in a Prometheus database that has Istio metrics and generates the
-    graph of apps that connect to each other in the period of time specified.
+    queries in a Prometheus database that has Istio metrics and generates the
+    graph of apps that connect to each other in the specified period of time.
     '''
     raw_query = flask.request.args.get('query')
     if raw_query is None:
@@ -118,28 +118,38 @@ def graphData():
     interval = raw_query[1]
     offset = None if len(raw_query) < 3 else raw_query[2]
 
-    query = f'''
+    http_query = f'''
     sum by (source_workload, destination_workload) (increase(
         istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
         {f"offset {offset}" if offset is not None else ""}
     ))
     '''
+    tcp_query = f'''
+    sum by (source_workload, destination_workload) (increase(
+        istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
+        {f"offset {offset}" if offset is not None else ""}
+    ))
+    '''
 
     try:
-        data = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query',
-                            {'query': query}).json()
+        http_response = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query', {'query': http_query}).json()
+        if http_response['status'] != 'success' or http_response['data']['resultType'] != 'vector':
+            return flask.Response('Prometheus HTTP query failed', 500)
 
-        if data['status'] != 'success':
-            return flask.Response('Prometheus failed', 500)
-        if data['data']['resultType'] != 'vector':
-            return flask.Response('Expected vector as query response', 500)
+        tcp_response = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query', {'query': tcp_query}).json()
+        if tcp_response['status'] != 'success' or tcp_response['data']['resultType'] != 'vector':
+            return flask.Response('Prometheus TCP query failed', 500)
 
-        # Load outage data from Redis before generating the graph
-        outage_data = load_outage_data()  # No need to pass a file path now
-        return flask.jsonify(genGraph(data['data']['result'], outage_data))
+        outage_data = load_outage_data()
+
+        # Combine HTTP and TCP metrics
+        all_metrics = http_response['data']['result'] + tcp_response['data']['result']
+
+        return flask.jsonify(genGraph(all_metrics, outage_data))
 
     except Exception as e:
         return flask.Response(f'{type(e).__name__}: {e}', 500)
+
 
 @app.route('/api/health')
 def checkHealth():
