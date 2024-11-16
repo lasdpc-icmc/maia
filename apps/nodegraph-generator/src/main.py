@@ -34,18 +34,18 @@ def getNodeID(node_names, app_name):
         node_names[app_name] = len(node_names) + 1
     return node_names[app_name]
 
-def genGraph(raw_metrics, outage_data):
+def genGraph(raw_http_metrics, raw_tcp_metrics, outage_data):
     '''
     Generate a JSON-like dictionary for the Node Graph API containing a graph
-    of apps based on the raw_metrics dictionary.
+    of apps based on the raw_http_metrics and raw_tcp_metrics dictionaries.
     '''
     node_names = {}
     edges = []
 
-    for metric in raw_metrics:
+    # Process HTTP metrics
+    for metric in raw_http_metrics:
         try:
             value = int(float(metric['value'][1]))
-
             if value <= 0:
                 continue
 
@@ -59,7 +59,29 @@ def genGraph(raw_metrics, outage_data):
                 'id': len(edges) + 1,
                 'source': source_id,
                 'target': dest_id,
-                'mainStat': value
+                'mainStat': f"HTTP: {value}"
+            })
+        except (KeyError, ValueError):
+            continue  # Skip metrics with missing or invalid data
+
+    # Process TCP metrics
+    for metric in raw_tcp_metrics:
+        try:
+            value = int(float(metric['value'][1]))
+            if value <= 0:
+                continue
+
+            source_name = metric['metric'].get('source_workload', 'unknown')
+            dest_name = metric['metric'].get('destination_workload', 'unknown')
+
+            source_id = getNodeID(node_names, source_name)
+            dest_id = getNodeID(node_names, dest_name)
+
+            edges.append({
+                'id': len(edges) + 1,
+                'source': source_id,
+                'target': dest_id,
+                'mainStat': f"TCP: {value}"
             })
         except (KeyError, ValueError):
             continue  # Skip metrics with missing or invalid data
@@ -84,16 +106,6 @@ def genGraph(raw_metrics, outage_data):
 
     return {"nodes": nodes, "edges": edges}
 
-@app.route('/api/graph/fields')
-def graphFields():
-    '''
-    Handle the graph description API endpoint for Node Graph API.
-    '''
-    try:
-        return flask.send_file('fields.json')
-    except Exception as e:
-        return flask.Response(f'{type(e).__name__}: {e}', 500)
-
 @app.route('/api/graph/data')
 def graphData():
     '''
@@ -111,35 +123,42 @@ def graphData():
     interval = raw_query_parts[1]
     offset = raw_query_parts[2] if len(raw_query_parts) > 2 else None
 
-    query = f'''
-    sum by (source_workload, destination_workload) (
-        increase(
-            istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-            {f"offset {offset}" if offset else ""}
-        )
-    ) + 
-    sum by (source_workload, destination_workload) (
-        increase(
-            istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-            {f"offset {offset}" if offset else ""}
-        )
-    )
+    http_query = f'''
+    sum by (source_workload, destination_workload) (increase(
+        istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
+        {f"offset {offset}" if offset else ""}
+    ))
+    '''
+    tcp_query = f'''
+    sum by (source_workload, destination_workload) (increase(
+        istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
+        {f"offset {offset}" if offset else ""}
+    ))
     '''
 
     try:
         prometheus_url = os.environ.get("PROMETHEUS_URL", "http://localhost:9090")
-        response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': query})
-        data = response.json()
 
-        if data.get('status') != 'success':
-            return flask.Response('Prometheus query failed', 500)
+        # Fetch HTTP metrics
+        http_response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': http_query})
+        http_data = http_response.json()
 
-        result_type = data['data'].get('resultType')
-        if result_type != 'vector':
+        if http_data.get('status') != 'success':
+            return flask.Response('Prometheus HTTP query failed', 500)
+
+        # Fetch TCP metrics
+        tcp_response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': tcp_query})
+        tcp_data = tcp_response.json()
+
+        if tcp_data.get('status') != 'success':
+            return flask.Response('Prometheus TCP query failed', 500)
+
+        # Validate result types
+        if http_data['data'].get('resultType') != 'vector' or tcp_data['data'].get('resultType') != 'vector':
             return flask.Response('Expected vector as query response', 500)
 
         outage_data = load_outage_data()
-        graph = genGraph(data['data']['result'], outage_data)
+        graph = genGraph(http_data['data']['result'], tcp_data['data']['result'], outage_data)
         return flask.jsonify(graph)
 
     except Exception as e:
