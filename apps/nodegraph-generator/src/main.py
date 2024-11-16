@@ -132,23 +132,19 @@ def graphData():
     '''
 
     try:
-        # Fetch HTTP metrics
         http_response = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query', {'query': http_query}).json()
         if http_response['status'] != 'success' or http_response['data']['resultType'] != 'vector':
             return flask.Response('Prometheus HTTP query failed', 500)
 
-        # Fetch TCP metrics
         tcp_response = requests.get(f'{os.environ["PROMETHEUS_URL"]}/api/v1/query', {'query': tcp_query}).json()
         if tcp_response['status'] != 'success' or tcp_response['data']['resultType'] != 'vector':
             return flask.Response('Prometheus TCP query failed', 500)
 
-        # Load outage data from Redis
         outage_data = load_outage_data()
 
         # Combine HTTP and TCP metrics
         all_metrics = http_response['data']['result'] + tcp_response['data']['result']
 
-        # Generate the graph
         return flask.jsonify(genGraph(all_metrics, outage_data))
 
     except Exception as e:
