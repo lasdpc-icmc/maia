@@ -112,10 +112,18 @@ def graphData():
     offset = raw_query_parts[2] if len(raw_query_parts) > 2 else None
 
     query = f'''
-    sum by (source_workload, destination_workload) (increase(
-        istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
-        {f"offset {offset}" if offset else ""}
-    ))
+    sum by (source_workload, destination_workload) (
+        increase(
+            istio_requests_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
+            {f"offset {offset}" if offset else ""}
+        )
+    ) + 
+    sum by (source_workload, destination_workload) (
+        increase(
+            istio_tcp_connections_opened_total{{source_workload_namespace="{namespace}", destination_workload!="unknown"}}[{interval}]
+            {f"offset {offset}" if offset else ""}
+        )
+    )
     '''
 
     try:
