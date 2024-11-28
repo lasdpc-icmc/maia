@@ -1,0 +1,694 @@
+{'app': 'catalogue'} 1718532560169465115 ts=2024-06-16T10:09:20Z caller=logging.go:85 method=Health result=2 took=22.969µs
+{'app': 'catalogue'} 1718532560169442143 ts=2024-06-16T10:09:20Z caller=logging.go:85 method=Health result=2 took=35.933µs
+{'app': 'catalogue'} 1718532557169720550 ts=2024-06-16T10:09:17Z caller=logging.go:85 method=Health result=2 took=43.68µs
+{'app': 'catalogue'} 1718532557169699249 ts=2024-06-16T10:09:17Z caller=logging.go:85 method=Health result=2 took=37.373µs
+{'app': 'catalogue'} 1718532554169587177 ts=2024-06-16T10:09:14Z caller=logging.go:85 method=Health result=2 took=26.834µs
+{'app': 'catalogue'} 1718532554169530849 ts=2024-06-16T10:09:14Z caller=logging.go:85 method=Health result=2 took=38.604µs
+{'app': 'catalogue'} 1718532551177285588 ts=2024-06-16T10:09:11Z caller=logging.go:85 method=Health result=2 took=23.114µs
+{'app': 'catalogue'} 1718532551177232957 ts=2024-06-16T10:09:11Z caller=logging.go:85 method=Health result=2 took=50.762µs
+{'app': 'catalogue'} 1718532548169895874 ts=2024-06-16T10:09:08Z caller=logging.go:85 method=Health result=2 took=27.465µs
+{'app': 'catalogue'} 1718532548169685870 ts=2024-06-16T10:09:08Z caller=logging.go:85 method=Health result=2 took=52.137µs
+{'app': 'catalogue'} 1718532545169937037 ts=2024-06-16T10:09:05Z caller=logging.go:85 method=Health result=2 took=37.847µs
+{'app': 'catalogue'} 1718532545169903239 ts=2024-06-16T10:09:05Z caller=logging.go:85 method=Health result=2 took=38.221µs
+{'app': 'catalogue'} 1718532542169677566 ts=2024-06-16T10:09:02Z caller=logging.go:85 method=Health result=2 took=68.374µs
+{'app': 'catalogue'} 1718532542169642812 ts=2024-06-16T10:09:02Z caller=logging.go:85 method=Health result=2 took=38.535µs
+{'app': 'catalogue'} 1718532539169496351 ts=2024-06-16T10:08:59Z caller=logging.go:85 method=Health result=2 took=20.151µs
+{'app': 'catalogue'} 1718532539169418070 ts=2024-06-16T10:08:59Z caller=logging.go:85 method=Health result=2 took=29.521µs
+{'app': 'catalogue'} 1718532536169873573 ts=2024-06-16T10:08:56Z caller=logging.go:85 method=Health result=2 took=37.707µs
+{'app': 'catalogue'} 1718532536169849900 ts=2024-06-16T10:08:56Z caller=logging.go:85 method=Health result=2 took=38.007µs
+{'app': 'catalogue'} 1718532533171104093 ts=2024-06-16T10:08:53Z caller=logging.go:85 method=Health result=2 took=28.518µs
+{'app': 'catalogue'} 1718532533170349454 ts=2024-06-16T10:08:53Z caller=logging.go:85 method=Health result=2 took=82.505µs
+{'app': 'payment'} 1718532670655348927 2024-06-16T10:11:10.655219Z	info	xdsproxy	connected to delta upstream XDS server: istiod.istio-system.svc:15012	id=220
+{'app': 'payment'} 1718532839069241786 ts=2024-06-16T10:13:59Z caller=logging.go:40 method=Health result=1 took=4.012µs
+{'app': 'payment'} 1718532839069069013 ts=2024-06-16T10:13:59Z caller=logging.go:40 method=Health result=1 took=8.29µs
+{'app': 'rabbitmq'} 1718532831096304463 Ranch listener rabbit_web_dispatch_sup_15672 had connection process started with cowboy_protocol:start_link/4 at <0.28611.5> exit with reason: [{reason,{{badarith,[{rabbit_mgmt_stats,rate_from_difference,2,[{file,"src/rabbit_mgmt_stats.erl"},{line,630}]},{rabbit_mgmt_stats,rate_from_last_increment,4,[{file,"src/rabbit_mgmt_stats.erl"},{line,597}]},{rabbit_mgmt_stats,calculate_instant_rate,3,[{file,"src/rabbit_mgmt_stats.erl"},{line,84}]},{rabbit_mgmt_stats,format_no_range,4,[{file,"src/rabbit_mgmt_stats.erl"},{line,65}]},{rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,[{file,"src/rabbit_mgmt_db.erl"},{line,575}]},{worker_pool_worker,handle_call,3,[{file,"src/worker_pool_worker.erl"},{line,105}]},{gen_server2,handle_msg,2,[{file,"src/gen_server2.erl"},{line,1024}]},{proc_lib,wake_up,3,[{file,"proc_lib.erl"},{line,257}]}]},{gen_server2,call,[<0.28598.5>,{submit,#Fun<rabbit_mgmt_db.20.11931579>,<0.28611.5>,reuse},infinity]}}},{mfa,{rabbit_mgmt_wm_overview,to_json,2}},{stacktrace,[{gen_server2,call,3,[{file,"src/gen_server2.erl"},{line,327}]},{rabbit_mgmt_wm_overview,web_contexts,1,[{file,"src/rabbit_mgmt_wm_overview.erl"},{line,97}]},{rabbit_mgmt_wm_overview,to_json,2,[{file,"src/rabbit_mgmt_wm_overview.erl"},{line,62}]},{cowboy_rest,call,3,[{file,"src/cowboy_rest.erl"},{line,976}]},{cowboy_rest,set_resp_body,2,[{file,"src/cowboy_rest.erl"},{line,858}]},{cowboy_protocol,execute,4,[{file,"src/cowboy_protocol.erl"},{line,442}]}]},{req,[{socket,#Port<0.313677>},{transport,ranch_tcp},{connection,keepalive},{pid,<0.28611.5>},{method,<<"GET">>},{version,'HTTP/1.1'},{peer,{{127,0,0,1},57582}},{host,<<"127.0.0.1">>},{host_info,undefined},{port,15672},{path,<<"/api/overview">>},{path_info,undefined},{qs,<<>>},{qs_vals,[]},{bindings,[]},{headers,[{<<"host">>,<<"127.0.0.1:15672">>},{<<"user-agent">>,<<"Go-http-client/1.1">>},{<<"accept">>,<<"application/bert, application/json;q=0.1">>},{<<"authorization">>,<<"Basic Z3Vlc3Q6Z3Vlc3Q=">>},{<<"accept-encoding">>,<<"gzip">>}]},{p_headers,[{<<"if-modified-since">>,undefined},{<<"if-none-match">>,undefined},{<<"if-unmodified-since">>,undefined},{<<"if-match">>,undefined},{<<"accept">>,[{{<<"application">>,<<"bert">>,[]},1000,[]},{{<<"application">>,<<"json">>,[]},100,[]}]}]},{cookies,undefined},{meta,[{media_type,{<<"application">>,<<"json">>,[]}},{charset,undefined}]},{body_state,waiting},{buffer,<<>>},{multipart,undefined},{resp_compress,true},{resp_state,waiting},{resp_headers,[{<<"vary">>,[<<"accept-encoding">>,[<<", ">>,<<"origin">>]]},{<<"content-type">>,[<<"application">>,<<"/">>,<<"json">>,<<>>]},{<<"vary">>,<<"origin">>}]},{resp_body,<<>>},{onresponse,#Fun<rabbit_cowboy_middleware.onresponse.4>}]},{state,{context,{user,<<"guest">>,[administrator],[{rabbit_auth_backend_internal,none}]},<<"guest">>,undefined}}]
+{'app': 'rabbitmq'} 1718532831096298114 =ERROR REPORT==== 16-Jun-2024::10:13:51 ===
+{'app': 'rabbitmq'} 1718532831096284948 
+{'app': 'rabbitmq'} 1718532831095313093 
+{'app': 'rabbitmq'} 1718532831095310618                   {child_type,worker}]
+{'app': 'rabbitmq'} 1718532831095307846                   {shutdown,4294967295},
+{'app': 'rabbitmq'} 1718532831095305110                   {restart_type,transient},
+{'app': 'rabbitmq'} 1718532831095302216                           [management_worker_pool]}},
+{'app': 'rabbitmq'} 1718532831095299501                       {worker_pool_worker,start_link,
+{'app': 'rabbitmq'} 1718532831095296756                   {mfargs,
+{'app': 'rabbitmq'} 1718532831095294048                   {id,1},
+{'app': 'rabbitmq'} 1718532831095291200      Offender:   [{pid,<0.28598.5>},
+{'app': 'rabbitmq'} 1718532831095288234                           [{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718532831095285750                       {proc_lib,wake_up,3,
+{'app': 'rabbitmq'} 1718532831095282959                           [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718532831095279710                       {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718532831095276765                           [{file,"src/worker_pool_worker.erl"},{line,105}]},
+{'app': 'rabbitmq'} 1718532831095273545                       {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718532831095255749                           [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718532831095252882                       {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718532831095250189                           [{file,"src/rabbit_mgmt_stats.erl"},{line,65}]},
+{'app': 'rabbitmq'} 1718532831095246910                       {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718532831095244243                           [{file,"src/rabbit_mgmt_stats.erl"},{line,84}]},
+{'app': 'rabbitmq'} 1718532831095241499                       {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718532831095238722                           [{file,"src/rabbit_mgmt_stats.erl"},{line,597}]},
+{'app': 'rabbitmq'} 1718532831095235943                       {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718532831095233189                           [{file,"src/rabbit_mgmt_stats.erl"},{line,630}]},
+{'app': 'rabbitmq'} 1718532831095230202                      [{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718532831095227415      Reason:     {badarith,
+{'app': 'rabbitmq'} 1718532831095224213      Context:    child_terminated
+{'app': 'rabbitmq'} 1718532831095221423      Supervisor: {local,management_worker_pool_sup}
+{'app': 'rabbitmq'} 1718532831095217895 =SUPERVISOR REPORT==== 16-Jun-2024::10:13:51 ===
+{'app': 'rabbitmq'} 1718532831095206469 
+{'app': 'rabbitmq'} 1718532831094861896   neighbours:
+{'app': 'rabbitmq'} 1718532831094859008     reductions: 18430
+{'app': 'rabbitmq'} 1718532831094856363     stack_size: 27
+{'app': 'rabbitmq'} 1718532831094853734     heap_size: 4185
+{'app': 'rabbitmq'} 1718532831094851104     status: running
+{'app': 'rabbitmq'} 1718532831094848269     trap_exit: false
+{'app': 'rabbitmq'} 1718532831094845470                   {worker_pool_worker,true}]
+{'app': 'rabbitmq'} 1718532831094843131                               [154601157699726934|205991053487459843]}},
+{'app': 'rabbitmq'} 1718532831094840665                                 uniform_n => #Fun<rand.10.41921595>},
+{'app': 'rabbitmq'} 1718532831094838279                                 uniform => #Fun<rand.9.41921595>,
+{'app': 'rabbitmq'} 1718532831094835743                                 next => #Fun<rand.8.41921595>,type => exsplus,
+{'app': 'rabbitmq'} 1718532831094833166                   {rand_seed,{#{max => 288230376151711743,
+{'app': 'rabbitmq'} 1718532831094823155     dictionary: [{worker_pool_name,management_worker_pool},
+{'app': 'rabbitmq'} 1718532831094804941     links: [<0.538.0>]
+{'app': 'rabbitmq'} 1718532831094802044     messages: []
+{'app': 'rabbitmq'} 1718532831094799367                   rabbit_mgmt_sup_sup,<0.431.0>]
+{'app': 'rabbitmq'} 1718532831094796443     ancestors: [management_worker_pool_sup,rabbit_mgmt_sup,
+{'app': 'rabbitmq'} 1718532831094793711       in function  gen_server2:terminate/3 (src/gen_server2.erl, line 1158)
+{'app': 'rabbitmq'} 1718532831094790872                              [{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718532831094788259                          {proc_lib,wake_up,3,
+{'app': 'rabbitmq'} 1718532831094785678                              [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718532831094783161                          {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718532831094780583                              [{file,"src/worker_pool_worker.erl"},{line,105}]},
+{'app': 'rabbitmq'} 1718532831094778003                          {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718532831094775519                              [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718532831094773158                          {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718532831094770696                              [{file,"src/rabbit_mgmt_stats.erl"},{line,65}]},
+{'app': 'rabbitmq'} 1718532831094767708                          {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718532831094764815                              [{file,"src/rabbit_mgmt_stats.erl"},{line,84}]},
+{'app': 'rabbitmq'} 1718532831094761794                          {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718532831094758992                              [{file,"src/rabbit_mgmt_stats.erl"},{line,597}]},
+{'app': 'rabbitmq'} 1718532831094756181                          {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718532831094753517                              [{file,"src/rabbit_mgmt_stats.erl"},{line,630}]},
+{'app': 'rabbitmq'} 1718532831094750579                         [{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718532831094747014     exception exit: {badarith,
+{'app': 'rabbitmq'} 1718532831094726325     registered_name: []
+{'app': 'rabbitmq'} 1718532831094723345     pid: <0.28598.5>
+{'app': 'rabbitmq'} 1718532831094720011     initial call: worker_pool_worker:init/1
+{'app': 'rabbitmq'} 1718532831094716785   crasher:
+{'app': 'rabbitmq'} 1718532831094712870 =CRASH REPORT==== 16-Jun-2024::10:13:51 ===
+{'app': 'rabbitmq'} 1718532831094700106 
+{'app': 'rabbitmq'} 1718532831093951683               {proc_lib,wake_up,3,[{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718532831093948529                            [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718532831093945482               {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718532831093942767                                    {line,105}]},
+{'app': 'rabbitmq'} 1718532831093940287                                   [{file,"src/worker_pool_worker.erl"},
+{'app': 'rabbitmq'} 1718532831093937593               {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718532831093934835                               [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718532831093931923               {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718532831093929238                                   {line,65}]},
+{'app': 'rabbitmq'} 1718532831093926625                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718532831093923910               {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718532831093921014                                   {line,84}]},
+{'app': 'rabbitmq'} 1718532831093918134                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718532831093912882               {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718532831093857023                                   {line,597}]},
+{'app': 'rabbitmq'} 1718532831093854206                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718532831093851347               {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718532831093848535                                   {line,630}]},
+{'app': 'rabbitmq'} 1718532831093845810                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718532831093842745 ** {badarith,[{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718532831093839785 ** Reason for termination == 
+{'app': 'rabbitmq'} 1718532831093836697 ** When Server state == {from,<0.28611.5>,#Ref<0.0.3145729.218123>}
+{'app': 'rabbitmq'} 1718532831093833970                                reuse}
+{'app': 'rabbitmq'} 1718532831093830941 ** Last message in was {submit,#Fun<rabbit_mgmt_db.20.11931579>,<0.28611.5>,
+{'app': 'rabbitmq'} 1718532831093827480 ** Generic server <0.28598.5> terminating
+{'app': 'rabbitmq'} 1718532831093822158 =ERROR REPORT==== 16-Jun-2024::10:13:51 ===
+{'app': 'rabbitmq'} 1718532831093768740 
+{'app': 'rabbitmq'} 1718618956218183383 =ERROR REPORT==== 17-Jun-2024::10:09:16 ===
+{'app': 'rabbitmq'} 1718618956218180810 
+{'app': 'rabbitmq'} 1718618956218178390 
+{'app': 'rabbitmq'} 1718618956218176065                   {child_type,worker}]
+{'app': 'rabbitmq'} 1718618956218173504                   {shutdown,4294967295},
+{'app': 'rabbitmq'} 1718618956218170872                   {restart_type,transient},
+{'app': 'rabbitmq'} 1718618956218168249                           [management_worker_pool]}},
+{'app': 'rabbitmq'} 1718618956218165294                       {worker_pool_worker,start_link,
+{'app': 'rabbitmq'} 1718618956218162594                   {mfargs,
+{'app': 'rabbitmq'} 1718618956218160019                   {id,3},
+{'app': 'rabbitmq'} 1718618956218156138      Offender:   [{pid,<0.15557.7>},
+{'app': 'rabbitmq'} 1718618956218153820                           [{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718618956218151399                       {proc_lib,wake_up,3,
+{'app': 'rabbitmq'} 1718618956218148810                           [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718618956218146181                       {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718618956218143568                           [{file,"src/worker_pool_worker.erl"},{line,105}]},
+{'app': 'rabbitmq'} 1718618956218140994                       {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718618956218138174                           [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718618956218135270                       {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718618956218132722                           [{file,"src/rabbit_mgmt_stats.erl"},{line,65}]},
+{'app': 'rabbitmq'} 1718618956218130182                       {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718618956218127497                           [{file,"src/rabbit_mgmt_stats.erl"},{line,84}]},
+{'app': 'rabbitmq'} 1718618956218124723                       {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718618956218121456                           [{file,"src/rabbit_mgmt_stats.erl"},{line,597}]},
+{'app': 'rabbitmq'} 1718618956218116104                       {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718618956218111439                           [{file,"src/rabbit_mgmt_stats.erl"},{line,630}]},
+{'app': 'rabbitmq'} 1718618956218108659                      [{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718618956218106009      Reason:     {badarith,
+{'app': 'rabbitmq'} 1718618956218103350      Context:    child_terminated
+{'app': 'rabbitmq'} 1718618956218100589      Supervisor: {local,management_worker_pool_sup}
+{'app': 'rabbitmq'} 1718618956218097767 =SUPERVISOR REPORT==== 17-Jun-2024::10:09:16 ===
+{'app': 'rabbitmq'} 1718618956218094947 
+{'app': 'rabbitmq'} 1718618956218092527   neighbours:
+{'app': 'rabbitmq'} 1718618956218089841     reductions: 20133
+{'app': 'rabbitmq'} 1718618956218087087     stack_size: 27
+{'app': 'rabbitmq'} 1718618956218084591     heap_size: 6772
+{'app': 'rabbitmq'} 1718618956218081818     status: running
+{'app': 'rabbitmq'} 1718618956218079247     trap_exit: false
+{'app': 'rabbitmq'} 1718618956218076504                   {worker_pool_worker,true}]
+{'app': 'rabbitmq'} 1718618956218073800                               [54467184020806185|17923479522003600]}},
+{'app': 'rabbitmq'} 1718618956218070773                                 uniform_n => #Fun<rand.10.41921595>},
+{'app': 'rabbitmq'} 1718618956218065536                                 uniform => #Fun<rand.9.41921595>,
+{'app': 'rabbitmq'} 1718618956218063013                                 next => #Fun<rand.8.41921595>,type => exsplus,
+{'app': 'rabbitmq'} 1718618956218060513                   {rand_seed,{#{max => 288230376151711743,
+{'app': 'rabbitmq'} 1718618956218057857     dictionary: [{worker_pool_name,management_worker_pool},
+{'app': 'rabbitmq'} 1718618956218054884     links: [<0.538.0>]
+{'app': 'rabbitmq'} 1718618956218052222     messages: []
+{'app': 'rabbitmq'} 1718618956218049445                   rabbit_mgmt_sup_sup,<0.431.0>]
+{'app': 'rabbitmq'} 1718618956218046710     ancestors: [management_worker_pool_sup,rabbit_mgmt_sup,
+{'app': 'rabbitmq'} 1718618956218044110       in function  gen_server2:terminate/3 (src/gen_server2.erl, line 1158)
+{'app': 'rabbitmq'} 1718618956218041409                              [{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718618956218038713                          {proc_lib,wake_up,3,
+{'app': 'rabbitmq'} 1718618956218036178                              [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718618956218033456                          {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718618956218030569                              [{file,"src/worker_pool_worker.erl"},{line,105}]},
+{'app': 'rabbitmq'} 1718618956218027760                          {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718618956218024608                              [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718618956218021383                          {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718618956218018638                              [{file,"src/rabbit_mgmt_stats.erl"},{line,65}]},
+{'app': 'rabbitmq'} 1718618956218016065                          {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718618956218013360                              [{file,"src/rabbit_mgmt_stats.erl"},{line,84}]},
+{'app': 'rabbitmq'} 1718618956218010970                          {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718618956218008342                              [{file,"src/rabbit_mgmt_stats.erl"},{line,597}]},
+{'app': 'rabbitmq'} 1718618956218005818                          {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718618956218003251                              [{file,"src/rabbit_mgmt_stats.erl"},{line,630}]},
+{'app': 'rabbitmq'} 1718618956218000784                         [{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718618956217997812     exception exit: {badarith,
+{'app': 'rabbitmq'} 1718618956217994650     registered_name: []
+{'app': 'rabbitmq'} 1718618956217992000     pid: <0.15557.7>
+{'app': 'rabbitmq'} 1718618956217982938     initial call: worker_pool_worker:init/1
+{'app': 'rabbitmq'} 1718618956217979508   crasher:
+{'app': 'rabbitmq'} 1718618956217976003 =CRASH REPORT==== 17-Jun-2024::10:09:16 ===
+{'app': 'rabbitmq'} 1718618956217959802 
+{'app': 'rabbitmq'} 1718618956215647533               {proc_lib,wake_up,3,[{file,"proc_lib.erl"},{line,257}]}]}
+{'app': 'rabbitmq'} 1718618956215644844                            [{file,"src/gen_server2.erl"},{line,1024}]},
+{'app': 'rabbitmq'} 1718618956215641909               {gen_server2,handle_msg,2,
+{'app': 'rabbitmq'} 1718618956215638935                                    {line,105}]},
+{'app': 'rabbitmq'} 1718618956215636270                                   [{file,"src/worker_pool_worker.erl"},
+{'app': 'rabbitmq'} 1718618956215632963               {worker_pool_worker,handle_call,3,
+{'app': 'rabbitmq'} 1718618956215630469                               [{file,"src/rabbit_mgmt_db.erl"},{line,575}]},
+{'app': 'rabbitmq'} 1718618956215627984               {rabbit_mgmt_db,'-node_stats/3-lc$^1/1-1-',4,
+{'app': 'rabbitmq'} 1718618956215625351                                   {line,65}]},
+{'app': 'rabbitmq'} 1718618956215622940                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718618956215620161               {rabbit_mgmt_stats,format_no_range,4,
+{'app': 'rabbitmq'} 1718618956215617534                                   {line,84}]},
+{'app': 'rabbitmq'} 1718618956215615036                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718618956215612235               {rabbit_mgmt_stats,calculate_instant_rate,3,
+{'app': 'rabbitmq'} 1718618956215609705                                   {line,597}]},
+{'app': 'rabbitmq'} 1718618956215607109                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718618956215604618               {rabbit_mgmt_stats,rate_from_last_increment,4,
+{'app': 'rabbitmq'} 1718618956215601777                                   {line,630}]},
+{'app': 'rabbitmq'} 1718618956215598809                                  [{file,"src/rabbit_mgmt_stats.erl"},
+{'app': 'rabbitmq'} 1718618956215595851 ** {badarith,[{rabbit_mgmt_stats,rate_from_difference,2,
+{'app': 'rabbitmq'} 1718618956215592970 ** Reason for termination == 
+{'app': 'rabbitmq'} 1718618956215589860 ** When Server state == {from,<0.15572.7>,#Ref<0.0.4194305.43744>}
+{'app': 'rabbitmq'} 1718618956215587055                                reuse}
+{'app': 'rabbitmq'} 1718618956215584085 ** Last message in was {submit,#Fun<rabbit_mgmt_db.20.11931579>,<0.15572.7>,
+{'app': 'rabbitmq'} 1718618956215580580 ** Generic server <0.15557.7> terminating
+{'app': 'rabbitmq'} 1718619141109817763 time="2024-06-17T10:12:21Z" level=info msg="Metrics updated" duration=18.448004ms
+{'app': 'rabbitmq'} 1718619141104660390 time="2024-06-17T10:12:21Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619141104596224 time="2024-06-17T10:12:21Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619141102460994 time="2024-06-17T10:12:21Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619141102427229 time="2024-06-17T10:12:21Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619136210883319 time="2024-06-17T10:12:16Z" level=info msg="Metrics updated" duration=11.303447ms
+{'app': 'rabbitmq'} 1718619136207383149 time="2024-06-17T10:12:16Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619136207244152 time="2024-06-17T10:12:16Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619136203870296 time="2024-06-17T10:12:16Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619136202281241 time="2024-06-17T10:12:16Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619111102223395 time="2024-06-17T10:11:51Z" level=info msg="Metrics updated" duration=10.888965ms
+{'app': 'rabbitmq'} 1718619111098742872 time="2024-06-17T10:11:51Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619111098695702 time="2024-06-17T10:11:51Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619111093848695 time="2024-06-17T10:11:51Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619111093579837 time="2024-06-17T10:11:51Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619106209415340 time="2024-06-17T10:11:46Z" level=info msg="Metrics updated" duration=10.76052ms
+{'app': 'rabbitmq'} 1718619106206276827 time="2024-06-17T10:11:46Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619106206179252 time="2024-06-17T10:11:46Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619106201799308 time="2024-06-17T10:11:46Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619106201582102 time="2024-06-17T10:11:46Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619081104292618 time="2024-06-17T10:11:21Z" level=info msg="Metrics updated" duration=13.067581ms
+{'app': 'rabbitmq'} 1718619081101355549 time="2024-06-17T10:11:21Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619081101102461 time="2024-06-17T10:11:21Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619081098055735 time="2024-06-17T10:11:21Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619081097855208 time="2024-06-17T10:11:21Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619076209449931 time="2024-06-17T10:11:16Z" level=info msg="Metrics updated" duration=10.512298ms
+{'app': 'rabbitmq'} 1718619076206370910 time="2024-06-17T10:11:16Z" level=warning msg="retrieving node failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619076206164897 time="2024-06-17T10:11:16Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619076202016508 time="2024-06-17T10:11:16Z" level=warning msg="retrieving overview failed" error="Error while retrieving data from rabbitHost"
+{'app': 'rabbitmq'} 1718619076201834647 time="2024-06-17T10:11:16Z" level=error msg="Error while retrieving data from rabbitHost" error="<nil>" host="http://127.0.0.1:15672" statusCode=500
+{'app': 'rabbitmq'} 1718619051107199956 time="2024-06-17T10:10:51Z" level=info msg="Metrics updated" duration=15.814467ms
+{'app': 'user'} 1718619239147638851 ts=2024-06-17T10:13:59.147470637Z caller=middlewares.go:157 method=Health result=2 took=868.782µs
+{'app': 'user'} 1718619239147597042 ts=2024-06-17T10:13:59.147468188Z caller=middlewares.go:157 method=Health result=2 took=864.956µs
+{'app': 'user'} 1718619236151431330 ts=2024-06-17T10:13:56.151345111Z caller=middlewares.go:157 method=Health result=2 took=3.65487ms
+{'app': 'user'} 1718619236148890708 ts=2024-06-17T10:13:56.148765542Z caller=middlewares.go:157 method=Health result=2 took=1.25694ms
+{'app': 'user'} 1718619233147778441 ts=2024-06-17T10:13:53.147721551Z caller=middlewares.go:157 method=Health result=2 took=945.518µs
+{'app': 'user'} 1718619233147738213 ts=2024-06-17T10:13:53.147621807Z caller=middlewares.go:157 method=Health result=2 took=802.395µs
+{'app': 'user'} 1718619230148604492 ts=2024-06-17T10:13:50.148389806Z caller=middlewares.go:157 method=Health result=2 took=943.961µs
+{'app': 'user'} 1718619230148546890 ts=2024-06-17T10:13:50.148404247Z caller=middlewares.go:157 method=Health result=2 took=1.114676ms
+{'app': 'user'} 1718619227147980031 ts=2024-06-17T10:13:47.147825951Z caller=middlewares.go:157 method=Health result=2 took=907.85µs
+{'app': 'user'} 1718619227147929279 ts=2024-06-17T10:13:47.147806789Z caller=middlewares.go:157 method=Health result=2 took=886.724µs
+{'app': 'user'} 1718619224147591743 ts=2024-06-17T10:13:44.147427266Z caller=middlewares.go:157 method=Health result=2 took=817.08µs
+{'app': 'user'} 1718619224147560259 ts=2024-06-17T10:13:44.147427264Z caller=middlewares.go:157 method=Health result=2 took=816.321µs
+{'app': 'user'} 1718619221147686874 ts=2024-06-17T10:13:41.147635566Z caller=middlewares.go:157 method=Health result=2 took=1.244168ms
+{'app': 'user'} 1718619221147551743 ts=2024-06-17T10:13:41.147435426Z caller=middlewares.go:157 method=Health result=2 took=1.033694ms
+{'app': 'user'} 1718619218149046260 ts=2024-06-17T10:13:38.14894901Z caller=middlewares.go:157 method=Health result=2 took=1.850473ms
+{'app': 'user'} 1718619218148199525 ts=2024-06-17T10:13:38.148064684Z caller=middlewares.go:157 method=Health result=2 took=965.271µs
+{'app': 'user'} 1718619215148019753 ts=2024-06-17T10:13:35.147868777Z caller=middlewares.go:157 method=Health result=2 took=829.738µs
+{'app': 'user'} 1718619215147988618 ts=2024-06-17T10:13:35.147868773Z caller=middlewares.go:157 method=Health result=2 took=815.973µs
+{'app': 'user'} 1718619212147869167 ts=2024-06-17T10:13:32.147704233Z caller=middlewares.go:157 method=Health result=2 took=1.211391ms
+{'app': 'user'} 1718619212147817969 ts=2024-06-17T10:13:32.147699854Z caller=middlewares.go:157 method=Health result=2 took=1.205984ms
+{'app': 'user'} 1718619209148388707 ts=2024-06-17T10:13:29.14822075Z caller=middlewares.go:157 method=Health result=2 took=883.68µs
+1726408139293724868 'app': 'shipping' Adding shipment to queue...
+1726408137576673493 'app': 'shipping' Adding shipment to queue...
+1726408135288322059 'app': 'shipping' Adding shipment to queue...
+1726408133484904917 'app': 'shipping' Adding shipment to queue...
+1726408131087447641 'app': 'shipping' Adding shipment to queue...
+1726408128077543545 'app': 'shipping' Adding shipment to queue...
+1726408127383971569 'app': 'shipping' Adding shipment to queue...
+1726408125498228574 'app': 'shipping' Adding shipment to queue...
+1726408124380873450 'app': 'shipping' Adding shipment to queue...
+1726408123571567131 'app': 'shipping' Adding shipment to queue...
+1726408123275348669 'app': 'shipping' Adding shipment to queue...
+1726408122687177387 'app': 'shipping' Adding shipment to queue...
+1726408121694388147 'app': 'shipping' Adding shipment to queue...
+1726408121684600363 'app': 'shipping' Adding shipment to queue...
+1726408121387003246 'app': 'shipping' Adding shipment to queue...
+1726408119385444898 'app': 'shipping' Adding shipment to queue...
+1726408119078330072 'app': 'shipping' Adding shipment to queue...
+1726408118483492461 'app': 'shipping' Adding shipment to queue...
+1726408116138294960 'app': 'shipping' Adding shipment to queue...
+1726408115584170421 'app': 'shipping' Adding shipment to queue...
+1726408115489806623 'app': 'shipping' Adding shipment to queue...
+1726408113493385056 'app': 'shipping' Adding shipment to queue...
+1726408112527947778 'app': 'shipping' Adding shipment to queue...
+1726408112427968027 'app': 'shipping' Adding shipment to queue...
+1726408111142323161 'app': 'shipping' Adding shipment to queue...
+1726408110833717129 'app': 'shipping' Adding shipment to queue...
+1726408110744481227 'app': 'shipping' 2024-09-15 13:48:30.744  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search/{search}],methods=[HEAD],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<java.lang.Object> org.springframework.data.rest.webmvc.RepositorySearchController.headForSearch(org.springframework.data.rest.webmvc.RootResourceInformation,java.lang.String)
+1726408110744215225 'app': 'shipping' 2024-09-15 13:48:30.744  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search/{search}],methods=[OPTIONS],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<java.lang.Object> org.springframework.data.rest.webmvc.RepositorySearchController.optionsForSearch(org.springframework.data.rest.webmvc.RootResourceInformation,java.lang.String)
+1726408110743902719 'app': 'shipping' 2024-09-15 13:48:30.743  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search/{search}],methods=[GET],produces=[application/x-spring-data-compact+json]}" onto public org.springframework.hateoas.ResourceSupport org.springframework.data.rest.webmvc.RepositorySearchController.executeSearchCompact(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.util.MultiValueMap<java.lang.String, java.lang.Object>,java.lang.String,java.lang.String,org.springframework.data.rest.webmvc.support.DefaultedPageable,org.springframework.data.domain.Sort,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler)
+1726408110743563352 'app': 'shipping' 2024-09-15 13:48:30.743  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search/{search}],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<java.lang.Object> org.springframework.data.rest.webmvc.RepositorySearchController.executeSearch(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.util.MultiValueMap<java.lang.String, java.lang.Object>,java.lang.String,org.springframework.data.rest.webmvc.support.DefaultedPageable,org.springframework.data.domain.Sort,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler)
+1726408110743238404 'app': 'shipping' 2024-09-15 13:48:30.743  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.data.rest.webmvc.RepositorySearchesResource org.springframework.data.rest.webmvc.RepositorySearchController.listSearches(org.springframework.data.rest.webmvc.RootResourceInformation)
+1726408110742959382 'app': 'shipping' 2024-09-15 13:48:30.742  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search],methods=[HEAD],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.HttpEntity<?> org.springframework.data.rest.webmvc.RepositorySearchController.headForSearches(org.springframework.data.rest.webmvc.RootResourceInformation)
+1726408110742493740 'app': 'shipping' 2024-09-15 13:48:30.742  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/search],methods=[OPTIONS],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.HttpEntity<?> org.springframework.data.rest.webmvc.RepositorySearchController.optionsForSearches(org.springframework.data.rest.webmvc.RootResourceInformation)
+1726408110740588408 'app': 'shipping' 2024-09-15 13:48:30.739  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}],methods=[GET],produces=[application/x-spring-data-compact+json || text/uri-list]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.followPropertyReferenceCompact(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,java.lang.String,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws java.lang.Exception
+1726408110738703257 'app': 'shipping' 2024-09-15 13:48:30.738  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}],methods=[DELETE],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<? extends org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.deletePropertyReference(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,java.lang.String) throws java.lang.Exception
+1726408110737841219 'app': 'shipping' 2024-09-15 13:48:30.737  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.followPropertyReference(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,java.lang.String,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws java.lang.Exception
+1726408110737513279 'app': 'shipping' 2024-09-15 13:48:30.737  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}/{propertyId}],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.followPropertyReference(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,java.lang.String,java.lang.String,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws java.lang.Exception
+1726408110737214035 'app': 'shipping' 2024-09-15 13:48:30.737  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}/{propertyId}],methods=[DELETE],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.deletePropertyReferenceId(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,java.lang.String,java.lang.String) throws java.lang.Exception
+1726408110736628696 'app': 'shipping' 2024-09-15 13:48:30.736  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}/{property}],methods=[PATCH || PUT || POST],consumes=[application/json || application/x-spring-data-compact+json || text/uri-list],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<? extends org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryPropertyReferenceController.createPropertyReference(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.http.HttpMethod,org.springframework.hateoas.Resources<java.lang.Object>,java.io.Serializable,java.lang.String) throws java.lang.Exception
+1726408110733503523 'app': 'shipping' 2024-09-15 13:48:30.733  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.hateoas.Resources<?> org.springframework.data.rest.webmvc.RepositoryEntityController.getCollectionResource(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.support.DefaultedPageable,org.springframework.data.domain.Sort,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws org.springframework.data.rest.webmvc.ResourceNotFoundException,org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110733263551 'app': 'shipping' 2024-09-15 13:48:30.733  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}],methods=[HEAD],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryEntityController.headCollectionResource(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.support.DefaultedPageable) throws org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110732206520 'app': 'shipping' 2024-09-15 13:48:30.732  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}],methods=[OPTIONS],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryEntityController.optionsForCollectionResource(org.springframework.data.rest.webmvc.RootResourceInformation)
+1726408110731969119 'app': 'shipping' 2024-09-15 13:48:30.731  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[DELETE],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryEntityController.deleteItemResource(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,org.springframework.data.rest.webmvc.support.ETag) throws org.springframework.data.rest.webmvc.ResourceNotFoundException,org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110731740444 'app': 'shipping' 2024-09-15 13:48:30.731  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[PATCH],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryEntityController.patchItemResource(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.PersistentEntityResource,java.io.Serializable,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler,org.springframework.data.rest.webmvc.support.ETag,java.lang.String) throws org.springframework.web.HttpRequestMethodNotSupportedException,org.springframework.data.rest.webmvc.ResourceNotFoundException
+1726408110731276287 'app': 'shipping' 2024-09-15 13:48:30.731  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[PUT],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<? extends org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryEntityController.putItemResource(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.PersistentEntityResource,java.io.Serializable,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler,org.springframework.data.rest.webmvc.support.ETag,java.lang.String) throws org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110730763233 'app': 'shipping' 2024-09-15 13:48:30.730  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.Resource<?>> org.springframework.data.rest.webmvc.RepositoryEntityController.getItemResource(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler,org.springframework.util.MultiValueMap<java.lang.String, java.lang.String>) throws org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110730492756 'app': 'shipping' 2024-09-15 13:48:30.730  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[HEAD],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryEntityController.headForItemResource(org.springframework.data.rest.webmvc.RootResourceInformation,java.io.Serializable,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110729074846 'app': 'shipping' 2024-09-15 13:48:30.728  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}/{id}],methods=[OPTIONS],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryEntityController.optionsForItemResource(org.springframework.data.rest.webmvc.RootResourceInformation)
+1726408110726578318 'app': 'shipping' 2024-09-15 13:48:30.642  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}],methods=[POST],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<org.springframework.hateoas.ResourceSupport> org.springframework.data.rest.webmvc.RepositoryEntityController.postCollectionResource(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.PersistentEntityResource,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler,java.lang.String) throws org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110641915718 'app': 'shipping' 2024-09-15 13:48:30.641  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/{repository}],methods=[GET],produces=[application/x-spring-data-compact+json || text/uri-list]}" onto public org.springframework.hateoas.Resources<?> org.springframework.data.rest.webmvc.RepositoryEntityController.getCollectionResourceCompact(org.springframework.data.rest.webmvc.RootResourceInformation,org.springframework.data.rest.webmvc.support.DefaultedPageable,org.springframework.data.domain.Sort,org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler) throws org.springframework.data.rest.webmvc.ResourceNotFoundException,org.springframework.web.HttpRequestMethodNotSupportedException
+1726408110636197753 'app': 'shipping' 2024-09-15 13:48:30.635  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/ || ],methods=[OPTIONS],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.HttpEntity<?> org.springframework.data.rest.webmvc.RepositoryController.optionsForRepositories()
+1726408110631538749 'app': 'shipping' 2024-09-15 13:48:30.631  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/ || ],methods=[GET],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.HttpEntity<org.springframework.data.rest.webmvc.RepositoryLinksResource> org.springframework.data.rest.webmvc.RepositoryController.listRepositories()
+1726408110631119775 'app': 'shipping' 2024-09-15 13:48:30.630  INFO [shipping,5e05ad0d49218628,01ec10cd14bf8be0,false] 7 --- [p-nio-80-exec-2] o.s.d.r.w.RepositoryRestHandlerMapping   : Mapped "{[/ || ],methods=[HEAD],produces=[application/hal+json || application/json || application/*+json;charset=UTF-8]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.data.rest.webmvc.RepositoryController.headForRepositories()
+1726408110339455857 'app': 'shipping' Adding shipment to queue...
+1726408110045656040 'app': 'shipping' 2024-09-15 13:48:30.045  INFO [shipping,3003551b07cb208d,c2da30654ded247d,false] 7 --- [p-nio-80-exec-1] o.s.amqp.rabbit.core.RabbitAdmin         : Auto-declaring a non-durable, auto-delete, or exclusive Queue (shipping-task) durable:false, auto-delete:false, exclusive:false. It will be redeclared if the broker stops and is restarted while the connection factory is alive, but all messages will be lost.
+1726408110036697019 'app': 'shipping' 2024-09-15 13:48:30.036  INFO [shipping,3003551b07cb208d,c2da30654ded247d,false] 7 --- [p-nio-80-exec-1] o.s.a.r.c.CachingConnectionFactory       : Created new connection: SimpleConnection@5bd3b1d0 [delegate=amqp://guest@10.100.62.136:5672/, localPort= 58026]
+1726408109328166645 'app': 'shipping' Adding shipment to queue...
+1726408108435897279 'app': 'shipping' 2024-09-15 13:48:28.435  INFO [shipping,,,] 7 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization completed in 244 ms
+1726408108191282384 'app': 'shipping' 2024-09-15 13:48:28.191  INFO [shipping,,,] 7 --- [p-nio-80-exec-1] o.s.web.servlet.DispatcherServlet        : FrameworkServlet 'dispatcherServlet': initialization started
+1726408108190927689 'app': 'shipping' 2024-09-15 13:48:28.190  INFO [shipping,,,] 7 --- [p-nio-80-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring FrameworkServlet 'dispatcherServlet'
+1726408772813160909 'app': 'session-db' 1:M 15 Sep 2024 13:59:32.813 * Background saving terminated with success
+1726408772726318282 'app': 'session-db' 828:C 15 Sep 2024 13:59:32.726 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408772725939153 'app': 'session-db' 828:C 15 Sep 2024 13:59:32.725 * DB saved on disk
+1726408772711831921 'app': 'session-db' 1:M 15 Sep 2024 13:59:32.711 * Background saving started by pid 828
+1726408772711094690 'app': 'session-db' 1:M 15 Sep 2024 13:59:32.710 * 10000 changes in 60 seconds. Saving...
+1726408680249770641 'app': 'session-db' 1:M 15 Sep 2024 13:58:00.249 * Background saving terminated with success
+1726408680161942331 'app': 'session-db' 827:C 15 Sep 2024 13:58:00.161 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408680161341268 'app': 'session-db' 827:C 15 Sep 2024 13:58:00.161 * DB saved on disk
+1726408680148208273 'app': 'session-db' 1:M 15 Sep 2024 13:58:00.148 * Background saving started by pid 827
+1726408680147663934 'app': 'session-db' 1:M 15 Sep 2024 13:58:00.147 * 10000 changes in 60 seconds. Saving...
+1726408587410592574 'app': 'session-db' 1:M 15 Sep 2024 13:56:27.410 * Background saving terminated with success
+1726408587321861458 'app': 'session-db' 826:C 15 Sep 2024 13:56:27.321 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408587321416441 'app': 'session-db' 826:C 15 Sep 2024 13:56:27.321 * DB saved on disk
+1726408587309260077 'app': 'session-db' 1:M 15 Sep 2024 13:56:27.309 * Background saving started by pid 826
+1726408587308931711 'app': 'session-db' 1:M 15 Sep 2024 13:56:27.308 * 10000 changes in 60 seconds. Saving...
+1726408490207931729 'app': 'session-db' 1:M 15 Sep 2024 13:54:50.207 * Background saving terminated with success
+1726408490119946743 'app': 'session-db' 825:C 15 Sep 2024 13:54:50.119 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408490118907770 'app': 'session-db' 825:C 15 Sep 2024 13:54:50.118 * DB saved on disk
+1726408490106697470 'app': 'session-db' 1:M 15 Sep 2024 13:54:50.106 * Background saving started by pid 825
+1726408490106105470 'app': 'session-db' 1:M 15 Sep 2024 13:54:50.106 * 10000 changes in 60 seconds. Saving...
+1726408395826622956 'app': 'session-db' 1:M 15 Sep 2024 13:53:15.826 * Background saving terminated with success
+1726408395734606672 'app': 'session-db' 824:C 15 Sep 2024 13:53:15.734 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408395734103677 'app': 'session-db' 824:C 15 Sep 2024 13:53:15.734 * DB saved on disk
+1726408395725452485 'app': 'session-db' 1:M 15 Sep 2024 13:53:15.725 * Background saving started by pid 824
+1726408395725117946 'app': 'session-db' 1:M 15 Sep 2024 13:53:15.724 * 10000 changes in 60 seconds. Saving...
+1726408300529753812 'app': 'session-db' 1:M 15 Sep 2024 13:51:40.529 * Background saving terminated with success
+1726408300436882040 'app': 'session-db' 823:C 15 Sep 2024 13:51:40.436 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408300436536655 'app': 'session-db' 823:C 15 Sep 2024 13:51:40.436 * DB saved on disk
+1726408300433068337 'app': 'session-db' 1:M 15 Sep 2024 13:51:40.428 * Background saving started by pid 823
+1726408300428213228 'app': 'session-db' 1:M 15 Sep 2024 13:51:40.428 * 10000 changes in 60 seconds. Saving...
+1726408205017017135 'app': 'session-db' 1:M 15 Sep 2024 13:50:05.016 * Background saving terminated with success
+1726408204922745212 'app': 'session-db' 822:C 15 Sep 2024 13:50:04.922 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408204922370901 'app': 'session-db' 822:C 15 Sep 2024 13:50:04.922 * DB saved on disk
+1726408204915597472 'app': 'session-db' 1:M 15 Sep 2024 13:50:04.915 * Background saving started by pid 822
+1726408204915107277 'app': 'session-db' 1:M 15 Sep 2024 13:50:04.914 * 10000 changes in 60 seconds. Saving...
+1726408108294576189 'app': 'session-db' 1:M 15 Sep 2024 13:48:28.294 * Background saving terminated with success
+1726408108198150107 'app': 'session-db' 821:C 15 Sep 2024 13:48:28.198 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+1726408108197850156 'app': 'session-db' 821:C 15 Sep 2024 13:48:28.197 * DB saved on disk
+1726408108195569536 'app': 'session-db' 1:M 15 Sep 2024 13:48:28.193 * Background saving started by pid 821
+1726408108195544894 'app': 'session-db' 1:M 15 Sep 2024 13:48:28.192 * 100 changes in 300 seconds. Saving...
+1726408179406218430 'app': 'orders-db' 2024-09-15T13:49:39.406+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:45613 #3 (3 connections now open)
+1726408110559781118 'app': 'orders-db' 2024-09-15T13:48:30.559+0000 I  INDEX    [conn2] index build: done building index _id_ on ns data.customerOrder
+1726408110548559503 'app': 'orders-db' 2024-09-15T13:48:30.548+0000 I  STORAGE  [conn2] createCollection: data.customerOrder with generated UUID: d761b009-83f3-4be7-9968-aad50b5c0acb and options: {}
+1726408107739363736 'app': 'orders-db' 2024-09-15T13:48:27.739+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:59673 #2 (2 connections now open)
+1726408799983666037 'app': 'orders' 2024-09-15 13:59:59.983  INFO [orders,8dc5a28ecb7588e3,a50341a76c7794e4,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408799978678434 'app': 'orders' 2024-09-15 13:59:59.978  INFO [orders,8dc5a28ecb7588e3,a50341a76c7794e4,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408799872505367 'app': 'orders' 2024-09-15 13:59:59.872  INFO [orders,be0a94545052e45d,e2a188ee635f26d1,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408799868971125 'app': 'orders' 2024-09-15 13:59:59.868  INFO [orders,be0a94545052e45d,e2a188ee635f26d1,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408799785577587 'app': 'orders' 2024-09-15 13:59:59.785  INFO [orders,811b3eca759a7cf9,c9f556b91a9f415c,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408799781227056 'app': 'orders' 2024-09-15 13:59:59.781  INFO [orders,811b3eca759a7cf9,c9f556b91a9f415c,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408798471116091 'app': 'orders' 2024-09-15 13:59:58.471  INFO [orders,637b4845ac0e7e4e,a33112d4daf949a8,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408798470902636 'app': 'orders' 2024-09-15 13:59:58.470  INFO [orders,b7ceaa74429d0e5f,2e5cf4ce2d5f4e47,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408798466030988 'app': 'orders' 2024-09-15 13:59:58.465  INFO [orders,b7ceaa74429d0e5f,2e5cf4ce2d5f4e47,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408798465929988 'app': 'orders' 2024-09-15 13:59:58.465  INFO [orders,637b4845ac0e7e4e,a33112d4daf949a8,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408796580424128 'app': 'orders' 2024-09-15 13:59:56.580  INFO [orders,5fa2a08bb2cc61d5,a06b2f46ccc70a2a,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408796574901571 'app': 'orders' 2024-09-15 13:59:56.574  INFO [orders,5fa2a08bb2cc61d5,a06b2f46ccc70a2a,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408796076443739 'app': 'orders' 2024-09-15 13:59:56.076  INFO [orders,9f0223fd38979539,0a267f74b22166d8,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408796068940102 'app': 'orders' 2024-09-15 13:59:56.068  INFO [orders,9f0223fd38979539,0a267f74b22166d8,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408795776825182 'app': 'orders' 2024-09-15 13:59:55.776  INFO [orders,7cffb080dce36b20,0ee6260d80df6205,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408795772803825 'app': 'orders' 2024-09-15 13:59:55.772  INFO [orders,7cffb080dce36b20,0ee6260d80df6205,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408794482043032 'app': 'orders' 2024-09-15 13:59:54.481  INFO [orders,e35edbac7c16b42c,fbec1c7d7ae09a73,false] 7 --- [p-nio-80-exec-4] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408794475421712 'app': 'orders' 2024-09-15 13:59:54.475  INFO [orders,e35edbac7c16b42c,fbec1c7d7ae09a73,false] 7 --- [p-nio-80-exec-4] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408794379228699 'app': 'orders' 2024-09-15 13:59:54.379  INFO [orders,b1cf6e230165b0bf,a6cdf47ecc0708da,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408794372376441 'app': 'orders' 2024-09-15 13:59:54.372  INFO [orders,b1cf6e230165b0bf,a6cdf47ecc0708da,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408794082936709 'app': 'orders' 2024-09-15 13:59:54.081  INFO [orders,db8955f26f2ea244,199e66a7fda94a8e,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408794064083954 'app': 'orders' 2024-09-15 13:59:54.063  INFO [orders,db8955f26f2ea244,199e66a7fda94a8e,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408793076207519 'app': 'orders' 2024-09-15 13:59:53.076  INFO [orders,957cabcafb877445,ac8d33cf1320d5f8,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408793070772046 'app': 'orders' 2024-09-15 13:59:53.070  INFO [orders,957cabcafb877445,ac8d33cf1320d5f8,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408792284592822 'app': 'orders' 2024-09-15 13:59:52.284  INFO [orders,6471bed94b75bb2f,d7522d2377d1fc40,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408792280767079 'app': 'orders' 2024-09-15 13:59:52.280  INFO [orders,6471bed94b75bb2f,d7522d2377d1fc40,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408791975851015 'app': 'orders' 2024-09-15 13:59:51.975  INFO [orders,b437573d3d8422fc,3a411e51b74f1e75,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408791966846855 'app': 'orders' 2024-09-15 13:59:51.966  INFO [orders,b437573d3d8422fc,3a411e51b74f1e75,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408791078798346 'app': 'orders' 2024-09-15 13:59:51.078  INFO [orders,fea4443f97e05b9f,5779e3c70ad0a4ae,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408791074937972 'app': 'orders' 2024-09-15 13:59:51.074  INFO [orders,fea4443f97e05b9f,5779e3c70ad0a4ae,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408790474077833 'app': 'orders' 2024-09-15 13:59:50.473  INFO [orders,a42e516b9389019e,d6223a5391fb336c,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408790464371747 'app': 'orders' 2024-09-15 13:59:50.464  INFO [orders,a42e516b9389019e,d6223a5391fb336c,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408789274392868 'app': 'orders' 2024-09-15 13:59:49.274  INFO [orders,26172750bd3336f5,24adb8e6c24f4fad,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408789270881295 'app': 'orders' 2024-09-15 13:59:49.270  INFO [orders,26172750bd3336f5,24adb8e6c24f4fad,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408789174148013 'app': 'orders' 2024-09-15 13:59:49.174  INFO [orders,b80f3e03e8d2cf81,3b475daeea1a9237,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408789171383127 'app': 'orders' 2024-09-15 13:59:49.171  INFO [orders,a5cd7a10aa48154a,c76888da85b06d6c,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408789167448653 'app': 'orders' 2024-09-15 13:59:49.167  INFO [orders,b80f3e03e8d2cf81,3b475daeea1a9237,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408789166225168 'app': 'orders' 2024-09-15 13:59:49.166  INFO [orders,a5cd7a10aa48154a,c76888da85b06d6c,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408788872281337 'app': 'orders' 2024-09-15 13:59:48.872  INFO [orders,cda2e6255bc26087,2477f9ba541970b1,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408788866536676 'app': 'orders' 2024-09-15 13:59:48.866  INFO [orders,cda2e6255bc26087,2477f9ba541970b1,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408787978099311 'app': 'orders' 2024-09-15 13:59:47.977  INFO [orders,4cead4962f558533,d40bcb39bfa01a44,false] 7 --- [p-nio-80-exec-4] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408787973706335 'app': 'orders' 2024-09-15 13:59:47.973  INFO [orders,4cead4962f558533,d40bcb39bfa01a44,false] 7 --- [p-nio-80-exec-4] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408787581307388 'app': 'orders' 2024-09-15 13:59:47.581  INFO [orders,7dc660d598ccf2c6,37393d3b40a7b772,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408787575362252 'app': 'orders' 2024-09-15 13:59:47.575  INFO [orders,7dc660d598ccf2c6,37393d3b40a7b772,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408786871494362 'app': 'orders' 2024-09-15 13:59:46.871  INFO [orders,6be25e933d0f5243,3d6e3f7ad775ec9b,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408786867195118 'app': 'orders' 2024-09-15 13:59:46.867  INFO [orders,6be25e933d0f5243,3d6e3f7ad775ec9b,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408785384037652 'app': 'orders' 2024-09-15 13:59:45.378  INFO [orders,b11737f847fc44aa,6586ad08bd1553bf,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408785376107870 'app': 'orders' 2024-09-15 13:59:45.373  INFO [orders,b11737f847fc44aa,6586ad08bd1553bf,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408785075977840 'app': 'orders' 2024-09-15 13:59:45.075  INFO [orders,9d83dfbba1c2466e,4e992e339c5b86ef,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408785065843988 'app': 'orders' 2024-09-15 13:59:45.065  INFO [orders,9d83dfbba1c2466e,4e992e339c5b86ef,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408783179488087 'app': 'orders' 2024-09-15 13:59:43.179  INFO [orders,b049a9cbde86d50d,8c2626f4c6042026,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408783171121962 'app': 'orders' 2024-09-15 13:59:43.171  INFO [orders,b049a9cbde86d50d,8c2626f4c6042026,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408781979965451 'app': 'orders' 2024-09-15 13:59:41.979  INFO [orders,be8d49d529aa82c4,0f2928999af0e423,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408781973247240 'app': 'orders' 2024-09-15 13:59:41.973  INFO [orders,be8d49d529aa82c4,0f2928999af0e423,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408780974756883 'app': 'orders' 2024-09-15 13:59:40.974  INFO [orders,1775ab47551d956f,47dbeb6b8f1ddc5e,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408780965694614 'app': 'orders' 2024-09-15 13:59:40.965  INFO [orders,1775ab47551d956f,47dbeb6b8f1ddc5e,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408780282457916 'app': 'orders' 2024-09-15 13:59:40.282  INFO [orders,20cdc5559f689717,e90459d280cce439,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408780278990582 'app': 'orders' 2024-09-15 13:59:40.278  INFO [orders,20cdc5559f689717,e90459d280cce439,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408779787211561 'app': 'orders' 2024-09-15 13:59:39.787  INFO [orders,b077d6f931dad9dc,8d7b7e25e8a42eee,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408779783488197 'app': 'orders' 2024-09-15 13:59:39.783  INFO [orders,b077d6f931dad9dc,8d7b7e25e8a42eee,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408778670951932 'app': 'orders' 2024-09-15 13:59:38.670  INFO [orders,7b4884027e13bbf6,17b4635b8cd17d2e,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408778667073222 'app': 'orders' 2024-09-15 13:59:38.666  INFO [orders,7b4884027e13bbf6,17b4635b8cd17d2e,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408778474618053 'app': 'orders' 2024-09-15 13:59:38.474  INFO [orders,5790885a53e551cf,f60704216ca4c2d4,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408778467254343 'app': 'orders' 2024-09-15 13:59:38.467  INFO [orders,5790885a53e551cf,f60704216ca4c2d4,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408777182802919 'app': 'orders' 2024-09-15 13:59:37.179  INFO [orders,b6bd5ab24093ab2c,a3fa8d6120f5c09d,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408777174235109 'app': 'orders' 2024-09-15 13:59:37.173  INFO [orders,b6bd5ab24093ab2c,a3fa8d6120f5c09d,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408776379500905 'app': 'orders' 2024-09-15 13:59:36.379  INFO [orders,1b8eda8f537e531c,88592789718af21b,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408776376050547 'app': 'orders' 2024-09-15 13:59:36.375  INFO [orders,1b8eda8f537e531c,88592789718af21b,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408776070632517 'app': 'orders' 2024-09-15 13:59:36.070  INFO [orders,94dca57407a71941,c59c35455c30c745,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408776064322524 'app': 'orders' 2024-09-15 13:59:36.064  INFO [orders,94dca57407a71941,c59c35455c30c745,false] 7 --- [p-nio-80-exec-1] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408775083963866 'app': 'orders' 2024-09-15 13:59:35.083  INFO [orders,0edd9989f88cd363,60cb40aa2d103bf8,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408775079132971 'app': 'orders' 2024-09-15 13:59:35.079  INFO [orders,0edd9989f88cd363,60cb40aa2d103bf8,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408774687956693 'app': 'orders' 2024-09-15 13:59:34.687  INFO [orders,bb4036aa8b072057,dde780f54fec9853,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408774679517020 'app': 'orders' 2024-09-15 13:59:34.679  INFO [orders,bb4036aa8b072057,dde780f54fec9853,false] 7 --- [p-nio-80-exec-5] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408773804496508 'app': 'orders' 2024-09-15 13:59:33.804  INFO [orders,6d93c73ccfba6a1a,70eca5c2599d66cf,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408773791415027 'app': 'orders' 2024-09-15 13:59:33.791  INFO [orders,6d93c73ccfba6a1a,70eca5c2599d66cf,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408772587407244 'app': 'orders' 2024-09-15 13:59:32.587  INFO [orders,46659d64ce206eca,3861d46478bdf2c4,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408772583255069 'app': 'orders' 2024-09-15 13:59:32.583  INFO [orders,46659d64ce206eca,3861d46478bdf2c4,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408772070973687 'app': 'orders' 2024-09-15 13:59:32.070  INFO [orders,99862f6dbd065872,1041822071d1076b,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408772066960786 'app': 'orders' 2024-09-15 13:59:32.066  INFO [orders,99862f6dbd065872,1041822071d1076b,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408771983468740 'app': 'orders' 2024-09-15 13:59:31.983  INFO [orders,a8a29e4a6ceb72a1,69e46f616301ed42,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408771979900649 'app': 'orders' 2024-09-15 13:59:31.979  INFO [orders,a8a29e4a6ceb72a1,69e46f616301ed42,false] 7 --- [p-nio-80-exec-8] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408770684871047 'app': 'orders' 2024-09-15 13:59:30.684  INFO [orders,ae2c2d26b2fb5aee,aa98be7bbab2f540,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408770671806148 'app': 'orders' 2024-09-15 13:59:30.671  INFO [orders,ae2c2d26b2fb5aee,aa98be7bbab2f540,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408770270757942 'app': 'orders' 2024-09-15 13:59:30.270  INFO [orders,0302259ad4e5d82b,aa4cc93b918e6c24,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408770267176540 'app': 'orders' 2024-09-15 13:59:30.267  INFO [orders,0302259ad4e5d82b,aa4cc93b918e6c24,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408770168392397 'app': 'orders' 2024-09-15 13:59:30.168  INFO [orders,325443b60862cb54,4a43d7512c2a8884,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408770165028794 'app': 'orders' 2024-09-15 13:59:30.164  INFO [orders,325443b60862cb54,4a43d7512c2a8884,false] 7 --- [p-nio-80-exec-6] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408768986700574 'app': 'orders' 2024-09-15 13:59:28.986  INFO [orders,e0449f456a865892,a768f6ee5e62f326,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408768982546544 'app': 'orders' 2024-09-15 13:59:28.982  INFO [orders,e0449f456a865892,a768f6ee5e62f326,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408768485241349 'app': 'orders' 2024-09-15 13:59:28.485  INFO [orders,166749250dc3b03f,373b000e7307c306,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408768481567877 'app': 'orders' 2024-09-15 13:59:28.481  INFO [orders,166749250dc3b03f,373b000e7307c306,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408768371778920 'app': 'orders' 2024-09-15 13:59:28.371  INFO [orders,90d3bdfba2d7ed43,0228584f84e77534,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408768367635103 'app': 'orders' 2024-09-15 13:59:28.367  INFO [orders,90d3bdfba2d7ed43,0228584f84e77534,false] 7 --- [-nio-80-exec-10] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408766882817094 'app': 'orders' 2024-09-15 13:59:26.882  INFO [orders,2ed19a1eb3e9cb0d,1897bfa322884e5e,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408766882583528 'app': 'orders' 2024-09-15 13:59:26.882  INFO [orders,fbf1f488300a25dd,66171f9b445a4ee4,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408766876278229 'app': 'orders' 2024-09-15 13:59:26.876  INFO [orders,2ed19a1eb3e9cb0d,1897bfa322884e5e,false] 7 --- [p-nio-80-exec-7] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='7314', street='fpvodasctxpnlnqrhfizckvcwxjupk', city='vqewhmpktv', country='pozkeiffym', postcode='42625658'}, card=Card{id=null, longNum='1113441674774233', expires='8/42', ccv='617'}, customer=Customer{id=null, firstName='tesuj', lastName='vdtpc', username='bjyeazukml', addresses=[], cards=[]}}
+1726408766876017293 'app': 'orders' 2024-09-15 13:59:26.875  INFO [orders,fbf1f488300a25dd,66171f9b445a4ee4,false] 7 --- [p-nio-80-exec-3] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='2296', street='xmffktkzhwmogspzucqafoaeiyycrk', city='cyvptmvddt', country='sfkaeycrls', postcode='73516667'}, card=Card{id=null, longNum='9649362796336661', expires='6/27', ccv='421'}, customer=Customer{id=null, firstName='ndwbz', lastName='mjzya', username='mzyghypxix', addresses=[], cards=[]}}
+1726408766672331623 'app': 'orders' 2024-09-15 13:59:26.672  INFO [orders,afcdb4b4428f2260,07fa80e0202faa34,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408766667685315 'app': 'orders' 2024-09-15 13:59:26.667  INFO [orders,afcdb4b4428f2260,07fa80e0202faa34,false] 7 --- [p-nio-80-exec-9] w.w.s.o.controllers.OrdersController     : Sending payment request: PaymentRequest{address=Address{id=null, number='0022', street='sjilomntoixtwqdepekzyhgkablblz', city='ttovumxylq', country='lxaergacvc', postcode='56943324'}, card=Card{id=null, longNum='2013902252155483', expires='12/38', ccv='400'}, customer=Customer{id=null, firstName='ndhyh', lastName='bpcfu', username='cwbjbwzpjt', addresses=[], cards=[]}}
+1726408766371745661 'app': 'orders' 2024-09-15 13:59:26.371  INFO [orders,2450c143fbefa284,76767916a059a39d,false] 7 --- [p-nio-80-exec-2] w.w.s.o.controllers.OrdersController     : Received payment response: PaymentResponse{authorised=false, message=Payment declined: amount exceeds 100.00}
+1726408799999738566 'app': 'front-end' [0mGET /catalogue/images/catsocks.jpg [32m200 [0m6.893 ms - 286025[0m
+1726408799995311641 'app': 'front-end' PATCH to carts: http://carts/carts/66e6e8145e81d20001601ddb/items body: {"itemId":"3395a43e-2d88-40de-b95f-e00e1502085b","quantity":2,"unitPrice":18}
+1726408799995250948 'app': 'front-end' {'id': '3395a43e-2d88-40de-b95f-e00e1502085b', 'name': 'Colourful', 'description': 'proident occaecat irure et excepteur labore minim nisi amet irure', 'imageUrl': ['/catalogue/images/colourful_socks.jpg', '/catalogue/images/colourful_socks.jpg'], 'price': 18, 'count': 438, 'tag': ['brown', 'blue']}
+1726408799992523616 'app': 'front-end' [0mPOST /orders [33m406 [0m1100.156 ms - -[0m
+1726408799992343592 'app': 'front-end' [0mPOST /cards [32m200 [0m86.374 ms - -[0m
+1726408799988461591 'app': 'front-end' Order response: {"timestamp":1726408799984,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"}
+1726408799988450078 'app': 'front-end' Order response: {"statusCode":406,"body":{"timestamp":1726408799984,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"},"headers":{"x-application-context":"orders:80","content-type":"application/json;charset=UTF-8","date":"Sun, 15 Sep 2024 13:59:59 GMT","x-envoy-upstream-service-time":"89","server":"envoy","connection":"close","transfer-encoding":"chunked"},"request":{"uri":{"protocol":"http:","slashes":true,"auth":null,"host":"orders","port":80,"hostname":"orders","hash":null,"search":null,"query":null,"pathname":"/orders","path":"/orders","href":"http://orders/orders"},"method":"POST","headers":{"accept":"application/json","content-type":"application/json","content-length":232}}}
+1726408799986664509 'app': 'front-end' [0mGET /cart [32m200 [0m12.177 ms - -[0m
+1726408799937120637 'app': 'front-end' Attempting to update cart item: {"id":"3395a43e-2d88-40de-b95f-e00e1502085b","quantity":2}
+1726408799932688063 'app': 'front-end' [0mGET /catalogue?tags=action,green,black,red&size=4&page=2 [32m200 [0m7.800 ms - -[0m
+1726408799929491432 'app': 'front-end' [0mGET /catalogue/images/catsocks.jpg [32m200 [0m4.513 ms - 286025[0m
+1726408799926955193 'app': 'front-end' [0mPOST /cart/update [32m202 [0m34.570 ms - -[0m
+1726408799924735035 'app': 'front-end' [0mGET /catalogue/size [32m200 [0m28.347 ms - -[0m
+1726408799924671135 'app': 'front-end' [0mGET /catalogue/tags [32m200 [0m24.954 ms - -[0m
+1726408799924384698 'app': 'front-end' Customer ID: 66e6e84d5e81d20001601e17
+1726408799924367892 'app': 'front-end' Request received: /cart, undefined
+1726408799913046026 'app': 'front-end' [0mGET /catalogue/images/WAT2.jpg [32m200 [0m6.768 ms - 399224[0m
+1726408799912307753 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_2.jpeg [32m200 [0m7.051 ms - 32606[0m
+1726408799907691841 'app': 'front-end' [0mGET /catalogue [32m200 [0m17.240 ms - -[0m
+1726408799906068204 'app': 'front-end' PATCH to carts: http://carts/carts/yFt_VZgyuUr4V_lmh23H_wL8RlPs0Smn/items body: {"itemId":"510a0d7e-8e83-4193-b483-e27e09ddc34d","quantity":5,"unitPrice":15}
+1726408799905983648 'app': 'front-end' {'id': '510a0d7e-8e83-4193-b483-e27e09ddc34d', 'name': 'SuperSport XL', 'description': 'Ready for action. Engineers: be ready to smash that next bug! Be ready, with these super-action-sport-masterpieces. This particular engineer was chased away from the office with a stick.', 'imageUrl': ['/catalogue/images/puma_1.jpeg', '/catalogue/images/puma_2.jpeg'], 'price': 15, 'count': 820, 'tag': ['sport', 'black', 'formal']}
+1726408799901651701 'app': 'front-end' Posting Card: {"longNum":"9042993558783833","ccv":"677","expires":"9/30","userID":"66e6e85a5e81d20001601e25"}
+1726408799896807706 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_1.jpeg [32m200 [0m10.215 ms - 32388[0m
+1726408799896740131 'app': 'front-end' [0mGET /catalogue/images/WAT.jpg [32m200 [0m68.745 ms - 381633[0m
+1726408799891687738 'app': 'front-end' Attempting to update cart item: {"id":"510a0d7e-8e83-4193-b483-e27e09ddc34d","quantity":5}
+1726408799891431891 'app': 'front-end' [0mPOST /orders [33m406 [0m867.038 ms - -[0m
+1726408799888475491 'app': 'front-end' Order response: {"timestamp":1726408799872,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"}
+1726408799888456297 'app': 'front-end' Order response: {"statusCode":406,"body":{"timestamp":1726408799872,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"},"headers":{"x-application-context":"orders:80","content-type":"application/json;charset=UTF-8","date":"Sun, 15 Sep 2024 13:59:58 GMT","x-envoy-upstream-service-time":"71","server":"envoy","connection":"close","transfer-encoding":"chunked"},"request":{"uri":{"protocol":"http:","slashes":true,"auth":null,"host":"orders","port":80,"hostname":"orders","hash":null,"search":null,"query":null,"pathname":"/orders","path":"/orders","href":"http://orders/orders"},"method":"POST","headers":{"accept":"application/json","content-type":"application/json","content-length":232}}}
+1726408799887774999 'app': 'front-end' Posting Order: {"customer":"http://user/customers/66e6e5b05e81d20001601a87","address":"http://user/addresses/66e6e5b15e81d20001601a8a","card":"http://user/cards/66e6e5b05e81d20001601a88","items":"http://carts/carts/66e6e5b05e81d20001601a87/items"}
+1726408799887707491 'app': 'front-end' [ undefined, undefined ]
+1726408799887615157 'app': 'front-end' Received response: "{\"_embedded\":{\"card\":[{\"longNum\":\"2013902252155483\",\"expires\":\"12/38\",\"ccv\":\"400\",\"id\":\"66e6e5b05e81d20001601a88\",\"_links\":{\"card\":{\"href\":\"http://user/cards/66e6e5b05e81d20001601a88\"},\"self\":{\"href\":\"http://user/cards/66e6e5b05e81d20001601a88\"}}}]}}\n"
+1726408799887402365 'app': 'front-end' Received response: "{\"_embedded\":{\"address\":[{\"street\":\"sjilomntoixtwqdepekzyhgkablblz\",\"number\":\"0022\",\"country\":\"lxaergacvc\",\"city\":\"ttovumxylq\",\"postcode\":\"56943324\",\"id\":\"66e6e5b15e81d20001601a8a\",\"_links\":{\"address\":{\"href\":\"http://user/addresses/66e6e5b15e81d20001601a8a\"},\"self\":{\"href\":\"http://user/addresses/66e6e5b15e81d20001601a8a\"}}}]}}\n"
+1726408799821751379 'app': 'front-end' [0mGET /catalogue/images/cross_2.jpeg [32m200 [0m4.441 ms - 33687[0m
+1726408799821737623 'app': 'front-end' [0mGET /catalogue/images/cross_2.jpeg [32m200 [0m5.635 ms - 33687[0m
+1726408799819885631 'app': 'front-end' [0mGET /cart [32m200 [0m15.679 ms - -[0m
+1726408799818965516 'app': 'front-end' [0mGET /catalogue/size [32m200 [0m6.887 ms - -[0m
+1726408799815248471 'app': 'front-end' [0mGET /cart [32m200 [0m6.570 ms - -[0m
+1726408799810262661 'app': 'front-end' [0mGET /catalogue/images/cross_1.jpeg [32m200 [0m6.091 ms - 40511[0m
+1726408799809453805 'app': 'front-end' [0mGET /catalogue/images/cross_1.jpeg [32m200 [0m6.107 ms - 40511[0m
+1726408799807371664 'app': 'front-end' Customer ID: vM_iqGyxWtDAcFsj90vFY3zH39kE8qs2
+1726408799807355585 'app': 'front-end' Request received: /cart, undefined
+1726408799805055528 'app': 'front-end' [0mGET /tags [32m200 [0m75.780 ms - -[0m
+1726408799802300440 'app': 'front-end' Customer ID: 66e6e8145e81d20001601ddb
+1726408799802284317 'app': 'front-end' Request received: /cart, undefined
+1726408799800952308 'app': 'front-end' [0mPOST /orders [33m406 [0m1798.910 ms - -[0m
+1726408799799586487 'app': 'front-end' [0mGET /card [32m200 [0m95.957 ms - -[0m
+1726408799799477288 'app': 'front-end' [0mGET /customers [32m200 [0m2590.087 ms - -[0m
+1726408799799362899 'app': 'front-end' [0mGET /cards/66e6e85f5e81d20001601e2f [32m200 [0m78.923 ms - -[0m
+1726408799799219366 'app': 'front-end' [0mGET /login [33m401 [0m89.424 ms - -[0m
+1726408799798757977 'app': 'front-end' Order response: {"timestamp":1726408799786,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"}
+1726408799798706222 'app': 'front-end' Order response: {"statusCode":406,"body":{"timestamp":1726408799786,"status":406,"error":"Not Acceptable","exception":"works.weave.socks.orders.controllers.OrdersController$PaymentDeclinedException","message":"Payment declined: amount exceeds 100.00","path":"/orders"},"headers":{"x-application-context":"orders:80","content-type":"application/json;charset=UTF-8","date":"Sun, 15 Sep 2024 13:59:58 GMT","x-envoy-upstream-service-time":"188","server":"envoy","connection":"close","transfer-encoding":"chunked"},"request":{"uri":{"protocol":"http:","slashes":true,"auth":null,"host":"orders","port":80,"hostname":"orders","hash":null,"search":null,"query":null,"pathname":"/orders","path":"/orders","href":"http://orders/orders"},"method":"POST","headers":{"accept":"application/json","content-type":"application/json","content-length":232}}}
+1726408799796874465 'app': 'front-end' Posting Order: {"customer":"http://user/customers/66e6e5ad5e81d20001601a78","address":"http://user/addresses/66e6e5ad5e81d20001601a7b","card":"http://user/cards/66e6e5ad5e81d20001601a79","items":"http://carts/carts/66e6e5ad5e81d20001601a78/items"}
+1726408799796731873 'app': 'front-end' [ undefined, undefined ]
+1726408799796703029 'app': 'front-end' Received response: "{\"_embedded\":{\"address\":[{\"street\":\"xmffktkzhwmogspzucqafoaeiyycrk\",\"number\":\"2296\",\"country\":\"sfkaeycrls\",\"city\":\"cyvptmvddt\",\"postcode\":\"73516667\",\"id\":\"66e6e5ad5e81d20001601a7b\",\"_links\":{\"address\":{\"href\":\"http://user/addresses/66e6e5ad5e81d20001601a7b\"},\"self\":{\"href\":\"http://user/addresses/66e6e5ad5e81d20001601a7b\"}}}]}}\n"
+1726408799787678472 'app': 'front-end' Received response: "{\"_embedded\":{\"card\":[{\"longNum\":\"9649362796336661\",\"expires\":\"6/27\",\"ccv\":\"421\",\"id\":\"66e6e5ad5e81d20001601a79\",\"_links\":{\"card\":{\"href\":\"http://user/cards/66e6e5ad5e81d20001601a79\"},\"self\":{\"href\":\"http://user/cards/66e6e5ad5e81d20001601a79\"}}}]}}\n"
+1726408799786894115 'app': 'front-end' Error with log in: true
+1726408799786754456 'app': 'front-end' 401
+1726408799727387481 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m2.200 ms - 41167[0m
+1726408799720986564 'app': 'front-end' [0mGET /cart [32m200 [0m13.633 ms - -[0m
+1726408799720634157 'app': 'front-end' [0mGET /cart [32m200 [0m16.917 ms - -[0m
+1726408799720093075 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m3.564 ms - 39572[0m
+1726408799711917170 'app': 'front-end' [0mGET /catalogue?tags=skin,red&size=9&page=1 [32m200 [0m9.311 ms - -[0m
+1726408799709663067 'app': 'front-end' Received login request
+1726408799709165937 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m19.393 ms - 486192[0m
+1726408799706664594 'app': 'front-end' Customer ID: yFt_VZgyuUr4V_lmh23H_wL8RlPs0Smn
+1726408799706360811 'app': 'front-end' Request received: /cart, undefined
+1726408799702797023 'app': 'front-end' Customer ID: 66e6e84d5e81d20001601e17
+1726408799702700249 'app': 'front-end' Request received: /cart, undefined
+1726408799699841624 'app': 'front-end' [0mPOST /cards [32m200 [0m231.155 ms - -[0m
+1726408799699624345 'app': 'front-end' [0mGET /customers [32m200 [0m2579.486 ms - -[0m
+1726408799696493927 'app': 'front-end' GET Request to: http://user/customers/66e6e5b05e81d20001601a87/cards
+1726408799695486269 'app': 'front-end' GET Request to: http://user/customers/66e6e5b05e81d20001601a87/addresses
+1726408799695273648 'app': 'front-end' Received response: "{\"firstName\":\"ndhyh\",\"lastName\":\"bpcfu\",\"username\":\"cwbjbwzpjt\",\"id\":\"66e6e5b05e81d20001601a87\",\"_links\":{\"addresses\":{\"href\":\"http://user/customers/66e6e5b05e81d20001601a87/addresses\"},\"cards\":{\"href\":\"http://user/customers/66e6e5b05e81d20001601a87/cards\"},\"customer\":{\"href\":\"http://user/customers/66e6e5b05e81d20001601a87\"},\"self\":{\"href\":\"http://user/customers/66e6e5b05e81d20001601a87\"}}}\n"
+1726408799626116151 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m11.547 ms - 486192[0m
+1726408799623789226 'app': 'front-end' [0mGET /catalogue/size [32m200 [0m15.768 ms - -[0m
+1726408799609633261 'app': 'front-end' [0mGET /cart [32m200 [0m7.355 ms - -[0m
+1726408799607946374 'app': 'front-end' [0mGET /catalogue/images/holy_2.jpeg [32m200 [0m2.203 ms - 43812[0m
+1726408799601822235 'app': 'front-end' Customer ID: pJgyCNj8i0mNpc_SOt_emAAMoIg9SmPV
+1726408799601683965 'app': 'front-end' Request received: /cart, undefined
+1726408799601016201 'app': 'front-end' [0mGET /catalogue/images/holy_1.jpeg [32m200 [0m11.073 ms - 42201[0m
+1726408799597217425 'app': 'front-end' [0mGET /addresses [32m200 [0m1694.133 ms - -[0m
+1726408799593654506 'app': 'front-end' [0mGET /customers [32m200 [0m2792.840 ms - -[0m
+1726408799591850800 'app': 'front-end' Posting Order: {"customer":"http://user/customers/66e6e5ab5e81d20001601a6e","address":"http://user/addresses/66e6e5ab5e81d20001601a70","card":"http://user/cards/66e6e5ab5e81d20001601a6f","items":"http://carts/carts/66e6e5ab5e81d20001601a6e/items"}
+1726408799591801912 'app': 'front-end' [ undefined, undefined ]
+1726408799591670444 'app': 'front-end' Received response: "{\"_embedded\":{\"card\":[{\"longNum\":\"1113441674774233\",\"expires\":\"8/42\",\"ccv\":\"617\",\"id\":\"66e6e5ab5e81d20001601a6f\",\"_links\":{\"card\":{\"href\":\"http://user/cards/66e6e5ab5e81d20001601a6f\"},\"self\":{\"href\":\"http://user/cards/66e6e5ab5e81d20001601a6f\"}}}]}}\n"
+1726408799591358088 'app': 'front-end' GET Request to: http://user/customers/66e6e5ad5e81d20001601a78/cards
+1726408799591127578 'app': 'front-end' GET Request to: http://user/customers/66e6e5ad5e81d20001601a78/addresses
+1726408799591029682 'app': 'front-end' Received response: "{\"firstName\":\"ndwbz\",\"lastName\":\"mjzya\",\"username\":\"mzyghypxix\",\"id\":\"66e6e5ad5e81d20001601a78\",\"_links\":{\"addresses\":{\"href\":\"http://user/customers/66e6e5ad5e81d20001601a78/addresses\"},\"cards\":{\"href\":\"http://user/customers/66e6e5ad5e81d20001601a78/cards\"},\"customer\":{\"href\":\"http://user/customers/66e6e5ad5e81d20001601a78\"},\"self\":{\"href\":\"http://user/customers/66e6e5ad5e81d20001601a78\"}}}\n"
+1726408799590751232 'app': 'front-end' Received response: "{\"_embedded\":{\"address\":[{\"street\":\"fpvodasctxpnlnqrhfizckvcwxjupk\",\"number\":\"7314\",\"country\":\"pozkeiffym\",\"city\":\"vqewhmpktv\",\"postcode\":\"42625658\",\"id\":\"66e6e5ab5e81d20001601a70\",\"_links\":{\"address\":{\"href\":\"http://user/addresses/66e6e5ab5e81d20001601a70\"},\"self\":{\"href\":\"http://user/addresses/66e6e5ab5e81d20001601a70\"}}}]}}\n"
+1726408799555650108 'app': 'front-end' [0mGET /cart [32m200 [0m8.249 ms - -[0m
+1726408799550772807 'app': 'front-end' [0mGET /tags [32m200 [0m4.593 ms - -[0m
+1726408799546777031 'app': 'front-end' Customer ID: 66e6e8145e81d20001601ddb
+1726408799546717151 'app': 'front-end' Request received: /cart, undefined
+1726408799529419628 'app': 'front-end' [0mPOST /cart/update [32m202 [0m12.485 ms - -[0m
+1726408799525230670 'app': 'front-end' [0mGET /catalogue?tags=brown,sport,black,green,formal,blue,action&size=9&page=1 [32m200 [0m4.804 ms - -[0m
+1726408799521067374 'app': 'front-end' PATCH to carts: http://carts/carts/66e6e84d5e81d20001601e17/items body: {"itemId":"819e1fbf-8b7e-4f6d-811f-693534916a8b","quantity":3,"unitPrice":14}
+1726408799521004760 'app': 'front-end' {'id': '819e1fbf-8b7e-4f6d-811f-693534916a8b', 'name': 'Figueroa', 'description': 'enim officia aliqua excepteur esse deserunt quis aliquip nostrud anim', 'imageUrl': ['/catalogue/images/WAT.jpg', '/catalogue/images/WAT2.jpg'], 'price': 14, 'count': 808, 'tag': ['formal', 'green', 'blue']}
+1726408799516480748 'app': 'front-end' Attempting to update cart item: {"id":"819e1fbf-8b7e-4f6d-811f-693534916a8b","quantity":3}
+1726408799515938163 'app': 'front-end' [0mPOST /cart/update [32m202 [0m13.951 ms - -[0m
+1726408799515784643 'app': 'front-end' [0mGET /catalogue/size [32m200 [0m6.199 ms - -[0m
+1726408799511201660 'app': 'front-end' [0mGET /catalogue?tags=sport,magic,formal,geek,green,action,black,skin,red,blue,brown&size=7&page=4 [32m200 [0m5.576 ms - -[0m
+1726408799506799395 'app': 'front-end' PATCH to carts: http://carts/carts/yFt_VZgyuUr4V_lmh23H_wL8RlPs0Smn/items body: {"itemId":"808a2de1-1aaa-4c25-a9b9-6612e8f29a38","quantity":7,"unitPrice":17.32}
+1726408799506683087 'app': 'front-end' {'id': '808a2de1-1aaa-4c25-a9b9-6612e8f29a38', 'name': 'Crossed', 'description': 'A mature sock, crossed, with an air of nonchalance.', 'imageUrl': ['/catalogue/images/cross_1.jpeg', '/catalogue/images/cross_2.jpeg'], 'price': 17.32, 'count': 738, 'tag': ['blue', 'red', 'action', 'formal']}
+1726408799503236901 'app': 'front-end' [0mGET /tags [32m200 [0m4.913 ms - -[0m
+1726408799501433796 'app': 'front-end' Attempting to update cart item: {"id":"808a2de1-1aaa-4c25-a9b9-6612e8f29a38","quantity":7}
+1726408799500244395 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m3.552 ms - 41167[0m
+1726408799492022455 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m2.826 ms - 39572[0m
+1726408799485654061 'app': 'front-end' [0mGET /catalogue?size=1&page=3 [32m200 [0m5.348 ms - -[0m
+1726408799474679190 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m2.535 ms - 41167[0m
+1726408799467748189 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m2.919 ms - 39572[0m
+1726408799466327773 'app': 'front-end' Posting Card: {"longNum":"7056338005011118","ccv":"547","expires":"2/34","userID":"66e6e85e5e81d20001601e2e"}
+1726408799460797212 'app': 'front-end' [0mGET /catalogue?tags=sport,action,black,skin,formal,green,geek&size=1&page=2 [32m200 [0m4.980 ms - -[0m
+1726408799450321026 'app': 'front-end' [0mGET /catalogue/images/catsocks2.jpg [32m200 [0m2.772 ms - 333305[0m
+1726408799442699665 'app': 'front-end' [0mGET /catalogue/images/catsocks.jpg [32m200 [0m2.930 ms - 286025[0m
+1726408799433575596 'app': 'front-end' [0mGET /catalogue/images/WAT2.jpg [32m200 [0m3.670 ms - 399224[0m
+1726408799411983969 'app': 'front-end' [0mGET /catalogue/images/WAT.jpg [32m200 [0m2.825 ms - 381633[0m
+1726408799403382566 'app': 'front-end' [0mGET /catalogue/images/cross_2.jpeg [32m200 [0m2.055 ms - 33687[0m
+1726408799395935507 'app': 'front-end' [0mGET /catalogue/images/cross_1.jpeg [32m200 [0m2.249 ms - 40511[0m
+1726408799389062918 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m2.096 ms - 41167[0m
+1726408799382334230 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m2.840 ms - 39572[0m
+1726408799375298592 'app': 'front-end' [0mPOST /cart [32m201 [0m43.625 ms - -[0m
+1726408799374936615 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m8.752 ms - 486192[0m
+1726408799367230767 'app': 'front-end' [0mGET /cart [32m200 [0m6.517 ms - -[0m
+1726408799360142018 'app': 'front-end' Customer ID: yFt_VZgyuUr4V_lmh23H_wL8RlPs0Smn
+1726408799360130003 'app': 'front-end' Request received: /cart, undefined
+1726408799359768584 'app': 'front-end' [0mPOST /cart/update [32m202 [0m16.997 ms - -[0m
+1726408799359238914 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m3.635 ms - 486192[0m
+1726408799349445380 'app': 'front-end' [0mGET /catalogue/images/holy_2.jpeg [32m200 [0m2.924 ms - 43812[0m
+1726408799347950466 'app': 'front-end' PATCH to carts: http://carts/carts/66e6e84d5e81d20001601e17/items body: {"itemId":"03fef6ac-1896-4ce8-bd69-b798f85c6e0b","quantity":1,"unitPrice":99.99}
+1726408799347855487 'app': 'front-end' {'id': '03fef6ac-1896-4ce8-bd69-b798f85c6e0b', 'name': 'Holy', 'description': 'Socks fit for a Messiah. You too can experience walking in water with these special edition beauties. Each hole is lovingly proggled to leave smooth edges. The only sock approved by a higher power.', 'imageUrl': ['/catalogue/images/holy_1.jpeg', '/catalogue/images/holy_2.jpeg'], 'price': 99.99, 'count': 1, 'tag': ['magic', 'action']}
+1726408799342761078 'app': 'front-end' [0mGET /catalogue/images/holy_1.jpeg [32m200 [0m3.101 ms - 42201[0m
+1726408799342159514 'app': 'front-end' Attempting to update cart item: {"id":"03fef6ac-1896-4ce8-bd69-b798f85c6e0b","quantity":1}
+1726408799336791074 'app': 'front-end' POST to carts: http://carts/carts/66e6e8145e81d20001601ddb/items body: {"itemId":"819e1fbf-8b7e-4f6d-811f-693534916a8b","unitPrice":14}
+1726408799336720378 'app': 'front-end' {'id': '819e1fbf-8b7e-4f6d-811f-693534916a8b', 'name': 'Figueroa', 'description': 'enim officia aliqua excepteur esse deserunt quis aliquip nostrud anim', 'imageUrl': ['/catalogue/images/WAT.jpg', '/catalogue/images/WAT2.jpg'], 'price': 14, 'count': 808, 'tag': ['formal', 'green', 'blue']}
+1726408799331033112 'app': 'front-end' Attempting to add to cart: {"id":"819e1fbf-8b7e-4f6d-811f-693534916a8b"}
+1726408799308733918 'app': 'front-end' [0mGET /catalogue?tags=action,geek,green,skin,red,formal,sport&size=9&page=2 [32m200 [0m5.842 ms - -[0m
+1726408799294822365 'app': 'front-end' [0mGET /catalogue/images/classic2.jpg [32m200 [0m3.224 ms - 246759[0m
+1726408799287998572 'app': 'front-end' [0mGET /cards/66e6e85e5e81d20001601e2d [32m200 [0m600.696 ms - -[0m
+1726408799287855130 'app': 'front-end' [0mGET /catalogue?tags=geek,red,formal,magic,black,action,green,skin,sport,blue&size=6&page=1 [32m200 [0m41.530 ms - -[0m
+1726408799286013046 'app': 'front-end' [0mGET /catalogue/images/classic.jpg [32m200 [0m3.332 ms - 386242[0m
+1726408799242168789 'app': 'front-end' [0mGET /catalogue/images/youtube_2.jpeg [32m200 [0m2.263 ms - 42898[0m
+1726408799237698081 'app': 'front-end' [0mGET /catalogue?tags=skin,geek&size=9&page=3 [32m200 [0m5.011 ms - -[0m
+1726408799229505314 'app': 'front-end' [0mGET /catalogue/size [32m200 [0m7.427 ms - -[0m
+1726408799222049894 'app': 'front-end' [0mGET /catalogue/images/youtube_1.jpeg [32m200 [0m2.067 ms - 37589[0m
+1726408799216780625 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m2.513 ms - 41167[0m
+1726408799215708093 'app': 'front-end' [0mGET /tags [32m200 [0m5.199 ms - -[0m
+1726408799214610725 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_2.jpeg [32m200 [0m4.830 ms - 32606[0m
+1726408799211718070 'app': 'front-end' [0mDELETE /cart/zzz4f044-b040-410d-8ead-4de0446aec7e [32m202 [0m21.034 ms - -[0m
+1726408799211279575 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m3.773 ms - 39572[0m
+1726408799210159153 'app': 'front-end' Item deleted with status: 202
+1726408799204232459 'app': 'front-end' [0mGET /cart [32m200 [0m9.629 ms - -[0m
+1726408799203415587 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_1.jpeg [32m200 [0m4.163 ms - 32388[0m
+1726408799200764571 'app': 'front-end' [0mGET /catalogue?tags=sport,brown,geek,green&size=1&page=2 [32m200 [0m13.622 ms - -[0m
+1726408799200395664 'app': 'front-end' [0mPOST /register [32m200 [0m626.300 ms - 33[0m
+1726408799199718388 'app': 'front-end' Sent cookies.
+1726408799199313545 'app': 'front-end' set cookie66e6e85e5e81d20001601e2e
+1726408799199296610 'app': 'front-end' Carts merged.
+1726408799193608846 'app': 'front-end' Customer ID: 66e6e84d5e81d20001601e17
+1726408799193597361 'app': 'front-end' Request received: /cart, undefined
+1726408799192686593 'app': 'front-end' [0mGET /catalogue/images/catsocks2.jpg [32m200 [0m5.044 ms - 333305[0m
+1726408799189220676 'app': 'front-end' Delete item from cart: /cart/zzz4f044-b040-410d-8ead-4de0446aec7e
+1726408799186939754 'app': 'front-end' Merging carts for customer id: 66e6e85e5e81d20001601e2e and session id: AIFUgThOMJJmSrv_TrdD4ZE0LEHoqXDZ
+1726408799186881353 'app': 'front-end' 66e6e85e5e81d20001601e2e
+1726408799186860096 'app': 'front-end' { id: '66e6e85e5e81d20001601e2e' }
+1726408799140565983 'app': 'front-end' [0mGET /catalogue/images/catsocks.jpg [32m200 [0m3.501 ms - 286025[0m
+1726408799139986826 'app': 'front-end' [0mGET /catalogue/images/classic2.jpg [32m200 [0m3.265 ms - 246759[0m
+1726408799129265786 'app': 'front-end' [0mGET /cart [32m200 [0m10.344 ms - -[0m
+1726408799128789973 'app': 'front-end' [0mGET /catalogue/images/classic.jpg [32m200 [0m3.815 ms - 386242[0m
+1726408799127806683 'app': 'front-end' [0mGET /catalogue/images/WAT2.jpg [32m200 [0m3.156 ms - 399224[0m
+1726408799118215425 'app': 'front-end' Customer ID: 66e6e8145e81d20001601ddb
+1726408799118169997 'app': 'front-end' Request received: /cart, undefined
+1726408799116129516 'app': 'front-end' [0mGET /catalogue/images/youtube_2.jpeg [32m200 [0m3.235 ms - 42898[0m
+1726408799115225386 'app': 'front-end' [0mGET /catalogue/images/WAT.jpg [32m200 [0m2.642 ms - 381633[0m
+1726408799107501376 'app': 'front-end' [0mGET /catalogue/images/youtube_1.jpeg [32m200 [0m2.375 ms - 37589[0m
+1726408799106542154 'app': 'front-end' [0mGET /catalogue/images/cross_2.jpeg [32m200 [0m2.542 ms - 33687[0m
+1726408799099578984 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_2.jpeg [32m200 [0m2.740 ms - 32606[0m
+1726408799098737315 'app': 'front-end' [0mGET /catalogue/images/cross_1.jpeg [32m200 [0m2.681 ms - 40511[0m
+1726408799094280812 'app': 'front-end' [0mGET /catalogue?tags=magic,green,red,geek,brown&size=7&page=2 [32m200 [0m5.965 ms - -[0m
+1726408799091921528 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_1.jpeg [32m200 [0m3.553 ms - 32388[0m
+1726408799089724383 'app': 'front-end' [0mGET /catalogue/images/puma_2.jpeg [32m200 [0m3.056 ms - 41167[0m
+1726408799040928133 'app': 'front-end' [0mGET /catalogue/images/catsocks2.jpg [32m200 [0m2.778 ms - 333305[0m
+1726408799039882466 'app': 'front-end' [0mGET /catalogue/images/youtube_2.jpeg [32m200 [0m2.803 ms - 42898[0m
+1726408799036167066 'app': 'front-end' [0mGET /catalogue/images/puma_1.jpeg [32m200 [0m2.497 ms - 39572[0m
+1726408799030275647 'app': 'front-end' [0mGET /catalogue/images/youtube_1.jpeg [32m200 [0m2.378 ms - 37589[0m
+1726408799023947601 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_2.jpeg [32m200 [0m4.630 ms - 32606[0m
+1726408799023706922 'app': 'front-end' [0mGET /catalogue/images/catsocks.jpg [32m200 [0m3.629 ms - 286025[0m
+1726408799021543296 'app': 'front-end' Request received with body: {}
+1726408799017866438 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m2.696 ms - 486192[0m
+1726408799012256843 'app': 'front-end' [0mGET /catalogue/images/bit_of_leg_1.jpeg [32m200 [0m5.278 ms - 32388[0m
+1726408799010322991 'app': 'front-end' [0mGET /catalogue/images/WAT2.jpg [32m200 [0m6.139 ms - 399224[0m
+1726408799008679594 'app': 'front-end' [0mGET /cart [32m200 [0m14.678 ms - -[0m
+1726408799006464548 'app': 'front-end' [0mGET /cart [32m200 [0m13.313 ms - -[0m
+1726408799005601051 'app': 'front-end' [0mGET /catalogue/images/colourful_socks.jpg [32m200 [0m4.444 ms - 486192[0m
+1726408798992243848 'app': 'front-end' [0mPOST /cart [32m201 [0m93.904 ms - -[0m
+1726408798991996760 'app': 'front-end' Customer ID: 66e6e84d5e81d20001601e17
+1726408798991985077 'app': 'front-end' Request received: /cart, undefined
+1726408798991630665 'app': 'front-end' Customer ID: yFt_VZgyuUr4V_lmh23H_wL8RlPs0Smn
+1726408798991593394 'app': 'front-end' Request received: /cart, undefined
+1726408798990815153 'app': 'front-end' [0mGET /catalogue/images/WAT.jpg [32m200 [0m46.285 ms - 381633[0m
+1726408798990639555 'app': 'front-end' [0mGET /catalogue/images/catsocks2.jpg [32m200 [0m3.263 ms - 333305[0m
+1726408600214280683 'app': 'carts-db' 2024-09-15T13:56:40.214+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:57921 #8 (8 connections now open)
+1726408264113737091 'app': 'carts-db' 2024-09-15T13:51:04.113+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:36535 #7 (7 connections now open)
+1726408123716066614 'app': 'carts-db' 2024-09-15T13:48:43.715+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:40539 #6 (6 connections now open)
+1726408118599202277 'app': 'carts-db' 2024-09-15T13:48:38.599+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:56877 #5 (5 connections now open)
+1726408108706770445 'app': 'carts-db' 2024-09-15T13:48:28.706+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:44855 #4 (4 connections now open)
+1726408108703852789 'app': 'carts-db' 2024-09-15T13:48:28.703+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:37501 #3 (3 connections now open)
+1726408106604023072 'app': 'carts-db' 2024-09-15T13:48:26.603+0000 I  INDEX    [conn2] index build: done building index _id_ on ns data.item
+1726408106593132006 'app': 'carts-db' 2024-09-15T13:48:26.593+0000 I  STORAGE  [conn2] createCollection: data.item with generated UUID: 350eb4e3-f6fd-4cb9-bd4a-82f5c4c39f1c and options: {}
+1726408600221480134 'app': 'carts' 2024-09-15 13:56:40.221  INFO [carts,2781cf7416f45968,f5a0f4ec66eae2d3,false] 7 --- [-nio-80-exec-12] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:79, serverValue:8}] to carts-db:27017
+1726408264117822253 'app': 'carts' 2024-09-15 13:51:04.117  INFO [carts,135271681087b7c7,12483521d3859b8a,false] 7 --- [p-nio-80-exec-6] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:78, serverValue:7}] to carts-db:27017
+1726408123720942174 'app': 'carts' 2024-09-15 13:48:43.720  INFO [carts,f5ed4692c93a0f10,5806419980359e4e,false] 7 --- [p-nio-80-exec-6] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:77, serverValue:6}] to carts-db:27017
+1726408118604174886 'app': 'carts' 2024-09-15 13:48:38.603  INFO [carts,df00cc9712db8b8e,d8851285c0b9c46a,false] 7 --- [p-nio-80-exec-1] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:76, serverValue:5}] to carts-db:27017
+1726408108711250670 'app': 'carts' 2024-09-15 13:48:28.710  INFO [carts,f4d78fef73f9e483,d800f5b6b56f0bad,false] 7 --- [p-nio-80-exec-5] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:75, serverValue:4}] to carts-db:27017
+1726408108710590014 'app': 'carts' 2024-09-15 13:48:28.710  INFO [carts,4cbd727a8bb8e0d2,6f6fd25337385434,false] 7 --- [-nio-80-exec-10] org.mongodb.driver.connection            : Opened connection [connectionId{localValue:74, serverValue:3}] to carts-db:27017
+1726408645083258263 'app': 'carts' 2024-09-15T13:57:25.083160Z	info	xdsproxy	connected to delta upstream XDS server: istiod.istio-system.svc:15012	id=1354
