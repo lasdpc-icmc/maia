@@ -2,7 +2,7 @@ resource "helm_release" "ollama" {
   name                       = "open-webui"
   chart                      = "open-webui"
   repository                 = "https://helm.openwebui.com/"
-  version                    = "3.1.9"
+  version                    = "5.0.0"
   timeout                    = "600"
   dependency_update          = true
   values                     = [templatefile("helm-manifests/ollama.tpl", { environment = var.environment })]
