@@ -24,6 +24,7 @@ spec:
         env:
         - name: REDIS_URL
           value: redis-service.nodegraph-generator.svc.cluster.local
+      restartPolicy: OnFailure
 ---
 apiVersion: apps/v1
 kind: Deployment
