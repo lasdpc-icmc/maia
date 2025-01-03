@@ -9,25 +9,33 @@ key = os.environ['KEY_NAME']
 pushgateway_url = os.environ['PUSHGATEWAY_URL']
 metrics_filename = "/tmp/locust.metrics"
 
-# Get s3 client
+# Get S3 client
 client = boto3.client("s3")
 
 while True:
-    # Download file
-    client.download_file(bucket, key, metrics_filename)
+    try:
+        # Download file from S3
+        client.download_file(bucket, key, metrics_filename)
+        print(f"Downloaded {key} from bucket {bucket}")
 
-    # Get metrics data itself
-    metrics_file = open(metrics_filename, "rb")
-    metrics_data = metrics_file.read()
-    metrics_file.close()
+        # Read metrics data
+        with open(metrics_filename, "rb") as metrics_file:
+            metrics_data = metrics_file.read()
 
-    response = requests.post(
-        pushgateway_url + "/metrics/job/locust-metrics",
-        data=metrics_data
-    )
+        # Post metrics to Pushgateway
+        response = requests.post(
+            f"{pushgateway_url}/metrics/job/locust-metrics",
+            data=metrics_data,
+            headers={"Content-Type": "text/plain"}
+        )
 
-    if response.status_code >= 400:
-        print("Error posting metrics")
-        exit(-1)
+        if response.status_code >= 400:
+            print(f"Error posting metrics: {response.text}")
+        else:
+            print("Metrics posted successfully")
 
+    except Exception as e:
+        print(f"Error occurred: {e}")
+
+    # Wait before the next iteration
     time.sleep(20)
