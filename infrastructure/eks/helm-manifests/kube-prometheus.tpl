@@ -3381,6 +3381,10 @@ prometheus:
     ## port to 2379 and allow etcd scraping provided it is running on all Kubernetes master nodes
     ##
     additionalScrapeConfigs:
+      - job_name: 'pushgateway'
+        static_configs:
+          - targets:
+            - "pushgateway-prometheus-pushgateway:9091"
 
       - job_name: 'istiod'
         kubernetes_sd_configs:
