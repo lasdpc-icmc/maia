@@ -3,3 +3,6 @@ front-end,0.2
 carts,1.0
 catalogue, 0.9
 user, 1.0
+shipping, 0.1
+payment, 0.1
+orders, 1.0
