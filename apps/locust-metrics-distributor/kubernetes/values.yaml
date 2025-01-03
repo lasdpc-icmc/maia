@@ -19,7 +19,7 @@ spec:
       serviceAccountName: locust-distributor-serviceaccount
       containers:
       - name: locust-metrics-distributor
-        image: diegopedroso/locust-metrics-distributor:CIRCLE_TAG_REPLACE
+        image: diegopedroso/locust-metrics-distributor:20250103.04
         envFrom:
         - secretRef:
             name: locust-distributor-secrets
