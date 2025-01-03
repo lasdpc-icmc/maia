@@ -3384,7 +3384,7 @@ prometheus:
       - job_name: 'pushgateway'
         static_configs:
           - targets:
-            - "pushgateway-prometheus-pushgateway:9091"
+            - "push-gateway-prometheus-pushgateway:9091"
 
       - job_name: 'istiod'
         kubernetes_sd_configs:
