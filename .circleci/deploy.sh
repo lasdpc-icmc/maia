@@ -27,11 +27,11 @@ else
    vault_set_permissions
 fi
 
-if [ $APP == "deep-log" ]; then
+if [ $APP == "baynet" ]; then
 
-    sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/applications/values.yaml
-    kubectl_run delete job deep-log-training -n $APP | sh 2>&1 >/dev/null || true
-    kubectl_run apply -f apps/$APP/kubernetes/applications/
+    sed -i "s/CIRCLE_TAG_REPLACE/$TAG/g" apps/$APP/kubernetes/values.yaml
+    kubectl_run delete job $APP-prediction -n $APP | sh 2>&1 >/dev/null || true
+    kubectl_run apply -f apps/$APP/kubernetes/
     #check if all deploys were successfull\
     kubectl_run annotate es external-secrets-$APP force-sync=$(date +%s) --overwrite -n $APP | sh 2>&1 >/dev/null || true
 
