@@ -45,7 +45,7 @@ strategy: {}
 # -- Open WebUI image tags can be found here: https://github.com/open-webui/open-webui
 image:
   repository: ghcr.io/open-webui/open-webui
-  tag: ""
+  tag: v0.4.0
   pullPolicy: "IfNotPresent"
 
 serviceAccount:
