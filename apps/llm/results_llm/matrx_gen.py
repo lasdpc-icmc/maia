@@ -97,7 +97,7 @@ def create_confusion_matrix(file_path, output_dir):
 
     return cm
 
-input_directory = "processed_logs/"
+input_directory = "labeled_logs/"
 output_directory = "confusion_matrix_images"
 file_pattern = "*.txt"
 create_confusion_matrices_from_directory(input_directory, output_directory, file_pattern)
