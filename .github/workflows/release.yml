@@ -73,7 +73,30 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           latest_tag=${{ steps.get_latest_release.outputs.latest_tag }}
-          VERSION_TAG=${latest_tag:-v1.0.0} 
-          if [[ $(git tag -l | grep -w "$VERSION_TAG") ]]; then exit 0; fi; 
-          NEW_VERSION=$(echo $VERSION_TAG | awk -F. -v OFS=. '{$NF++;print}')
-          gh release create "v$NEW_VERSION" --title "v$NEW_VERSION" --notes "$(tail -n 1 commits.txt)" --generate-notes
+          # Remove the extra 'v' if it exists
+          if [[ "$latest_tag" == "vv"* ]]; then 
+            latest_tag="${latest_tag:1}" 
+          fi
+
+          # Extract the major version from the latest tag
+          major_version=$(echo $latest_tag | cut -d '.' -f1 | cut -d 'v' -f2)
+
+          # Check if the commit message starts with "release-"
+          commit_message=$(tail -n 1 commits.txt)
+          if [[ $commit_message == "release-"* ]]; then
+            # Increment the major version
+            major_version=$((major_version + 1))
+            VERSION_TAG="v${major_version}.0.0"
+          else
+            # Increment the minor version
+            VERSION_TAG=$(echo $latest_tag | awk -F. -v OFS=. '{$NF++;print}')
+          fi
+
+          # Check if the tag already exists
+          if [[ $(git tag -l | grep -w "$VERSION_TAG") ]]; then
+            echo "Tag $VERSION_TAG already exists, skipping release creation."
+            exit 0
+          fi
+
+          # Create a release with the incremented version tag
+          gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$commit_message" --generate-notes
