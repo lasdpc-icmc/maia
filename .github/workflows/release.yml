@@ -22,5 +22,5 @@ jobs:
         uses: saadmk11/changelog-ci@v1.1.2
         with:
           changelog_filename: CHANGELOG.md
-          release_version: ${{ github.event.inputs.release_version }}
+          release_version: "V0.1"
           github_token: ${{ secrets.GITHUB_TOKEN }}
