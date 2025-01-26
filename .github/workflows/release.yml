@@ -14,6 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/cache@v3
+        with:
+          path: commits.txt
+          key: ${{ runner.os }}-commits-${{ github.sha }}
+
       - name: Get commit history
         id: get_commits
         run: |
