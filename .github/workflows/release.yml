@@ -17,10 +17,13 @@ jobs:
       - name: Generate changelog
         run: npx standard-version --release-as minor
 
+      - name: Set git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Commit changelog
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md package.json package-lock.json
           git commit -m "chore(release): update changelog"
 
@@ -37,4 +40,3 @@ jobs:
           release_name: "Release ${{ github.ref_name }}"
           draft: false
           prerelease: false
-
