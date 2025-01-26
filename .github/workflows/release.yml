@@ -1,37 +1,45 @@
-name: Generate Changelog and Create Release
+name: Generate Changelog
 
 on:
   push:
-    branches:
-      - main
+    branches: [main] # Update to your main branch
 
 jobs:
-  build:
+  generate-changelog:
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.1.2
+      - name: Get commit history
+        id: get_commits
+        run: |
+          git log --pretty=format:'%s' -n 100 > commits.txt
+
+      - name: Generate changelog
+        uses: actions/github-script@v6
         with:
-          # Optional, you can provide any name for your changelog file,
-          # We currently support Markdown (.md) and reStructuredText (.rst) files
-          # defaults to `CHANGELOG.md` if not provided.
-          changelog_filename: CHANGELOG.rst
-          # Optional, only required when you want more customization
-          # e.g: group your changelog by labels with custom titles,
-          # different version prefix, pull request title and version number regex etc.
-          # config file can be in JSON or YAML format.
-          config_file: changelog-ci-config.json
-          # Optional, This will be used to configure git
-          # defaults to `github-actions[bot]` if not provided.
-          # Optional, only required when you want to run Changelog CI 
-          # on an event other than `pull_request` event.
-          # In this example `release_version` is fetched from `workflow_dispatch` events input.
-          # You can use any other method to fetch the release version
-          # such as environment variable or from output of another action
-          release_version: ${{ github.event.inputs.release_version }}
-          # Optional
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const commits = fs.readFileSync('commits.txt', 'utf8').split('\n');
+            let changelog = '';
+
+            commits.forEach(commit => {
+              const match = commit.match(/^(feat|fix)\((.*)\): (.*)/); 
+              if (match) {
+                const type = match[1];
+                const branch = match[2];
+                const description = match[3];
+                changelog += `* **${type}(${branch})**: ${description}\n`;
+              }
+            });
+
+            fs.writeFileSync('CHANGELOG.md', changelog);
+
+      - name: Commit and push changelog
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "github-actions@github.com"
+          git add CHANGELOG.md
+          git commit -m "Update CHANGELOG.md"
+          git push origin main
