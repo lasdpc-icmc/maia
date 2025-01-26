@@ -36,6 +36,17 @@ jobs:
 
           new_version="v${version_parts[0]}.${version_parts[1]}.$patch"
           echo "New release version: $new_version"
+          
+          # Check if the tag already exists, and increment if necessary
+          tag_exists=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r ".[].name" | grep -c "^${new_version}$")
+
+          while [ "$tag_exists" -gt 0 ]; do
+            patch=$((patch + 1))
+            new_version="v${version_parts[0]}.${version_parts[1]}.$patch"
+            echo "Tag already exists, incrementing to $new_version"
+            tag_exists=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r ".[].name" | grep -c "^${new_version}$")
+          done
+
           echo "::set-output name=new_version::$new_version"
 
       - name: Changelog
@@ -56,5 +67,3 @@ jobs:
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
           prerelease: false
-
-          
