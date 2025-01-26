@@ -45,19 +45,19 @@ jobs:
           git push origin main
 
   create-release:
-    runs-on: ubuntu-latest
-    needs: generate-changelog
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      runs-on: ubuntu-latest
+      needs: generate-changelog
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v3
 
-      - name: Create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.sha }}
-          release_name: ${{ github.sha }}
-          body: ${{ steps.generate-changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+        - name: Create release
+          uses: actions/create-release@v1
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          with:
+            tag_name: ${{ github.sha.substr(0, 7) }}  # Use the first 7 characters of SHA
+            release_name: ${{ github.sha.substr(0, 7) }}  # Use the same shortened name
+            body: ${{ steps.generate-changelog.outputs.changelog }}
+            draft: false
+            prerelease: false
