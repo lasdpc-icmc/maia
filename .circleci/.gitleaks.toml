@@ -1,0 +1,10 @@
+title = "Custom Gitleaks Config"
+description = "Configuration to reduce false positives for Generic API Key"
+version = 3
+
+[[rules]]
+id = "generic-api-key"
+description = "Exclude common false positives for Generic API Key"
+regex = '''[a-zA-Z0-9]{20,}'''
+path = '''(?i)(exclude-this-path|another-false-positive-path)'''
+tags = ["apikey"]
