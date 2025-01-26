@@ -1,1 +1,1 @@
-* **fix(MAIA-100)**: add file to fix the issue
+* **fix(MAIA-101)**: create new release
