@@ -12,7 +12,8 @@ jobs:
       - name: Get commit history
         id: get_commits
         run: |
-          git log --pretty=format:'%s' > commits.txt  # Get all commit messages
+          touch commits.txt  # Create an empty file
+          git log --pretty=format:'%s' >> commits.txt  # Append commit messages to the file
 
       - name: Generate changelog
         uses: actions/github-script@v6
@@ -90,6 +91,12 @@ jobs:
           else
             # Increment the minor version
             VERSION_TAG=$(echo $latest_tag | awk -F. -v OFS=. '{$NF++;print}')
+          fi
+
+          # Check if the incremented version already exists
+          if [[ $(git tag -l | grep -w "v$(( ${VERSION_TAG%.*} + 1 ))") ]]; then
+            echo "Tag v$(( ${VERSION_TAG%.*} + 1 )) already exists, skipping release creation."
+            exit 0
           fi
 
           # Check if the tag already exists
