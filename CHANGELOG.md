@@ -21,3 +21,5 @@
 * **feat(MAIA-114)**: create new release
 
 * **feat(MAIA-115)**: create new release
+
+* **feat(MAIA-116)**: create new release
