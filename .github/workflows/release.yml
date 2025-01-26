@@ -1,4 +1,4 @@
-name: Create Release
+name: Changelog Tracking
 
 on:
   push:
@@ -9,38 +9,30 @@ on:
 
 jobs:
   build:
-    name: Create Release
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # Checks-out your repository
+      - uses: actions/checkout@v2
+
+      - name: Run Changelog CI
+        uses: saadmk11/changelog-ci@v1.1.2
         with:
-          fetch-depth: 0
-      - name: Changelog
-        uses: Bullrich/generate-release-changelog@master
-        id: Changelog
-        env:
-          REPO: ${{ github.repository }}
-      - name: Determine Version
-        id: determine_version
-        run: |
-          # Extract major, minor, and patch from tag (e.g., v0.1.2)
-          tag="${GITHUB_REF#refs/tags/}"
-          IFS='.' read -r major minor patch <<< "$tag"
-          # Increment patch version
-          ((patch++))
-          # Construct new version string
-          new_version="v${major}.${minor}.${patch}"
-          echo "::set-output name=new_version::$new_version"
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
-        with:
-          tag_name: ${{ steps.determine_version.outputs.new_version }}
-          release_name: "Release ${{ steps.determine_version.outputs.new_version }}"
-          body: |
-            ${{ steps.Changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
+          # Optional, you can provide any name for your changelog file,
+          # We currently support Markdown (.md) and reStructuredText (.rst) files
+          # defaults to `CHANGELOG.md` if not provided.
+          changelog_filename: CHANGELOG.md
+          # Optional, only required when you want more customization
+          # e.g: group your changelog by labels with custom titles,
+          # different version prefix, pull request title and version number regex etc.
+          # config file can be in JSON or YAML format.
+          # Optional, This will be used to configure git
+          # defaults to `github-actions[bot]` if not provided.
+          # Optional, only required when you want to run Changelog CI 
+          # on an event other than `pull_request` event.
+          # In this example `release_version` is fetched from `workflow_dispatch` events input.
+          # You can use any other method to fetch the release version
+          # such as environment variable or from output of another action
+          release_version: ${{ github.event.inputs.release_version }}
+          # Optional
+          github_token: ${{ secrets.GITHUB_TOKEN }}
