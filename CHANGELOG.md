@@ -7,3 +7,5 @@
 * **feat(MAIA-107)**: create new release (#99)
 
 * **feat(MAIA-108)**: create new release
+
+* **feat(MAIA-109)**: create new release
