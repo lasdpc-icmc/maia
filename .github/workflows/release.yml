@@ -3,24 +3,30 @@ name: Changelog Tracking
 on:
   push:
     branches: [main]
-  workflow_dispatch:
-    inputs:
-      release_version:
-        description: 'Release version'
-        required: true
-        default: '1.0.0'
 
 jobs:
   build:
+    name: Create Release
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository
-      - uses: actions/checkout@v2
-
-      - name: Run Changelog CI
-        uses: saadmk11/changelog-ci@v1.1.2
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          changelog_filename: CHANGELOG.md
-          release_version: "V0.1"
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Changelog
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
+        env:
+          REPO: ${{ github.repository }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
