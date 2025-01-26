@@ -16,53 +16,30 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Get latest release version
-        id: get_version
-        run: |
-          # Fetch the latest release from GitHub
-          latest_release=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/releases/latest")
-          
-          # Extract the tag_name and strip the "v" prefix
-          version=$(echo $latest_release | jq -r .tag_name)
-          if [ "$version" == "null" ]; then
-            version="v0.1.0"
-          fi
-
-          # Increment the version (you can adjust the logic as needed)
-          IFS='.' read -r -a version_parts <<< "${version#v}"
-          patch=${version_parts[2]}
-          patch=$((patch + 1))
-
-          new_version="v${version_parts[0]}.${version_parts[1]}.$patch"
-          echo "New release version: $new_version"
-          
-          # Check if the tag already exists, and increment if necessary
-          tag_exists=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r ".[].name" | grep -c "^${new_version}$")
-
-          while [ "$tag_exists" -gt 0 ]; do
-            patch=$((patch + 1))
-            new_version="v${version_parts[0]}.${version_parts[1]}.$patch"
-            echo "Tag already exists, incrementing to $new_version"
-            tag_exists=$(curl --silent "https://api.github.com/repos/${{ github.repository }}/tags" | jq -r ".[].name" | grep -c "^${new_version}$")
-          done
-
-          echo "::set-output name=new_version::$new_version"
-
       - name: Changelog
         uses: Bullrich/generate-release-changelog@master
         id: Changelog
         env:
           REPO: ${{ github.repository }}
-
+      - name: Determine Version
+        id: determine_version
+        run: |
+          # Extract major, minor, and patch from tag (e.g., v0.1.2)
+          tag="${GITHUB_REF#refs/tags/}"
+          IFS='.' read -r major minor patch <<< "$tag"
+          # Increment patch version
+          ((patch++))
+          # Construct new version string
+          new_version="v${major}.${minor}.${patch}"
+          echo "::set-output name=new_version::$new_version"
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          tag_name: ${{ steps.get_version.outputs.new_version }}
-          release_name: Release ${{ steps.get_version.outputs.new_version }}
+          tag_name: ${{ steps.determine_version.outputs.new_version }}
+          release_name: "Release ${{ steps.determine_version.outputs.new_version }}"
           body: |
             ${{ steps.Changelog.outputs.changelog }}
           draft: false
