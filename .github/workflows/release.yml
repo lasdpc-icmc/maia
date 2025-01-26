@@ -1,3 +1,5 @@
+name: Create Release
+
 on:
   push:
     branches: [main]
@@ -6,101 +8,28 @@ on:
     branches: [main]
 
 jobs:
-  generate-changelog:
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - uses: actions/cache@v3
-        with:
-          path: commits.txt
-          key: ${{ runner.os }}-commits-${{ github.sha }}
-
-      - name: Get commit history
-        id: get_commits
-        run: |
-          touch commits.txt  # Create an empty file
-          git log --pretty=format:'%s' >> commits.txt  # Append commit messages to the file
-
-      - name: Generate changelog
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const fs = require('fs');
-            const commits = fs.readFileSync('commits.txt', 'utf8').split('\n');
-            let changelog = '';
-
-            // Append each commit to the changelog, formatted properly
-            commits.forEach(commit => {
-              const match = commit.match(/^(feat|fix)\((.*)\): (.*)/);
-              if (match) {
-                const type = match[1];
-                const branch = match[2];
-                const description = match[3];
-                changelog += `* **${type}(${branch})**: ${description}\n`;
-              }
-            });
-
-            // Read current changelog file if it exists, and append new content
-            if (fs.existsSync('CHANGELOG.md')) {
-              const existingChangelog = fs.readFileSync('CHANGELOG.md', 'utf8');
-              changelog = existingChangelog + '\n' + changelog;
-            }
-
-            // Write the updated changelog to the file
-            fs.writeFileSync('CHANGELOG.md', changelog);
-
-      - name: Commit and push changelog
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "github-actions@github.com"
-          git add CHANGELOG.md
-          git commit -m "Update CHANGELOG.md"
-          git push origin main
-
-      - name: Get the latest release tag
-        id: get_latest_release
-        run: |
-          latest_tag=$(git tag -l "v*" | sort -V | tail -n 1)
-          if [ -z "$latest_tag" ]; then
-            latest_tag="v1.0.0"  # Default if no tags exist
-          fi
-          echo "Latest tag is $latest_tag"
-          echo "::set-output name=latest_tag::$latest_tag" 
-
-  create-release:
-    runs-on: ubuntu-latest
-    needs: generate-changelog
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create new release tag
-        id: create_release
+      - name: Changelog
+        uses: Bullrich/generate-release-changelog@master
+        id: Changelog
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          latest_tag=${{ steps.get_latest_release.outputs.latest_tag }}
-          # Remove the extra 'v' if it exists
-          if [[ "$latest_tag" == "vv"* ]]; then 
-            latest_tag="${latest_tag:1}" 
-          fi
-
-          # Extract the major version from the latest tag
-          major_version=$(echo $latest_tag | cut -d '.' -f1 | cut -d 'v' -f2)
-
-          # Increment the major version for all releases
-          major_version=$((major_version + 1)) 
-          VERSION_TAG="v${major_version}.0.0"
-
-          # Check if the tag already exists
-          if [[ $(git tag -l | grep -w "$VERSION_TAG") ]]; then
-            echo "Tag $VERSION_TAG already exists, skipping release creation."
-            exit 0
-          fi
-
-          # Create a release with the incremented version tag
-          gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$(tail -n 1 commits.txt)" --generate-notes
+          REPO: ${{ github.repository }}
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ${{ steps.Changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
