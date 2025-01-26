@@ -21,7 +21,6 @@ jobs:
             const fs = require('fs');
             const commits = fs.readFileSync('commits.txt', 'utf8').split('\n');
             let changelog = '';
-            let versionTag = '';
 
             // Append each commit to the changelog, formatted properly
             commits.forEach(commit => {
@@ -51,19 +50,28 @@ jobs:
           git commit -m "Update CHANGELOG.md"
           git push origin main
 
-      - name: Create GitHub release
+      - name: Get the latest release tag
+        id: get_latest_release
+        run: |
+          latest_tag=$(git tag -l "v*" | sort -V | tail -n 1)
+          echo "Latest tag is $latest_tag"
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+
+      - name: Create new release tag
         id: create_release
         run: |
-          # Get the latest commit message that will serve as the release title
-          COMMIT_MESSAGE=$(tail -n 1 commits.txt)
-          VERSION_TAG=$(echo "$COMMIT_MESSAGE" | grep -oP '^feat\([^)]+\): \K.+' | sed 's/ /_/g')
-
-          # If no valid commit message found, use a default version tag
+          # Get the latest tag and increment the version
+          VERSION_TAG=${{ env.latest_tag }}
           if [ -z "$VERSION_TAG" ]; then
-            VERSION_TAG="v0.1.0"
+            VERSION_TAG="v1.0.0"
+          else
+            # Increment the version number (last part of the tag)
+            NEW_VERSION=$(echo $VERSION_TAG | awk -F. -v OFS=. '{$NF++;print}')
+            VERSION_TAG="v$NEW_VERSION"
           fi
 
-          # Create a release with the extracted version tag
+          # Create a release with the new version tag
+          COMMIT_MESSAGE=$(tail -n 1 commits.txt)
           gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$COMMIT_MESSAGE" --generate-notes
 
         env:
