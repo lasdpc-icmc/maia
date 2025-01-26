@@ -12,7 +12,7 @@ jobs:
       - name: Get commit history
         id: get_commits
         run: |
-          git log --pretty=format:'%s' > commits.txt  # Removed the -n 100 flag
+          git log --pretty=format:'%s' > commits.txt  # Get all commit messages
 
       - name: Generate changelog
         uses: actions/github-script@v6
@@ -21,9 +21,11 @@ jobs:
             const fs = require('fs');
             const commits = fs.readFileSync('commits.txt', 'utf8').split('\n');
             let changelog = '';
+            let versionTag = '';
 
+            // Append each commit to the changelog, formatted properly
             commits.forEach(commit => {
-              const match = commit.match(/^(feat|fix)\((.*)\): (.*)/); 
+              const match = commit.match(/^(feat|fix)\((.*)\): (.*)/);
               if (match) {
                 const type = match[1];
                 const branch = match[2];
@@ -32,6 +34,13 @@ jobs:
               }
             });
 
+            // Read current changelog file if it exists, and append new content
+            if (fs.existsSync('CHANGELOG.md')) {
+              const existingChangelog = fs.readFileSync('CHANGELOG.md', 'utf8');
+              changelog = existingChangelog + '\n' + changelog;
+            }
+
+            // Write the updated changelog to the file
             fs.writeFileSync('CHANGELOG.md', changelog);
 
       - name: Commit and push changelog
