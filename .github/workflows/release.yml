@@ -2,7 +2,7 @@ name: Generate Changelog
 
 on:
   push:
-    branches: [main] # Update to your main branch
+    branches: [main]
 
 jobs:
   generate-changelog:
