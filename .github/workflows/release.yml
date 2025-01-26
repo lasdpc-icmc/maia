@@ -82,22 +82,9 @@ jobs:
           # Extract the major version from the latest tag
           major_version=$(echo $latest_tag | cut -d '.' -f1 | cut -d 'v' -f2)
 
-          # Check if the commit message starts with "release-"
-          commit_message=$(tail -n 1 commits.txt)
-          if [[ $commit_message == "release-"* ]]; then
-            # Increment the major version
-            major_version=$((major_version + 1))
-            VERSION_TAG="v${major_version}.0.0"
-          else
-            # Increment the minor version
-            VERSION_TAG=$(echo $latest_tag | awk -F. -v OFS=. '{$NF++;print}')
-          fi
-
-          # Check if the incremented version already exists
-          if [[ $(git tag -l | grep -w "v$(( ${VERSION_TAG%.*} + 1 ))") ]]; then
-            echo "Tag v$(( ${VERSION_TAG%.*} + 1 )) already exists, skipping release creation."
-            exit 0
-          fi
+          # Increment the major version for all releases
+          major_version=$((major_version + 1)) 
+          VERSION_TAG="v${major_version}.0.0"
 
           # Check if the tag already exists
           if [[ $(git tag -l | grep -w "$VERSION_TAG") ]]; then
@@ -106,4 +93,4 @@ jobs:
           fi
 
           # Create a release with the incremented version tag
-          gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$commit_message" --generate-notes
+          gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$(tail -n 1 commits.txt)" --generate-notes
