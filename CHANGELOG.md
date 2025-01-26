@@ -3,3 +3,5 @@
 * **fix(MAIA-105)**: create new release
 
 * **fix(MAIA-106)**: create new release
+
+* **feat(MAIA-107)**: create new release (#99)
