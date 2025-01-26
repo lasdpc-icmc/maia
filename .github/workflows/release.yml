@@ -73,7 +73,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           latest_tag=${{ steps.get_latest_release.outputs.latest_tag }}
+          # Remove the extra 'v' if it exists
+          if [[ "$latest_tag" == "vv"* ]]; then 
+            latest_tag="${latest_tag:1}" 
+          fi
           VERSION_TAG=${latest_tag:-v1.0.0} 
           if [[ $(git tag -l | grep -w "$VERSION_TAG") ]]; then exit 0; fi; 
           NEW_VERSION=$(echo $VERSION_TAG | awk -F. -v OFS=. '{$NF++;print}')
-          gh release create "v$NEW_VERSION" --title "v$NEW_VERSION" --notes "$(tail -n 1 commits.txt)" --generate-notes
+          gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$(tail -n 1 commits.txt)" --generate-notes
