@@ -55,7 +55,7 @@ jobs:
         run: |
           latest_tag=$(git tag -l "v*" | sort -V | tail -n 1)
           if [ -z "$latest_tag" ]; then
-            latest_tag="1.0.0"  # Default if no tags exist
+            latest_tag="v1.0.0"  # Default if no tags exist
           fi
           echo "Latest tag is $latest_tag"
           echo "::set-output name=latest_tag::$latest_tag" 
