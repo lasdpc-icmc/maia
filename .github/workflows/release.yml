@@ -94,4 +94,3 @@ jobs:
 
           # Create a release with the incremented version tag
           gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$(tail -n 1 commits.txt)" --generate-notes
-          
