@@ -70,6 +70,13 @@ jobs:
             VERSION_TAG="v$NEW_VERSION"
           fi
 
+          # Check if the tag already exists
+          TAG_EXISTS=$(git tag -l | grep -w "$VERSION_TAG")
+          if [ -n "$TAG_EXISTS" ]; then
+            echo "Tag $VERSION_TAG already exists, skipping release creation."
+            exit 0
+          fi
+
           # Create a release with the new version tag
           COMMIT_MESSAGE=$(tail -n 1 commits.txt)
           gh release create "$VERSION_TAG" --title "$VERSION_TAG" --notes "$COMMIT_MESSAGE" --generate-notes
