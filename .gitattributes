@@ -1,5 +1,14 @@
+# Ignore template files (probably being detected as Smarty)
+*.tpl linguist-detectable=false
 *.html linguist-detectable=false
-*.css linguist-detectable=false
-*.js linguist-detectable=false
+
+# Ignore HCL files
+*.tf linguist-detectable=false
+*.tfvars linguist-detectable=false
+
+# Ignore shell scripts if desired
+*.sh linguist-detectable=false
+
+# Force Python detection
 *.py linguist-language=Python
 
