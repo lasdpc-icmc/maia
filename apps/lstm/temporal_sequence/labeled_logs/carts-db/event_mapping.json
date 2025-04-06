@@ -1,0 +1,10 @@
+{
+    "connection accepted from 127.0.0.6:57921 #8 (8 connections now open)": 1,
+    "connection accepted from 127.0.0.6:36535 #7 (7 connections now open)": 2,
+    "connection accepted from 127.0.0.6:40539 #6 (6 connections now open)": 3,
+    "connection accepted from 127.0.0.6:56877 #5 (5 connections now open)": 4,
+    "connection accepted from 127.0.0.6:44855 #4 (4 connections now open)": 5,
+    "connection accepted from 127.0.0.6:37501 #3 (3 connections now open)": 6,
+    "index build: done building index _id_ on ns data.item": 7,
+    "createCollection: data.item with generated UUID: 350eb4e3-f6fd-4cb9-bd4a-82f5c4c39f1c and options: {}": 8
+}

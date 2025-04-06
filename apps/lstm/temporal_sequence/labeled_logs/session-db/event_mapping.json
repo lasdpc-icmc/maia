@@ -1,0 +1,7 @@
+{
+    "<NUM>:M <NUM> Sep <NUM> <NUM>:<NUM>:<NUM>.<NUM> * Background saving terminated with success": 1,
+    "<NUM>:C <NUM> Sep <NUM> <NUM>:<NUM>:<NUM>.<NUM> * Fork CoW for RDB: current <NUM> MB, peak <NUM> MB, average <NUM> MB": 2,
+    "<NUM>:C <NUM> Sep <NUM> <NUM>:<NUM>:<NUM>.<NUM> * DB saved on disk": 3,
+    "<NUM>:M <NUM> Sep <NUM> <NUM>:<NUM>:<NUM>.<NUM> * Background saving started by pid <NUM>": 4,
+    "<NUM>:M <NUM> Sep <NUM> <NUM>:<NUM>:<NUM>.<NUM> * <NUM> changes in <NUM> seconds. Saving...": 5
+}

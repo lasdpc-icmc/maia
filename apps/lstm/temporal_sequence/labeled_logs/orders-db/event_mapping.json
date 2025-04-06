@@ -1,0 +1,5 @@
+{
+    "<NUM>-<NUM>-<NUM>T<NUM>:<NUM>:<NUM>.<NUM>+<NUM> I  NETWORK  [listener] connection accepted from <IP>:<NUM> #<NUM> (<NUM> connections now open)": 1,
+    "<NUM>-<NUM>-<NUM>T<NUM>:<NUM>:<NUM>.<NUM>+<NUM> I  INDEX    [conn<NUM>] index build: done building index _id_ on ns data.customerOrder": 2,
+    "<NUM>-<NUM>-<NUM>T<NUM>:<NUM>:<NUM>.<NUM>+<NUM> I  STORAGE  [conn<NUM>] createCollection: data.customerOrder with generated UUID: <ID> and options: {}": 3
+}
