@@ -1,0 +1,111 @@
+Starting Drain3 template miner
+Checking for saved state
+Restored 24 clusters built from 63258 messages
+Processing line: 10000, rate 15051.6 lines/sec, 24 clusters so far.
+Processing line: 20000, rate 14666.6 lines/sec, 24 clusters so far.
+Processing line: 30000, rate 15080.8 lines/sec, 24 clusters so far.
+Processing line: 40000, rate 14891.9 lines/sec, 24 clusters so far.
+Processing line: 50000, rate 14025.9 lines/sec, 24 clusters so far.
+Processing line: 60000, rate 12512.9 lines/sec, 24 clusters so far.
+Processing line: 70000, rate 14967.1 lines/sec, 24 clusters so far.
+--- Done processing file in 4.86 sec. Total of 70000 lines, rate 14398.2 lines/sec, 24 clusters
+ID=3     : size=67073     : 'ts= <:*:> method=Health result=<:NUM:> <:*:>
+ID=12    : size=32271     : <:*:> caller=middlewares.go:<:NUM:> method=Health result=<:NUM:> <:*:>
+ID=1     : size=29800     : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> <:*:> <:*:> - - <:NUM:> <:NUM:> <:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:*:> default\n',
+ID=7     : size=3228      : 'time= level=info msg=Metrics updated <:*:>
+ID=2     : size=387       : '\tinfo\txdsproxy\tconnected to upstream XDS server: istiod.istio-system.svc:<:NUM:>\n',
+ID=4     : size=160       : <:*:> <:*:> \x1b[33m404 <:*:> ms - <:NUM:>\x1b[0m\n',
+ID=6     : size=118       : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=11    : size=26        : '<:NUM:>:M <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * <:*:> <:*:> <:*:> <:*:> <:*:> <:*:>
+ID=16    : size=26        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; Win64; x64) AppleWebKit/<:NUM:>.<:NUM:> (KHTML, like Gecko) <:*:> Safari/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=17    : size=24        : '\tinfo\tcache\tgenerated new workload <:*:> <:*:>
+ID=18    : size=24        : '\tinfo\tads\tXDS: Incremental Pushing:<:NUM:> ConnectedEndpoints:<:NUM:> Version:\n',
+ID=15    : size=18        : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#<:NUM:>; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com <:*:> <:*:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=22    : size=16        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=8     : size=13        : '<:NUM:>:M <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * Background saving terminated with success\n',
+ID=9     : size=13        : '<:NUM:>:C <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * Fork CoW for RDB: current <:NUM:> MB, peak <:NUM:> MB, average <:NUM:> MB\n',
+ID=10    : size=13        : '<:NUM:>:C <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * DB saved on disk\n',
+ID=21    : size=12        : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; WOW64; rv:<:NUM:>.<:NUM:>) Gecko/<:NUM:> Firefox/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=20    : size=10        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=14    : size=8         : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html) <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=5     : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (iPhone; CPU iPhone OS <:NUM:>_<:NUM:>_<:NUM:> like Mac OS X) AppleWebKit/<:NUM:>.<:NUM:>.<:NUM:> (KHTML, like Gecko) Version/<:NUM:>.<:NUM:>.<:NUM:> Mobile/15E148 Safari/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=19    : size=4         : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; Win64; x64; rv:<:NUM:>.<:NUM:>) Gecko/<:NUM:> Firefox/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=23    : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; WOW64) AppleWebKit/<:NUM:>.<:NUM:> (KHTML, like Gecko) Chrome/<:NUM:>.<:NUM:>.<:NUM:>.<:NUM:> Safari/<:NUM:>.<:NUM:> <:*:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=24    : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Linux Gnu (cow) <:*:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+ID=13    : size=2         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> HTTP Banner Detection (https://security.ipip.net) 80722f87-<:NUM:>-92e3-b8ff-aaf6684e6a5f <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+Prefix Tree:
+<root>
+	<L=24>
+		"'" (cluster_count=1)
+			ID=1     : size=29800     : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> <:*:> <:*:> - - <:NUM:> <:NUM:> <:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:*:> default\n',
+	<L=6>
+		"'\tinfo\txdsproxy\tconnected" (cluster_count=1)
+			ID=2     : size=387       : '\tinfo\txdsproxy\tconnected to upstream XDS server: istiod.istio-system.svc:<:NUM:>\n',
+	<L=5>
+		"'ts=" (cluster_count=1)
+			ID=3     : size=67073     : 'ts= <:*:> method=Health result=<:NUM:> <:*:>
+		"'time=" (cluster_count=1)
+			ID=7     : size=3228      : 'time= level=info msg=Metrics updated <:*:>
+		"<:*:>" (cluster_count=1)
+			ID=12    : size=32271     : <:*:> caller=middlewares.go:<:NUM:> method=Health result=<:NUM:> <:*:>
+		"'\tinfo\tcache\tgenerated" (cluster_count=1)
+			ID=17    : size=24        : '\tinfo\tcache\tgenerated new workload <:*:> <:*:>
+		"'\tinfo\tads\tXDS:" (cluster_count=1)
+			ID=18    : size=24        : '\tinfo\tads\tXDS: Incremental Pushing:<:NUM:> ConnectedEndpoints:<:NUM:> Version:\n',
+	<L=7>
+		"<:*:>" (cluster_count=1)
+			ID=4     : size=160       : <:*:> <:*:> \x1b[33m404 <:*:> ms - <:NUM:>\x1b[0m\n',
+	<L=40>
+		"'" (cluster_count=1)
+			ID=5     : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (iPhone; CPU iPhone OS <:NUM:>_<:NUM:>_<:NUM:> like Mac OS X) AppleWebKit/<:NUM:>.<:NUM:>.<:NUM:> (KHTML, like Gecko) Version/<:NUM:>.<:NUM:>.<:NUM:> Mobile/15E148 Safari/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=33>
+		"'" (cluster_count=1)
+			ID=6     : size=118       : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=11>
+		"'<:NUM:>:M" (cluster_count=1)
+			ID=8     : size=13        : '<:NUM:>:M <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * Background saving terminated with success\n',
+	<L=19>
+		"'<:NUM:>:C" (cluster_count=1)
+			ID=9     : size=13        : '<:NUM:>:C <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * Fork CoW for RDB: current <:NUM:> MB, peak <:NUM:> MB, average <:NUM:> MB\n',
+	<L=10>
+		"'<:NUM:>:C" (cluster_count=1)
+			ID=10    : size=13        : '<:NUM:>:C <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * DB saved on disk\n',
+	<L=12>
+		"'<:NUM:>:M" (cluster_count=1)
+			ID=11    : size=26        : '<:NUM:>:M <:NUM:> Dec <:NUM:> <:NUM:>:<:NUM:>:<:NUM:>.<:NUM:> * <:*:> <:*:> <:*:> <:*:> <:*:> <:*:>
+	<L=27>
+		"'" (cluster_count=1)
+			ID=13    : size=2         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> HTTP Banner Detection (https://security.ipip.net) 80722f87-<:NUM:>-92e3-b8ff-aaf6684e6a5f <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=29>
+		"'" (cluster_count=1)
+			ID=14    : size=8         : ' <:*:> <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (compatible; Nmap Scripting Engine; https://nmap.org/book/nse.html) <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=62>
+		"'" (cluster_count=1)
+			ID=15    : size=18        : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Expanse, a Palo Alto Networks company, searches across the global IPv4 space multiple times per day to identify customers&#<:NUM:>; presences on the Internet. If you would like to be excluded from our scans, please send IP addresses/domains to: scaninfo@paloaltonetworks.com <:*:> <:*:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=35>
+		"'" (cluster_count=1)
+			ID=16    : size=26        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; Win64; x64) AppleWebKit/<:NUM:>.<:NUM:> (KHTML, like Gecko) <:*:> Safari/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=32>
+		"'" (cluster_count=1)
+			ID=19    : size=4         : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; Win64; x64; rv:<:NUM:>.<:NUM:>) Gecko/<:NUM:> Firefox/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=36>
+		"'" (cluster_count=1)
+			ID=20    : size=10        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=31>
+		"'" (cluster_count=1)
+			ID=21    : size=12        : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; WOW64; rv:<:NUM:>.<:NUM:>) Gecko/<:NUM:> Firefox/<:NUM:>.<:NUM:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=25>
+		"'" (cluster_count=1)
+			ID=22    : size=16        : ' GET <:*:> HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> <:*:> <:*:> <:IP:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=34>
+		"'" (cluster_count=1)
+			ID=23    : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Mozilla/<:NUM:>.<:NUM:> (Windows NT <:NUM:>.<:NUM:>; WOW64) AppleWebKit/<:NUM:>.<:NUM:> (KHTML, like Gecko) Chrome/<:NUM:>.<:NUM:>.<:NUM:>.<:NUM:> Safari/<:NUM:>.<:NUM:> <:*:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+	<L=26>
+		"'" (cluster_count=1)
+			ID=24    : size=4         : ' GET / HTTP/<:NUM:>.<:NUM:> <:NUM:> - via_upstream - - <:NUM:> <:NUM:> <:NUM:> <:NUM:> <:IP:> Linux Gnu (cow) <:*:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> inbound|<:NUM:>|| <:IP:>:<:NUM:> <:IP:>:<:NUM:> <:IP:>:<:NUM:> outbound_.<:NUM:>_.v1_.front-end.sock-shop.svc.cluster.local default\n',
+total          : took     3.72 s (100.00%),     70,000 samples,   53.12 ms / 1000 samples,       18,824.62 hz
+mask           : took     2.47 s ( 66.37%),     70,000 samples,   35.26 ms / 1000 samples,       28,362.59 hz
+drain          : took     0.85 s ( 22.73%),     70,000 samples,   12.08 ms / 1000 samples,       82,811.12 hz
+tree_search    : took     0.35 s (  9.39%),     70,000 samples,    4.99 ms / 1000 samples,      200,529.79 hz
+cluster_exist  : took     0.20 s (  5.29%),     70,000 samples,    2.81 ms / 1000 samples,      355,560.55 hz
+save_state     : took     0.06 s (  1.74%),     70,000 samples,    0.92 ms / 1000 samples,    1,084,944.90 hz

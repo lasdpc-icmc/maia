@@ -1,0 +1,4 @@
+1726408179406218430 'app': 'orders-db' 2024-09-15T13:49:39.406+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:45613 #3 (3 connections now open)
+1726408110559781118 'app': 'orders-db' 2024-09-15T13:48:30.559+0000 I  INDEX    [conn2] index build: done building index _id_ on ns data.customerOrder
+1726408110548559503 'app': 'orders-db' 2024-09-15T13:48:30.548+0000 I  STORAGE  [conn2] createCollection: data.customerOrder with generated UUID: d761b009-83f3-4be7-9968-aad50b5c0acb and options: {}
+1726408107739363736 'app': 'orders-db' 2024-09-15T13:48:27.739+0000 I  NETWORK  [listener] connection accepted from 127.0.0.6:59673 #2 (2 connections now open)
