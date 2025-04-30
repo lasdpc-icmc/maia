@@ -12,6 +12,7 @@ from typing import (
     Any,
 )
 import aiohttp
+import re
 
 from open_webui.utils.misc import get_last_user_message
 from open_webui.apps.webui.models.users import Users
@@ -42,6 +43,14 @@ class Pipe:
                     "description": "The user is requesting a Prometheus metric.",
                     "model": "llama3:latest",
                 },
+                "compare": {
+                    "description": "The user wants to compare two Prometheus metrics.",
+                    "model": "llama3:latest",
+                },
+                "historical": {
+                    "description": "The user is asking about history, wars, events, cultures, and civilizations.",
+                    "model": "JorgeAtLLama/herodotus:latest",
+                },
             }
         )
 
@@ -69,7 +78,9 @@ class Pipe:
             )
 
         query_lower = query.lower()
-        if (
+        if "compare" in query_lower and "metric" in query_lower:
+            intention_text = "compare"
+        elif (
             "prometheus" in query_lower
             or "metric" in query_lower
             or "query" in query_lower
@@ -79,6 +90,17 @@ class Pipe:
             intention_text = "media"
         elif "code" in query_lower or "function" in query_lower:
             intention_text = "code"
+        elif any(
+            keyword in query_lower
+            for keyword in [
+                "history",
+                "war",
+                "event",
+                "culture",
+                "civilization",
+            ]
+        ):
+            intention_text = "historical"
         else:
             intention_text = "chatting"
 
@@ -103,7 +125,7 @@ class Pipe:
         prompt = [
             {
                 "role": "system",
-                "content": "You are a helpful assistant. Extract the raw Prometheus query from the user's input. Only return the query string, no extra text.",
+                "content": "You are a helpful assistant. Extract the raw Prometheus query from the user's input. Only return the query string, no extra text. If the user's request doesn't contain a clear Prometheus query, indicate that.",
             },
             {"role": "user", "content": user_message},
         ]
@@ -114,26 +136,70 @@ class Pipe:
         )
 
         try:
-            return response["choices"][0]["message"]["content"].strip()
+            content = response["choices"][0]["message"]["content"].strip()
+            if "no clear prometheus query" in content.lower():
+                return None
+            return content
         except Exception as e:
             print(f"Failed to extract Prometheus query: {str(e)}")
             return None
 
     async def query_prometheus(self, prom_query: str) -> str:
-        url = f"http://prometheus:9090/api/v1/query"
+        url = "http://prometheus:9090/api/v1/query"
+        prom_query = prom_query.strip().strip("`'\"")
+
         async with aiohttp.ClientSession() as session:
-            async with session.get(url, params={"query": prom_query}) as resp:
-                data = await resp.json()
-                if data.get("status") == "success":
-                    results = data["data"]["result"]
+            try:
+                async with session.get(
+                    url, params={"query": prom_query}, timeout=10
+                ) as resp:
+                    if resp.status != 200:
+                        return f"Failed to connect to Prometheus. Status code: {resp.status}"
+
+                    data = await resp.json()
+                    if data.get("status") != "success":
+                        return f"Prometheus error: {data.get('error', 'Unknown error')}"
+
+                    results = data["data"].get("result", [])
                     if not results:
                         return "No data found for this query."
-                    parsed_results = "\n".join(
-                        f"{res['metric']} => {res['value']}" for res in results
-                    )
-                    return f"Prometheus query results:\n{parsed_results}"
-                else:
-                    return f"Prometheus error: {data.get('error', 'Unknown error')}"
+
+                    parsed_results = []
+                    for res in results:
+                        if not isinstance(res, dict):
+                            parsed_results.append(f"Invalid result entry: {res}")
+                            continue
+
+                        metric = res.get("metric", {})
+                        value = res.get("value")
+
+                        if isinstance(value, (list, tuple)) and len(value) == 2:
+                            metric_str = json.dumps(metric)
+                            parsed_results.append(f"{metric_str} => {value[1]}")
+                        else:
+                            parsed_results.append(
+                                f"{json.dumps(metric)} => Invalid value format: {value}"
+                            )
+
+                    return "Prometheus query results:\n" + "\\n".join(parsed_results)
+
+            except aiohttp.ClientError as e:
+                return f"Error querying Prometheus: {str(e)}"
+            except Exception as e:
+                return (
+                    f"An unexpected error occurred while querying Prometheus: {str(e)}"
+                )
+
+    async def compare_metrics(self, query: str) -> str:
+        metrics = re.findall(r"([a-zA-Z_:][a-zA-Z0-9_:]*)", query)
+        if len(metrics) < 2:
+            return "Please provide at least two metric names to compare."
+
+        metric1, metric2 = metrics[:2]
+        result1 = await self.query_prometheus(metric1)
+        result2 = await self.query_prometheus(metric2)
+
+        return f"Comparison between `{metric1}` and `{metric2}`:\\n\\nMetric 1 result:\\n{result1}\\n\\nMetric 2 result:\\n{result2}"
 
     async def route_query(
         self,
@@ -150,12 +216,23 @@ class Pipe:
 
             if intention == "prometheus":
                 prom_query = await self.extract_prometheus_query(query, user)
-                if not prom_query:
+                if prom_query:
+                    if self.valves.ENABLE_EMITTERS and __event_emitter__:
+                        await __event_emitter__(
+                            {
+                                "type": "status",
+                                "data": {
+                                    "description": f"Extracted Prometheus query: {prom_query}",
+                                    "done": False,
+                                },
+                            }
+                        )
+                    result = await self.query_prometheus(prom_query)
                     return {
                         "choices": [
                             {
                                 "message": {
-                                    "content": "Couldn't understand your Prometheus query.",
+                                    "content": result,
                                     "role": "assistant",
                                 },
                                 "finish_reason": "stop",
@@ -163,7 +240,22 @@ class Pipe:
                             }
                         ]
                     }
-                result = await self.query_prometheus(prom_query)
+                else:
+                    return {
+                        "choices": [
+                            {
+                                "message": {
+                                    "content": "Please provide a clear Prometheus query.",
+                                    "role": "assistant",
+                                },
+                                "finish_reason": "stop",
+                                "index": 0,
+                            }
+                        ]
+                    }
+
+            elif intention == "compare":
+                result = await self.compare_metrics(query)
                 return {
                     "choices": [
                         {
@@ -176,29 +268,29 @@ class Pipe:
                         }
                     ]
                 }
+            else:
+                payload = {
+                    "model": model_id,
+                    "messages": messages,
+                    "stream": False,
+                }
 
-            payload = {
-                "model": model_id,
-                "messages": messages,
-                "stream": False,
-            }
+                response = await generate_chat_completions(form_data=payload, user=user)
 
-            response = await generate_chat_completions(form_data=payload, user=user)
+                formatted_response = {
+                    "choices": [
+                        {
+                            "message": {
+                                "content": response["choices"][0]["message"]["content"],
+                                "role": "assistant",
+                            },
+                            "finish_reason": "stop",
+                            "index": 0,
+                        }
+                    ]
+                }
 
-            formatted_response = {
-                "choices": [
-                    {
-                        "message": {
-                            "content": response["choices"][0]["message"]["content"],
-                            "role": "assistant",
-                        },
-                        "finish_reason": "stop",
-                        "index": 0,
-                    }
-                ]
-            }
-
-            return formatted_response
+                return formatted_response
         except Exception as e:
             print(f"Error in route_query: {str(e)}")
             return {
